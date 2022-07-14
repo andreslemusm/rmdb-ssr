@@ -1,14 +1,15 @@
-import type { EntryContext } from "@remix-run/node";
+import type { HandleDocumentRequestFunction } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 
-export default function handleRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext
-) {
-  let markup = renderToString(
+const handleDocumentRequest: HandleDocumentRequestFunction = (
+  request,
+  responseStatusCode,
+  responseHeaders,
+  remixContext
+) => {
+  // eslint-disable-next-line testing-library/render-result-naming-convention -- false positive
+  const markup = renderToString(
     <RemixServer context={remixContext} url={request.url} />
   );
 
@@ -18,4 +19,6 @@ export default function handleRequest(
     status: responseStatusCode,
     headers: responseHeaders,
   });
-}
+};
+
+export default handleDocumentRequest;

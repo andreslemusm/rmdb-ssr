@@ -4,24 +4,37 @@
   "scripts": {
     "build": "remix build",
     "dev": "cross-env NODE_ENV=development netlify dev",
-    "start": "cross-env NODE_ENV=production netlify dev"
+    "start": "cross-env NODE_ENV=production netlify dev",
+    "lint": "tsc && eslint . --ext .js,.jsx,.ts,.tsx && prettier -c ."
   },
   "dependencies": {
-    "@netlify/functions": "^1.0.0",
-    "@remix-run/netlify": "^1.6.4",
-    "@remix-run/node": "^1.6.4",
-    "@remix-run/react": "^1.6.4",
-    "cross-env": "^7.0.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@netlify/functions": "1.0.0",
+    "@remix-run/netlify": "1.6.4",
+    "@remix-run/node": "1.6.4",
+    "@remix-run/react": "1.6.4",
+    "cross-env": "7.0.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.6.4",
-    "@remix-run/eslint-config": "^1.6.4",
-    "@types/react": "^17.0.45",
-    "@types/react-dom": "^17.0.17",
-    "eslint": "^8.15.0",
-    "typescript": "^4.6.4"
+    "@remix-run/dev": "1.6.4",
+    "@remix-run/eslint-config": "1.6.4",
+    "@types/react": "17.0.45",
+    "@types/react-dom": "17.0.17",
+    "eslint": "8.19.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-functional": "4.2.1",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest-dom": "4.0.2",
+    "eslint-plugin-jsx-a11y": "6.6.0",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "eslint-plugin-react": "7.30.1",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-testing-library": "5.5.1",
+    "eslint-plugin-unicorn": "43.0.1",
+    "prettier": "2.7.1",
+    "prettier-plugin-tailwindcss": "0.1.12",
+    "typescript": "4.6.4"
   },
   "engines": {
     "node": ">=14"
