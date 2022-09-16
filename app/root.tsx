@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,6 +7,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import styles from "./styles/index.output.css";
+
+const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -20,7 +23,7 @@ const Root = (): React.ReactElement => (
       <Meta />
       <Links />
     </head>
-    <body>
+    <body className="bg-zinc-800 antialiased">
       <Outlet />
       <ScrollRestoration />
       <Scripts />
@@ -29,5 +32,5 @@ const Root = (): React.ReactElement => (
   </html>
 );
 
-export { meta };
+export { links, meta };
 export default Root;

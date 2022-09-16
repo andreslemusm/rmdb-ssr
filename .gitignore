@@ -4,4 +4,5 @@ node_modules
 /public/build
 /.netlify
 .env
+/app/styles/index.output.css
 package-lock.json

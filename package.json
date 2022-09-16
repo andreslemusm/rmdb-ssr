@@ -2,9 +2,16 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
-    "dev": "remix dev",
-    "start": "cross-env NODE_ENV=production netlify dev"
+    "start": "cross-env NODE_ENV=production netlify dev",
+    "build": "run-s \"build:*\"",
+    "build:css": "npm run generate:css -- --minify",
+    "build:remix": "remix build",
+    "dev": "npm run generate:css && run-p \"dev:*\"",
+    "dev:css": "npm run generate:css -- --watch",
+    "dev:remix": "remix dev",
+    "generate:css": "npx tailwindcss -i ./app/styles/index.css -o ./app/styles/index.output.css",
+    "lint": "tsc && prettier -c . && eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "prettier . -w && eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
     "@netlify/functions": "1.2.0",
@@ -22,6 +29,8 @@
     "@types/react": "17.0.45",
     "@types/react-dom": "17.0.17",
     "eslint": "8.23.1",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.1.8",
     "typescript": "4.8.3"
   },
   "engines": {
