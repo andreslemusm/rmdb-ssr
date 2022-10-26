@@ -29,29 +29,46 @@ const meta: MetaFunction = () => ({
 });
 
 const links: LinksFunction = () => [
-  // Favicons
+  /*
+   * Favicons
+   * {
+   *   rel: "apple-touch-icon",
+   *   sizes: "180x180",
+   *   href: "/apple-touch-icon.png",
+   * },
+   * {
+   *   rel: "icon",
+   *   type: "image/png",
+   *   sizes: "32x32",
+   *   href: "/favicon-32x32.png",
+   * },
+   * {
+   *   rel: "icon",
+   *   type: "image/png",
+   *   sizes: "16x16",
+   *   href: "/favicon-16x16.png",
+   * },
+   * { rel: "manifest", href: "/site.webmanifest" },
+   * {
+   *   rel: "mask-icon",
+   *   href: "/safari-pinned-tab.svg",
+   *   color: "#101010",
+   * },
+   */
+  // Lato 400, 700
   {
-    rel: "apple-touch-icon",
-    sizes: "180x180",
-    href: "/apple-touch-icon.png",
+    as: "font",
+    crossOrigin: "anonymous",
+    href: "https://use.typekit.net/af/220823/000000000000000000015231/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3",
+    rel: "preload",
+    type: "font/woff2",
   },
   {
-    rel: "icon",
-    type: "image/png",
-    sizes: "32x32",
-    href: "/favicon-32x32.png",
-  },
-  {
-    rel: "icon",
-    type: "image/png",
-    sizes: "16x16",
-    href: "/favicon-16x16.png",
-  },
-  { rel: "manifest", href: "/site.webmanifest" },
-  {
-    rel: "mask-icon",
-    href: "/safari-pinned-tab.svg",
-    color: "#101010",
+    as: "font",
+    crossOrigin: "anonymous",
+    href: "https://use.typekit.net/af/180254/00000000000000000001522c/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+    rel: "preload",
+    type: "font/woff2",
   },
   // Stylesheets
   { rel: "stylesheet", href: styles },
@@ -59,12 +76,12 @@ const links: LinksFunction = () => [
 
 const App = (): React.ReactElement => {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en" className="tk-lato h-full antialiased">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="flex h-full flex-col bg-zinc-50 dark:bg-black">
+      <body className="flex h-full flex-col">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
