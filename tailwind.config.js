@@ -3,6 +3,7 @@ const colors = require("tailwindcss/colors");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{ts,tsx,js,jsx}"],
+  plugins: [require("@tailwindcss/forms"), require("@headlessui/tailwindcss")],
   theme: {
     fontSize: {
       xs: ["0.8125rem", { lineHeight: "1.5rem" }],
@@ -20,15 +21,19 @@ module.exports = {
       "9xl": ["8rem", { lineHeight: "1" }],
     },
     colors: {
-      // Primary actions, links, navigation items, icons, accent borders, or text you want to emphasize.
-      pink: colors.pink,
-      // Text, backgrounds, and borders, as well as for things like secondary buttons and links.
-      gray: colors.gray,
-      // Stand out an element, or reinforce things like error states or positive trends with the appropriate semantic color
-      purple: colors.purple,
+      // Primary / Neutrals
+      neutral: colors.neutral,
+      // Supporting
+      sky: colors.sky,
       cyan: colors.cyan,
+      pink: colors.pink,
       red: colors.red,
       yellow: colors.yellow,
+      teal: colors.teal,
+      white: colors.white,
+      transparent: colors.transparent,
+      black: colors.black,
+      inherit: colors.inherit,
     },
   },
 };
