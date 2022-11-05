@@ -81,7 +81,7 @@ const App = (): React.ReactElement => {
         <Meta />
         <Links />
       </head>
-      <body className="flex h-full flex-col">
+      <body className="flex h-full flex-col bg-neutral-900">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
