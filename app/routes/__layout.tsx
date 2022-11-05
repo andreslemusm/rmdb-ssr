@@ -23,7 +23,7 @@ const Layout = (): React.ReactElement => (
                     isActive
                       ? "text-neutral-100 underline underline-offset-4"
                       : "text-neutral-400",
-                    "rounded-xl px-3 py-1 text-base font-bold transition hover:bg-neutral-800 hover:text-neutral-200 hover:no-underline"
+                    "rounded-lg px-3 py-1 text-base font-bold transition hover:bg-neutral-800 hover:text-neutral-200 hover:no-underline"
                   )
                 }
               >
@@ -36,7 +36,7 @@ const Layout = (): React.ReactElement => (
                     isActive
                       ? "text-neutral-100 underline underline-offset-4"
                       : "text-neutral-400",
-                    "rounded-xl px-3 py-1 text-base font-bold transition hover:bg-neutral-800 hover:text-neutral-200 hover:no-underline"
+                    "rounded-lg px-3 py-1 text-base font-bold transition hover:bg-neutral-800 hover:text-neutral-200 hover:no-underline"
                   )
                 }
               >
