@@ -61,7 +61,7 @@ const Layout = (): React.ReactElement => (
             />
           </label>
         </Form>
-        <Popover className="shrink-0 lg:hidden">
+        <Popover className="-ml-1 shrink-0 lg:hidden">
           <Popover.Button className="rounded-lg border-none p-1.5 text-base font-bold text-neutral-400 transition focus:outline-none focus:ring-2 focus:ring-neutral-700">
             <span className="sr-only">Open navigation menu</span>
             <Menu className="h-6 w-6" />
