@@ -1,4 +1,5 @@
 const colors = require("tailwindcss/colors");
+const { fontWeight } = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -20,6 +21,10 @@ module.exports = {
       "8xl": ["6rem", { lineHeight: "1" }],
       "9xl": ["8rem", { lineHeight: "1" }],
     },
+    fontWeight: {
+      bold: fontWeight.bold,
+      normal: fontWeight.normal,
+    },
     colors: {
       // Primary / Neutrals
       neutral: colors.neutral,
@@ -34,6 +39,11 @@ module.exports = {
       transparent: colors.transparent,
       black: colors.black,
       inherit: colors.inherit,
+    },
+    extend: {
+      aspectRatio: {
+        "2/3": "2 / 3",
+      },
     },
   },
 };

@@ -1,5 +1,3 @@
-const Home = (): React.ReactElement => (
-  <div className="bg-slate-900">content</div>
-);
+import { redirect } from "@remix-run/node";
 
-export default Home;
+export const loader = () => redirect("/movie/trending");
