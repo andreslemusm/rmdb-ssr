@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import clsx from "clsx";
 import { ChevronDown, Film, Tv } from "lucide-react";
+import { Link, NavLink, Outlet, useParams } from "@remix-run/react";
 import { Menu, Transition } from "@headlessui/react";
-import { NavLink, Outlet, useParams } from "@remix-run/react";
 
 const MediaType = (): React.ReactElement => {
   const { mediaType } = useParams<"mediaType" | "listType">() as {
@@ -12,7 +12,7 @@ const MediaType = (): React.ReactElement => {
   };
 
   const listTypesEl = (
-    <div className="flex items-center gap-x-1">
+    <div className="flex items-center gap-x-1 overflow-x-auto">
       {categories[mediaType].map(({ label, path }) => (
         <NavLink
           to={path}
@@ -22,7 +22,7 @@ const MediaType = (): React.ReactElement => {
               isActive
                 ? "bg-neutral-800 text-neutral-200"
                 : "text-neutral-400 hover:text-neutral-200",
-              "rounded-md px-3 py-2 text-sm font-bold transition"
+              "shrink-0 rounded-md px-3 py-2 text-sm font-bold transition"
             )
           }
           prefetch="intent"
@@ -40,7 +40,7 @@ const MediaType = (): React.ReactElement => {
         <div className="flex justify-between pb-4 lg:pb-0">
           <Menu as="div" className="relative">
             <Menu.Button className="flex w-32 items-center justify-between rounded-xl border border-neutral-700 bg-transparent px-3 py-2 text-sm text-neutral-300 transition hover:border-neutral-600 focus:border-neutral-600 focus:outline-none focus:ring-1 focus:ring-neutral-600">
-              {{ tv: "TV Shows", movie: "Movies" }[mediaType]}
+              {{ "tv-shows": "TV Shows", movies: "Movies" }[mediaType]}
               <ChevronDown className="mt-0.5 h-4 w-4" aria-hidden="true" />
             </Menu.Button>
             <Transition
@@ -56,41 +56,37 @@ const MediaType = (): React.ReactElement => {
                 {[
                   {
                     label: "Movies",
-                    path: "/movie/trending",
+                    path: "/movies/trending",
                     icon: Film,
                   },
                   {
                     label: "TV Shows",
-                    path: "/tv/trending",
+                    path: "/tv-shows/trending",
                     icon: Tv,
                   },
                 ].map(({ label, path, icon: Icon }) => (
                   <Menu.Item key={path} as={Fragment}>
-                    <NavLink
+                    <Link
                       to={path}
-                      className={({ isActive }) =>
-                        clsx(
-                          isActive
-                            ? "font-bold text-cyan-400"
-                            : "text-neutral-200",
-                          "flex items-center gap-x-3 px-4 py-2 text-sm ui-active:bg-neutral-700"
-                        )
-                      }
+                      className={clsx(
+                        path.startsWith(`/${mediaType}`)
+                          ? "font-bold text-cyan-400"
+                          : "text-neutral-200",
+                        "flex items-center gap-x-3 px-4 py-2 text-sm ui-active:bg-neutral-700"
+                      )}
                       prefetch="intent"
                     >
-                      {({ isActive }) => (
-                        <Fragment>
-                          <Icon
-                            className={clsx(
-                              isActive ? "text-cyan-400" : "text-neutral-400",
-                              "mb-0.5 h-5 w-5"
-                            )}
-                            aria-hidden="true"
-                          />
-                          {label}
-                        </Fragment>
-                      )}
-                    </NavLink>
+                      <Icon
+                        className={clsx(
+                          path.startsWith(`/${mediaType}`)
+                            ? "text-cyan-400"
+                            : "text-neutral-400",
+                          "mb-0.5 h-5 w-5"
+                        )}
+                        aria-hidden="true"
+                      />
+                      {label}
+                    </Link>
                   </Menu.Item>
                 ))}
               </Menu.Items>
@@ -108,31 +104,50 @@ const MediaType = (): React.ReactElement => {
   );
 };
 
-// TODO: add all categories
 const categories = {
-  tv: [
+  movies: [
     {
       label: "Trending",
       path: "./trending",
     },
-    /*
-     * {
-     *   label: "Airing Today",
-     *   path: "./airing-today",
-     * },
-     */
+    {
+      label: "Now Playing",
+      path: "./now-playing",
+    },
+    {
+      label: "Popular",
+      path: "./popular",
+    },
+    {
+      label: "Top Rated",
+      path: "./top-rated",
+    },
+    {
+      label: "Upcoming",
+      path: "./upcoming",
+    },
   ],
-  movie: [
+  "tv-shows": [
     {
       label: "Trending",
       path: "./trending",
     },
-    /*
-     * {
-     *   label: "Latest",
-     *   path: "./latest",
-     * },
-     */
+    {
+      label: "Airing Today",
+      path: "./airing-today",
+    },
+    {
+      label: "On The Air",
+      path: "./on-the-air",
+    },
+    {
+      label: "Popular",
+      path: "./popular",
+    },
+    {
+      label: "Top Rated",
+      path: "./top-rated",
+    },
   ],
 };
 
