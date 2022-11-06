@@ -17,7 +17,7 @@ const Layout = (): React.ReactElement => (
           <div className="hidden lg:block">
             <nav className="flex items-center gap-x-4">
               <NavLink
-                to="/movies"
+                to="/discover"
                 className={({ isActive }) =>
                   clsx(
                     isActive
@@ -27,20 +27,7 @@ const Layout = (): React.ReactElement => (
                   )
                 }
               >
-                Movies
-              </NavLink>
-              <NavLink
-                to="/tv-shows"
-                className={({ isActive }) =>
-                  clsx(
-                    isActive
-                      ? "text-neutral-100 underline underline-offset-4"
-                      : "text-neutral-400",
-                    "rounded-lg px-3 py-1 text-base font-bold transition hover:bg-neutral-800 hover:text-neutral-200 hover:no-underline"
-                  )
-                }
-              >
-                TV Shows
+                Discover
               </NavLink>
             </nav>
           </div>
@@ -109,17 +96,10 @@ const Layout = (): React.ReactElement => (
                     <div className="mt-5 space-y-1 px-3">
                       <Popover.Button
                         as={Link}
-                        to="/movies"
+                        to="/discover"
                         className="block rounded-xl px-3 py-2 text-base font-bold capitalize text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
                       >
-                        Movies
-                      </Popover.Button>
-                      <Popover.Button
-                        as={Link}
-                        to="/tv-shows"
-                        className="block rounded-xl px-3 py-2 text-base font-bold capitalize text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
-                      >
-                        TV shows
+                        Discover
                       </Popover.Button>
                     </div>
                   </div>
