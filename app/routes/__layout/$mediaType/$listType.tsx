@@ -1,11 +1,18 @@
+import { Fragment } from "react";
+import clsx from "clsx";
+import { convertToSearchParams } from "~/utils/api-client";
 import { getMovies } from "~/services/movies";
 import { getTVShows } from "~/services/tv-shows";
 import { getTrending } from "~/services/trending";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
+import { Link, useLoaderData, useParams } from "@remix-run/react";
 
-const loader = async ({ params }: LoaderArgs) => {
+const loader = async ({ request, params }: LoaderArgs) => {
+  const searchParams = new URL(request.url).searchParams;
+  const page = Number(searchParams.get("page") ?? 1);
+
   if (
     (params.mediaType === "movies" || params.mediaType === "tv-shows") &&
     params.listType === "trending"
@@ -17,6 +24,7 @@ const loader = async ({ params }: LoaderArgs) => {
 
     return json(
       {
+        totalPages: 1,
         results: trendingMedia.results.map(
           ({
             id,
@@ -34,6 +42,7 @@ const loader = async ({ params }: LoaderArgs) => {
             vote_count,
           })
         ),
+        page: 1,
       },
       {
         headers: {
@@ -57,10 +66,12 @@ const loader = async ({ params }: LoaderArgs) => {
         | "upcoming"
         | "now_playing"
         | "top_rated",
+      page,
     });
 
     return json(
       {
+        totalPages: movies.total_pages,
         results: movies.results.map(
           ({
             id,
@@ -78,6 +89,7 @@ const loader = async ({ params }: LoaderArgs) => {
             vote_count,
           })
         ),
+        page: movies.page,
       },
       {
         headers: {
@@ -101,10 +113,12 @@ const loader = async ({ params }: LoaderArgs) => {
         | "on_the_air"
         | "popular"
         | "top_rated",
+      page,
     });
 
     return json(
       {
+        totalPages: tvShows.total_pages,
         results: tvShows.results.map(
           ({
             id,
@@ -122,6 +136,7 @@ const loader = async ({ params }: LoaderArgs) => {
             vote_count,
           })
         ),
+        page: tvShows.page,
       },
       {
         headers: {
@@ -142,27 +157,94 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 });
 
 const Home = (): React.ReactElement => {
-  const { results } = useLoaderData<typeof loader>();
+  const { listType } = useParams<"listType">();
+  const isTrending = listType === "trending";
+
+  const { results, page, totalPages } = useLoaderData<typeof loader>();
+
+  const renderPaginationButton = (
+    label: React.ReactElement,
+    to: Parameters<typeof Link>[0]["to"] | null
+  ) =>
+    to === null ? (
+      <button
+        disabled
+        type="button"
+        className="flex cursor-not-allowed items-center rounded-lg px-3 py-1 text-base font-bold text-neutral-500"
+      >
+        {label}
+      </button>
+    ) : (
+      <Link
+        to={to}
+        className="flex items-center rounded-lg px-3 py-1 text-base font-bold text-neutral-400 transition hover:bg-neutral-800 hover:text-neutral-200"
+      >
+        {label}
+      </Link>
+    );
 
   return (
-    <ul className="grid grid-cols-2 gap-x-8 gap-y-10 pt-6 pb-20 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:pt-14">
-      {results.map((mediaItem) => (
-        <li key={mediaItem.id} className="snap-center sm:snap-start">
-          <a
-            href="/"
-            className="bg-neutral-00 block aspect-2/3 overflow-hidden rounded-lg border border-neutral-700 bg-clip-padding transition duration-500"
-          >
-            <img
-              src={`https://image.tmdb.org/t/p/w500/${
-                mediaItem.poster_path ?? ""
-              }`}
-              alt={mediaItem.title}
-              className="h-full w-full object-cover object-bottom"
-            />
-          </a>
-        </li>
-      ))}
-    </ul>
+    <Fragment>
+      <ul
+        className={clsx(
+          isTrending && "pb-20",
+          "grid grid-cols-2 gap-x-8 gap-y-10 pt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:pt-14"
+        )}
+      >
+        {results.map((mediaItem) => (
+          <li key={mediaItem.id} className="snap-center sm:snap-start">
+            <a
+              href="/"
+              className="bg-neutral-00 block aspect-2/3 overflow-hidden rounded-lg border border-neutral-700 bg-clip-padding transition duration-500"
+            >
+              <img
+                src={`https://image.tmdb.org/t/p/w500/${
+                  mediaItem.poster_path ?? ""
+                }`}
+                alt={mediaItem.title}
+                className="h-full w-full object-cover object-bottom"
+              />
+            </a>
+          </li>
+        ))}
+      </ul>
+      {isTrending ? null : (
+        <nav className="flex items-center justify-center gap-x-10 px-4 py-10 sm:px-0 sm:pt-16 sm:pb-14">
+          {renderPaginationButton(
+            <Fragment>
+              <ArrowLeft
+                className="-ml-0.5 mt-0.5 mr-2 h-4 w-4"
+                aria-hidden="true"
+              />
+              Previous
+            </Fragment>,
+            page <= 1
+              ? null
+              : {
+                  search: convertToSearchParams({
+                    page: page - 1,
+                  }),
+                }
+          )}
+          {renderPaginationButton(
+            <Fragment>
+              Next
+              <ArrowRight
+                className="ml-2 -mr-0.5 mt-0.5 h-4 w-4"
+                aria-hidden="true"
+              />
+            </Fragment>,
+            page >= totalPages
+              ? null
+              : {
+                  search: convertToSearchParams({
+                    page: page + 1,
+                  }),
+                }
+          )}
+        </nav>
+      )}
+    </Fragment>
   );
 };
 
