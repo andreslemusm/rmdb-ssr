@@ -104,12 +104,6 @@ module.exports = {
         "import/no-webpack-loader-syntax": "error",
         "@typescript-eslint/array-type": ["error", { default: "generic" }],
         "@typescript-eslint/no-unused-vars": "error",
-        "@typescript-eslint/explicit-module-boundary-types": [
-          "error",
-          {
-            allowedNames: ["loader"],
-          },
-        ],
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/consistent-type-imports": "error",
         "react-hooks/rules-of-hooks": "error",

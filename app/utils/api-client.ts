@@ -1,7 +1,7 @@
 const apiClient = {
   query: async <TReturnType = void>(config: {
     endpoint: string;
-    searchParams?: Record<string, string | undefined | null>;
+    searchParams?: Parameters<typeof convertToSearchParams>[0];
   }): Promise<TReturnType> => {
     const request = new Request(
       `https://api.themoviedb.org/3/${config.endpoint}${convertToSearchParams({
