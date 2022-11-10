@@ -5,10 +5,8 @@ import { Link, NavLink, Outlet, useParams } from "@remix-run/react";
 import { Menu, Transition } from "@headlessui/react";
 
 const MediaType = (): React.ReactElement => {
-  const { mediaType } = useParams<"mediaType" | "listType">() as {
+  const { mediaType } = useParams() as {
     mediaType: keyof typeof categories;
-    // Improve typings
-    listType: string;
   };
 
   const listTypesEl = (
@@ -93,12 +91,9 @@ const MediaType = (): React.ReactElement => {
             </Transition>
           </Menu>
           <div className="hidden lg:block">{listTypesEl}</div>
-          {/* TODO: add filter button here */}
-          <div className="w-36"></div>
         </div>
         <div className="pt-5 lg:hidden">{listTypesEl}</div>
       </div>
-
       <Outlet />
     </Fragment>
   );
@@ -149,6 +144,6 @@ const categories = {
       path: "./top-rated",
     },
   ],
-};
+} as const;
 
 export default MediaType;
