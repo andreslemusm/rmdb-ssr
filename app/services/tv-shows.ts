@@ -4,26 +4,25 @@ const getTVShows = async ({
   subCollection,
   page,
 }: {
-  subCollection: "airing_today" | "on_the_air" | "popular" | "top_rated";
+  subCollection: string;
   page?: number | null;
 }) =>
   apiClient.query<{
     page: number;
     results: Array<{
+      backdrop_path: string;
+      first_air_date: string;
+      genre_ids: Array<string>;
       id: number;
-      popularity: number;
-      video: boolean;
-      title: string;
-      release_date: string;
-      original_title: string;
-      adult: boolean;
-      backdrop_path: string | null;
-      genre_ids: Array<number>;
-      overview: string;
+      name: string;
+      origin_country: Array<string>;
       original_language: string;
-      poster_path: string | null;
-      vote_count: number;
+      original_name: string;
+      overview: string;
+      popularity: number;
+      poster_path: string;
       vote_average: number;
+      vote_count: number;
     }>;
     total_pages: number;
     total_results: number;

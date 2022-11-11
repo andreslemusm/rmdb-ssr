@@ -5,7 +5,7 @@ import { getMovies } from "~/services/movies";
 import { getTVShows } from "~/services/tv-shows";
 import { getTrending } from "~/services/trending";
 import { json } from "@remix-run/node";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Star } from "lucide-react";
 import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
 
@@ -25,23 +25,19 @@ const loader = async ({ request, params }: LoaderArgs) => {
     return json(
       {
         totalPages: 1,
-        results: trendingMedia.results.map(
-          ({
-            id,
-            poster_path,
-            title,
-            vote_average,
-            release_date,
-            vote_count,
-          }) => ({
-            id,
-            poster_path,
-            title,
-            vote_average,
-            release_date,
-            vote_count,
-          })
-        ),
+        results: trendingMedia.results.map((trendingMedia) => ({
+          id: trendingMedia.id,
+          posterPath: trendingMedia.poster_path,
+          title:
+            trendingMedia.media_type === "movie"
+              ? trendingMedia.title
+              : trendingMedia.name,
+          voteAverage: trendingMedia.vote_average,
+          releaseDate:
+            trendingMedia.media_type === "movie"
+              ? trendingMedia.release_date
+              : trendingMedia.first_air_date,
+        })),
         page: 1,
       },
       {
@@ -72,23 +68,13 @@ const loader = async ({ request, params }: LoaderArgs) => {
     return json(
       {
         totalPages: movies.total_pages,
-        results: movies.results.map(
-          ({
-            id,
-            poster_path,
-            title,
-            vote_average,
-            release_date,
-            vote_count,
-          }) => ({
-            id,
-            poster_path,
-            title,
-            vote_average,
-            release_date,
-            vote_count,
-          })
-        ),
+        results: movies.results.map((movie) => ({
+          id: movie.id,
+          posterPath: movie.poster_path,
+          title: movie.title,
+          voteAverage: movie.vote_average,
+          releaseDate: movie.release_date,
+        })),
         page: movies.page,
       },
       {
@@ -119,23 +105,13 @@ const loader = async ({ request, params }: LoaderArgs) => {
     return json(
       {
         totalPages: tvShows.total_pages,
-        results: tvShows.results.map(
-          ({
-            id,
-            poster_path,
-            title,
-            vote_average,
-            release_date,
-            vote_count,
-          }) => ({
-            id,
-            poster_path,
-            title,
-            vote_average,
-            release_date,
-            vote_count,
-          })
-        ),
+        results: tvShows.results.map((tvShow) => ({
+          id: tvShow.id,
+          posterPath: tvShow.poster_path,
+          title: tvShow.name,
+          voteAverage: tvShow.vote_average,
+          releaseDate: tvShow.first_air_date,
+        })),
         page: tvShows.page,
       },
       {
@@ -192,19 +168,29 @@ const Home = (): React.ReactElement => {
         )}
       >
         {results.map((mediaItem) => (
-          <li key={mediaItem.id} className="snap-center sm:snap-start">
+          <li key={mediaItem.id}>
             <a
               href="/"
-              className="bg-neutral-00 block aspect-2/3 overflow-hidden rounded-lg border border-neutral-700 bg-clip-padding transition duration-500"
+              className="block aspect-2/3 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-700 bg-clip-padding transition duration-500"
             >
               <img
                 src={`https://image.tmdb.org/t/p/w500/${
-                  mediaItem.poster_path ?? ""
+                  mediaItem.posterPath ?? ""
                 }`}
                 alt={mediaItem.title}
                 className="h-full w-full object-cover object-bottom"
               />
             </a>
+            <div className="flex items-center justify-between pt-2 text-sm text-neutral-200">
+              <p title={mediaItem.title} className="w-2/3 truncate font-bold">
+                {mediaItem.title}
+              </p>
+              <p className="flex items-center gap-x-1 font-normal">
+                <Star className="mb-0.5 h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0" />
+                {mediaItem.voteAverage.toPrecision(2)}
+              </p>
+            </div>
+            <p className="text-xs text-neutral-400">{mediaItem.releaseDate}</p>
           </li>
         ))}
       </ul>
