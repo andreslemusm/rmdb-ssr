@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import type { categories } from "../$mediaType";
 import clsx from "clsx";
 import { convertToSearchParams } from "~/utils/api-client";
 import { getMovies } from "~/services/movies";
@@ -133,7 +134,10 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 });
 
 const Home = (): React.ReactElement => {
-  const { listType } = useParams<"listType">();
+  const { listType, mediaType } = useParams() as {
+    mediaType: keyof typeof categories;
+    listType: string;
+  };
   const isTrending = listType === "trending";
 
   const { results, page, totalPages } = useLoaderData<typeof loader>();
@@ -169,9 +173,9 @@ const Home = (): React.ReactElement => {
       >
         {results.map((mediaItem) => (
           <li key={mediaItem.id}>
-            <a
-              href="/"
-              className="block aspect-2/3 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-700 bg-clip-padding transition duration-500"
+            <Link
+              to={`/${mediaType}/detail/${mediaItem.id}`}
+              className="block aspect-2/3 overflow-hidden rounded-lg  border-neutral-700 bg-neutral-700 bg-clip-padding transition duration-500 hover:brightness-50"
             >
               <img
                 src={`https://image.tmdb.org/t/p/w500/${
@@ -180,7 +184,7 @@ const Home = (): React.ReactElement => {
                 alt={mediaItem.title}
                 className="h-full w-full object-cover object-bottom"
               />
-            </a>
+            </Link>
             <div className="flex items-center justify-between pt-2 text-sm text-neutral-200">
               <p title={mediaItem.title} className="w-2/3 truncate font-bold">
                 {mediaItem.title}

@@ -146,4 +146,5 @@ const categories = {
   ],
 } as const;
 
+export { categories };
 export default MediaType;
