@@ -175,7 +175,7 @@ const Home = (): React.ReactElement => {
           <li key={mediaItem.id}>
             <Link
               to={`/${mediaType}/detail/${mediaItem.id}`}
-              className="block aspect-2/3 overflow-hidden rounded-lg  border-neutral-700 bg-neutral-700 bg-clip-padding transition duration-500 hover:brightness-50"
+              className="block aspect-2/3 overflow-hidden rounded-lg bg-neutral-700 bg-clip-padding transition duration-500 hover:brightness-50"
             >
               <img
                 src={`https://image.tmdb.org/t/p/w500/${
