@@ -1,10 +1,8 @@
-type BrandIconProps = {
-  className?: string;
-};
-
 export const BrandIcon = ({
   className,
-}: BrandIconProps): React.ReactElement => (
+}: {
+  className?: string;
+}): React.ReactElement => (
   <svg
     width={128}
     height={128}
