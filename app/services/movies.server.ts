@@ -60,7 +60,6 @@ const getMovie = (movieId: string) =>
       name: string;
       origin_country: string;
     }>;
-
     production_countries: Array<{
       iso_3166_1: string;
       name: string;
@@ -74,7 +73,7 @@ const getMovie = (movieId: string) =>
       name: string;
     }>;
     status: string;
-    tagline: string;
+    tagline: string | null;
     title: string;
     video: boolean;
     vote_average: number;
@@ -83,4 +82,37 @@ const getMovie = (movieId: string) =>
     endpoint: `movie/${movieId}`,
   });
 
-export { getMovies, getMovie };
+const getMovieCredits = (movieId: string) =>
+  apiClient.query<{
+    cast: Array<{
+      adult: boolean;
+      cast_id: number;
+      character: string;
+      credit_id: string;
+      gender: number | null;
+      id: number;
+      known_for_department: string;
+      name: string;
+      order: number;
+      original_name: string;
+      popularity: number;
+      profile_path: string | null;
+    }>;
+    crew: Array<{
+      adult: boolean;
+      gender: number | null;
+      id: number;
+      known_for_department: string;
+      name: string;
+      original_name: string;
+      popularity: number;
+      profile_path: string | null;
+      credit_id: string;
+      department: string;
+      job: string;
+    }>;
+  }>({
+    endpoint: `movie/${movieId}/credits`,
+  });
+
+export { getMovies, getMovie, getMovieCredits };
