@@ -115,4 +115,47 @@ const getMovieCredits = (movieId: string) =>
     endpoint: `movie/${movieId}/credits`,
   });
 
-export { getMovies, getMovie, getMovieCredits };
+const getMovieRecommendations = (movieId: string) =>
+  apiClient.query<{
+    page: number;
+    results: Array<{
+      adult: boolean;
+      backdrop_path: string;
+      genre_ids: Array<string>;
+      id: number;
+      original_language: string;
+      original_title: string;
+      overview: string;
+      popularity: number;
+      poster_path: string;
+      release_date: string;
+      title: string;
+      video: boolean;
+      vote_average: number;
+      vote_count: number;
+    }>;
+    total_pages: number;
+    total_results: number;
+  }>({
+    endpoint: `movie/${movieId}/recommendations`,
+  });
+
+const getMovieExternalIDs = (movieId: string) =>
+  apiClient.query<{
+    facebook_id: string | null;
+    id: number;
+    imdb_id: string | null;
+    instagram_id: string | null;
+    twitter_id: string | null;
+    wikidata_id: string | null;
+  }>({
+    endpoint: `movie/${movieId}/external_ids`,
+  });
+
+export {
+  getMovies,
+  getMovie,
+  getMovieCredits,
+  getMovieRecommendations,
+  getMovieExternalIDs,
+};
