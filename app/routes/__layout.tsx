@@ -150,7 +150,7 @@ const Layout = (): React.ReactElement => (
 const socialNetworks = [
   {
     name: "Instagram",
-    href: "https://www.instagram.com/andreslemusm/",
+    href: "https://instagram.com/andreslemusm",
     icon: InstagramIcon,
   },
   {
@@ -165,7 +165,7 @@ const socialNetworks = [
   },
   {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/andreslemusm/",
+    href: "https://linkedin.com/in/andreslemusm",
     icon: LinkedInIcon,
   },
 ];
