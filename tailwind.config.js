@@ -4,7 +4,11 @@ const { fontWeight } = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{ts,tsx,js,jsx}"],
-  plugins: [require("@tailwindcss/forms"), require("@headlessui/tailwindcss")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@headlessui/tailwindcss"),
+    require("@tailwindcss/typography"),
+  ],
   theme: {
     fontSize: {
       xs: ["0.8125rem", { lineHeight: "1.5rem" }],
