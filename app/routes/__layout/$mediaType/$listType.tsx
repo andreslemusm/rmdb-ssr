@@ -7,6 +7,7 @@ import { getTVShows } from "~/services/tv-shows.server";
 import { getTrending } from "~/services/trending.server";
 import { json } from "@remix-run/node";
 import { ArrowLeft, ArrowRight, Star } from "lucide-react";
+import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
 
@@ -178,9 +179,7 @@ const Home = (): React.ReactElement => {
               className="block aspect-2/3 overflow-hidden rounded-lg bg-neutral-700 bg-clip-padding transition duration-500 hover:brightness-50"
             >
               <img
-                src={`https://image.tmdb.org/t/p/w500/${
-                  mediaItem.posterPath ?? ""
-                }`}
+                src={`${BASE_IMAGE_URL}${PosterSizes.lg}${mediaItem.posterPath}`}
                 alt={mediaItem.title}
                 className="h-full w-full object-cover object-bottom"
               />
