@@ -152,10 +152,35 @@ const getMovieExternalIDs = (movieId: string) =>
     endpoint: `movie/${movieId}/external_ids`,
   });
 
+const getMovieReviews = (movieId: string) =>
+  apiClient.query<{
+    id: number;
+    page: number;
+    results: Array<{
+      author: string;
+      author_details: {
+        name: string;
+        username: string;
+        avatar_path: string;
+        rating: number;
+      };
+      content: string;
+      created_at: string;
+      id: string;
+      updated_at: string;
+      url: string;
+    }>;
+    total_pages: number;
+    total_results: number;
+  }>({
+    endpoint: `movie/${movieId}/reviews`,
+  });
+
 export {
   getMovies,
   getMovie,
   getMovieCredits,
   getMovieRecommendations,
   getMovieExternalIDs,
+  getMovieReviews,
 };
