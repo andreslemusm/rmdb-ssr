@@ -161,7 +161,7 @@ const getMovieReviews = (movieId: string) =>
       author_details: {
         name: string;
         username: string;
-        avatar_path: string;
+        avatar_path: string | null;
         rating: number;
       };
       content: string;
