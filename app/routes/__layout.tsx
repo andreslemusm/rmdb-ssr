@@ -6,7 +6,7 @@ import {
   InstagramIcon,
   LinkedInIcon,
   TwitterIcon,
-} from "~/assets";
+} from "~/assets/icons";
 import { Form, Link, NavLink, Outlet } from "@remix-run/react";
 import { Menu, Search, X } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
