@@ -176,6 +176,29 @@ const getMovieReviews = (movieId: string) =>
     endpoint: `movie/${movieId}/reviews`,
   });
 
+const getMovieImages = (movieId: string) =>
+  apiClient.query<
+    {
+      id: number;
+    } & Record<
+      "backdrops" | "logos" | "posters",
+      Array<{
+        aspect_ratio: number;
+        file_path: string;
+        height: number;
+        iso_639_1: string | null;
+        vote_average: number;
+        vote_count: number;
+        width: number;
+      }>
+    >
+  >({
+    endpoint: `movie/${movieId}/images`,
+    searchParams: {
+      language: "en",
+    },
+  });
+
 export {
   getMovies,
   getMovie,
@@ -183,4 +206,5 @@ export {
   getMovieRecommendations,
   getMovieExternalIDs,
   getMovieReviews,
+  getMovieImages,
 };
