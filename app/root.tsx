@@ -1,12 +1,6 @@
+import { ConditionalScrollRestoration } from "./components/conditional-scroll-restoration";
 import styles from "./styles/index.output.css";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 
 const meta: MetaFunction = () => ({
@@ -83,7 +77,7 @@ const App = (): React.ReactElement => {
       </head>
       <body className="flex h-full flex-col bg-neutral-900">
         <Outlet />
-        <ScrollRestoration />
+        <ConditionalScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
