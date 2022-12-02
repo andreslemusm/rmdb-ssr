@@ -68,22 +68,20 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-const App = (): React.ReactElement => {
-  return (
-    <html lang="en" className="tk-lato h-full antialiased">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body className="flex h-full flex-col bg-neutral-900">
-        <Outlet />
-        <ConditionalScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  );
-};
+const App = (): React.ReactElement => (
+  <html lang="en" className="tk-lato h-full antialiased">
+    <head>
+      <Meta />
+      <Links />
+    </head>
+    <body className="flex h-full flex-col bg-neutral-900">
+      <Outlet />
+      <ConditionalScrollRestoration />
+      <Scripts />
+      <LiveReload />
+    </body>
+  </html>
+);
 
 export { links, meta };
 export default App;
