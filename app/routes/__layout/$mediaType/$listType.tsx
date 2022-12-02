@@ -1,12 +1,12 @@
 import { Fragment } from "react";
+import { Pagination } from "~/components/pagination";
+import { Star } from "lucide-react";
 import type { categories } from "../$mediaType";
 import clsx from "clsx";
-import { convertToSearchParams } from "~/utils/api-client";
 import { getMovies } from "~/services/movies.server";
 import { getTVShows } from "~/services/tv-shows.server";
 import { getTrending } from "~/services/trending.server";
 import { json } from "@remix-run/node";
-import { ArrowLeft, ArrowRight, Star } from "lucide-react";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
@@ -143,27 +143,6 @@ const Home = (): React.ReactElement => {
 
   const { results, page, totalPages } = useLoaderData<typeof loader>();
 
-  const renderPaginationButton = (
-    label: React.ReactElement,
-    to: Parameters<typeof Link>[0]["to"] | null
-  ) =>
-    to === null ? (
-      <button
-        disabled
-        type="button"
-        className="flex cursor-not-allowed items-center rounded-lg px-3 py-1 text-base font-bold text-neutral-500"
-      >
-        {label}
-      </button>
-    ) : (
-      <Link
-        to={to}
-        className="flex items-center rounded-lg px-3 py-1 text-base font-bold text-neutral-400 transition hover:bg-neutral-800 hover:text-neutral-200"
-      >
-        {label}
-      </Link>
-    );
-
   return (
     <Fragment>
       <ul
@@ -197,42 +176,7 @@ const Home = (): React.ReactElement => {
           </li>
         ))}
       </ul>
-      {isTrending ? null : (
-        <nav className="flex items-center justify-center gap-x-10 px-4 py-10 sm:px-0 sm:pt-16 sm:pb-14">
-          {renderPaginationButton(
-            <Fragment>
-              <ArrowLeft
-                className="-ml-0.5 mt-0.5 mr-2 h-4 w-4"
-                aria-hidden="true"
-              />
-              Previous
-            </Fragment>,
-            page <= 1
-              ? null
-              : {
-                  search: convertToSearchParams({
-                    page: page - 1,
-                  }),
-                }
-          )}
-          {renderPaginationButton(
-            <Fragment>
-              Next
-              <ArrowRight
-                className="ml-2 -mr-0.5 mt-0.5 h-4 w-4"
-                aria-hidden="true"
-              />
-            </Fragment>,
-            page >= totalPages
-              ? null
-              : {
-                  search: convertToSearchParams({
-                    page: page + 1,
-                  }),
-                }
-          )}
-        </nav>
-      )}
+      {isTrending ? null : <Pagination page={page} totalPages={totalPages} />}
     </Fragment>
   );
 };
