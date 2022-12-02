@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import clsx from "clsx";
-import { ChevronDown, Film, Tv } from "lucide-react";
+import { ChevronDown, Film } from "lucide-react";
 import { Link, NavLink, Outlet, useParams } from "@remix-run/react";
 import { Menu, Transition } from "@headlessui/react";
 
@@ -57,11 +57,14 @@ const MediaType = (): React.ReactElement => {
                     path: "/movies/trending",
                     icon: Film,
                   },
-                  {
-                    label: "TV Shows",
-                    path: "/tv-shows/trending",
-                    icon: Tv,
-                  },
+                  // Disable while I finish everything related to movies
+                  /*
+                   * {
+                   *   label: "TV Shows",
+                   *   path: "/tv-shows/trending",
+                   *   icon: Tv,
+                   * },
+                   */
                 ].map(({ label, path, icon: Icon }) => (
                   <Menu.Item key={path} as={Fragment}>
                     <Link
