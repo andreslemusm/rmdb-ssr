@@ -195,7 +195,7 @@ const getMovieImages = (movieId: string) =>
   >({
     endpoint: `movie/${movieId}/images`,
     searchParams: {
-      language: "en",
+      include_image_language: "en,null",
     },
   });
 

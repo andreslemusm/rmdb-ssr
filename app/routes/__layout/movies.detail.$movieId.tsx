@@ -1,12 +1,20 @@
 import { Fragment } from "react";
 import type { LoaderArgs } from "@remix-run/node";
+import type { ShouldReloadFunction } from "@remix-run/react";
+import clsx from "clsx";
+import { convertToSearchParams } from "~/utils/api-client";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
 import { marked } from "marked";
-import { BASE_IMAGE_URL, BackdropSizes, ProfileSizes } from "~/utils/tmdb";
+import {
+  BASE_IMAGE_URL,
+  BackdropSizes,
+  PosterSizes,
+  ProfileSizes,
+} from "~/utils/tmdb";
+import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TwitterIcon } from "~/assets/icons";
-import { Link, useLoaderData } from "@remix-run/react";
-import { Link as LinkIcon, Play, Star } from "lucide-react";
+import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
@@ -16,27 +24,32 @@ import {
   getMovie,
   getMovieCredits,
   getMovieExternalIDs,
+  getMovieImages,
   getMovieRecommendations,
   getMovieReviews,
 } from "~/services/movies.server";
+
+const unstable_shouldReload: ShouldReloadFunction = () => false;
 
 const loader = async ({ params }: LoaderArgs) => {
   if (!params.movieId) {
     throw new Error(`No movie found`);
   }
 
-  const [movie, credits, recommendations, externalIDs, reviews] =
+  const [movie, credits, recommendations, externalIDs, reviews, images] =
     await Promise.all([
       getMovie(params.movieId),
       getMovieCredits(params.movieId),
       getMovieRecommendations(params.movieId),
       getMovieExternalIDs(params.movieId),
       getMovieReviews(params.movieId),
+      getMovieImages(params.movieId),
     ]);
 
   return json({
     movie: {
       backdropPath: movie.backdrop_path,
+      posterPath: movie.poster_path,
       title: movie.title,
       homepage: movie.homepage,
       voteAverage: movie.vote_average.toPrecision(2),
@@ -97,14 +110,17 @@ const loader = async ({ params }: LoaderArgs) => {
       })),
     },
     reviews: {
-      featuredReview: {
-        author: {
-          avatarPath: reviews.results[0].author_details.avatar_path,
-          name: reviews.results[0].author_details.name,
-        },
-        rating: reviews.results[0].author_details.rating,
-        content: marked.parse(reviews.results[0].content),
-      },
+      featuredReview:
+        reviews.results.length > 0
+          ? {
+              author: {
+                avatarPath: reviews.results[0].author_details.avatar_path,
+                name: reviews.results[0].author_details.name,
+              },
+              rating: reviews.results[0].author_details.rating,
+              content: marked.parse(reviews.results[0].content),
+            }
+          : null,
       count: reviews.total_results,
     },
     recommendations: recommendations.results.map((recommendation) => ({
@@ -113,6 +129,14 @@ const loader = async ({ params }: LoaderArgs) => {
       title: recommendation.title,
       voteAverage: recommendation.vote_average.toPrecision(2),
     })),
+    posters: {
+      count: images.posters.length,
+      featured: images.posters.slice(0, 9),
+    },
+    backdrops: {
+      count: images.backdrops.length,
+      featured: images.backdrops.slice(0, 9),
+    },
     externalIDs: {
       facebookID: externalIDs.facebook_id,
       instagramID: externalIDs.instagram_id,
@@ -122,53 +146,65 @@ const loader = async ({ params }: LoaderArgs) => {
 };
 
 const Movie = (): React.ReactElement => {
-  const { movie, credits, recommendations, externalIDs, reviews } =
-    useLoaderData<typeof loader>();
+  const {
+    movie,
+    credits,
+    recommendations,
+    externalIDs,
+    reviews,
+    posters,
+    backdrops,
+  } = useLoaderData<typeof loader>();
+
+  const [searchParams] = useSearchParams();
+  const currentImgType = searchParams.get("imgType") ?? "posters";
 
   return (
     <Fragment>
       {/* TODO: add movie navigation */}
       <div className="mt-5 aspect-video overflow-hidden rounded-xl">
         <img
-          src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
+          src={`${BASE_IMAGE_URL}${BackdropSizes.md}${movie.backdropPath}`}
           alt={movie.title}
           className="h-full w-full"
         />
       </div>
-      <h1 className="flex items-center justify-center gap-x-2 pt-4 text-center text-xl font-bold text-neutral-100 ">
-        {movie.title}
+      <div className="flex flex-wrap items-center justify-center gap-2 pt-5">
+        <h1 className="text-center text-xl font-bold text-neutral-100">
+          {movie.title}
+        </h1>
         <a
           href={movie.homepage}
           target="_blank"
           className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
           rel="noreferrer"
         >
-          <span className="sr-only">Go to website</span>
+          <span className="sr-only">Visit website</span>
           <LinkIcon aria-hidden className="h-3.5 w-3.5" />
         </a>
-      </h1>
-      <div className="grid grid-cols-2 place-items-center pt-3">
-        <div className="flex items-center gap-x-1.5 font-normal">
+      </div>
+      <div className="grid grid-cols-2 place-items-center pt-5">
+        <div className="flex items-center gap-x-1.5">
           <Star
             aria-hidden
             className="h-4 w-4 fill-yellow-500 stroke-yellow-500"
-          />{" "}
-          <span className="font-bold text-neutral-200">
+          />
+          <p className="font-bold text-neutral-200">
             {movie.voteAverage}
             <span className="text-sm font-normal text-neutral-400">
               /10 • {movie.voteCount}
             </span>
-          </span>
+          </p>
         </div>
         <button
           type="button"
-          className="flex items-center gap-x-1.5 rounded-xl px-3 py-1.5 text-sm text-neutral-400 transition hover:text-neutral-200"
+          className="flex items-center gap-x-1.5 text-sm text-neutral-400 transition hover:text-neutral-200"
         >
           <Play className="h-4 w-4" aria-hidden />
           See Trailer
         </button>
       </div>
-      <div className="mt-3 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3">
+      <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3">
         <p className="text-sm text-neutral-400">
           {movie.releaseDate} • {movie.runtime}
         </p>
@@ -213,127 +249,217 @@ const Movie = (): React.ReactElement => {
           }
         />
       </dl>
-      <div className="mt-8 flex items-center justify-between border-t border-neutral-800 pt-7">
-        <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
-        {/* TODO: add casting and crew tab */}
-        {/* <Link
-          to="."
-          className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
-        >
-          View Credits
-          <ArrowRight className="h-3.5 w-3.5 mt-0.5" />
-        </Link> */}
-      </div>
-      <ul className="flex snap-x snap-mandatory gap-x-6 overflow-x-auto pt-5">
-        {credits.topCast.map((castPerson) => (
-          <li key={castPerson.id} className="w-36 shrink-0 snap-start">
-            <div className="block aspect-2/3 overflow-hidden rounded-lg bg-neutral-700">
+      {/* Cast */}
+      <section className="mt-8 border-t border-neutral-800 pt-7">
+        <header className="flex items-center justify-between">
+          <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
+          {/* TODO: add casting and crew tab */}
+          <Link
+            to="."
+            className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
+          >
+            View Credits
+            <ChevronRight aria-hidden className="mt-0.5 h-4 w-4" />
+          </Link>
+        </header>
+        <ol className="flex gap-x-3 overflow-x-auto pt-5">
+          {credits.topCast.map((castPerson) => (
+            <li key={castPerson.id} className="w-36 shrink-0">
+              <div className="block aspect-2/3 overflow-hidden rounded-xl bg-neutral-800">
+                <img
+                  src={
+                    castPerson.profilePath
+                      ? `${BASE_IMAGE_URL}${ProfileSizes.md}${castPerson.profilePath}`
+                      : johnDoe
+                  }
+                  alt={castPerson.name}
+                  className="h-full w-full object-cover object-center"
+                  loading="lazy"
+                />
+              </div>
+              <p title={castPerson.name} className="pt-1.5 text-neutral-200">
+                {castPerson.name}
+              </p>
+              <p className="text-neutral-400">{castPerson.character}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      {/* Reviews */}
+      <section className="mt-8 border-t border-neutral-800 pt-7">
+        <header className="flex items-center justify-between">
+          <h2 className="flex items-baseline gap-x-2 font-bold text-neutral-200">
+            Reviews
+            <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
+              {reviews.count}
+            </span>
+          </h2>
+          {/* TODO: add review tab */}
+          {reviews.featuredReview ? (
+            <Link
+              to="."
+              className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
+            >
+              View Reviews
+              <ChevronRight aria-hidden className="mt-1 h-3.5 w-3.5" />
+            </Link>
+          ) : null}
+        </header>
+        {reviews.featuredReview ? (
+          <article className="mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
+            <div className="flex items-center gap-x-4">
               <img
                 src={
-                  castPerson.profilePath
-                    ? `${BASE_IMAGE_URL}${ProfileSizes.xs}${castPerson.profilePath}`
+                  reviews.featuredReview.author.avatarPath
+                    ? reviews.featuredReview.author.avatarPath.includes(
+                        "gravatar"
+                      )
+                      ? reviews.featuredReview.author.avatarPath.slice(1)
+                      : `${BASE_IMAGE_URL}${ProfileSizes.xs}${reviews.featuredReview.author.avatarPath}`
                     : johnDoe
                 }
-                alt={castPerson.name}
-                className="h-full w-full object-cover object-center"
+                alt={`${reviews.featuredReview.author.name} Avatar`}
+                className="h-12 w-12 rounded-full bg-neutral-400"
+                width={48}
+                height={48}
                 loading="lazy"
               />
+              <div>
+                <h3 className="text-sm font-bold text-neutral-100">
+                  {reviews.featuredReview.author.name}
+                </h3>
+                <p className="flex items-center gap-x-1 font-normal">
+                  <Star
+                    aria-hidden
+                    className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
+                  />
+                  <span className="text-sm text-neutral-200">
+                    {reviews.featuredReview.rating}
+                    <span className="text-xs text-neutral-400">/10</span>
+                  </span>
+                </p>
+              </div>
             </div>
-            <p title={castPerson.name} className="pt-1.5 text-neutral-200">
-              {castPerson.name}
-            </p>
-            <p className="text-neutral-400">{castPerson.character}</p>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-8 flex items-center justify-between border-t border-neutral-800 pt-7">
-        <h2 className="flex items-baseline gap-x-2 font-bold text-neutral-200">
-          Reviews
-          <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
-            {reviews.count}
-          </span>
-        </h2>
-        {/* TODO: add review tab */}
-        {/* <Link
-          to="."
-          className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
-        >
-          View all
-          <ArrowRight className="mt-0.5 h-3.5 w-3.5" />
-        </Link> */}
-      </div>
-      <article className="mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
-        <div className="flex items-center gap-x-4">
-          <img
-            src={
-              reviews.featuredReview.author.avatarPath
-                ? reviews.featuredReview.author.avatarPath.includes("gravatar")
-                  ? reviews.featuredReview.author.avatarPath.slice(1)
-                  : `${BASE_IMAGE_URL}${ProfileSizes.xs}${reviews.featuredReview.author.avatarPath}`
-                : johnDoe
-            }
-            alt={reviews.featuredReview.author.name}
-            className="h-12 w-12 rounded-full bg-neutral-400"
-            width={48}
-            height={48}
-            loading="lazy"
-          />
-          <div>
-            <h3 className="text-sm font-bold text-neutral-100">
-              {reviews.featuredReview.author.name}
-            </h3>
-            <p className="flex items-center gap-x-1 font-normal">
-              <Star
-                aria-hidden
-                className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
-              />
-              <span className="text-sm text-neutral-200">
-                {reviews.featuredReview.rating}
-                <span className="text-xs text-neutral-400">/10</span>
-              </span>
-            </p>
-          </div>
-        </div>
-        <div
-          className="prose prose-sm prose-invert pt-4"
-          dangerouslySetInnerHTML={{
-            __html: reviews.featuredReview.content,
-          }}
-        />
-      </article>
-      <h2 className="mt-8 border-t border-neutral-800 pt-7 font-bold text-neutral-200">
-        Recommendations
-      </h2>
-      <ul className="flex snap-x snap-mandatory gap-x-6 overflow-x-auto pt-4">
-        {recommendations.map((recommendation) => (
-          <li key={recommendation.id} className="w-72 shrink-0 snap-start">
-            <Link
-              to={`/movies/detail/${recommendation.id}`}
-              className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
-            >
-              <img
-                src={
-                  recommendation.backdropPath
-                    ? `${BASE_IMAGE_URL}${BackdropSizes.xs}${recommendation.backdropPath}`
-                    : undefined
-                }
-                alt={recommendation.title}
-                className="h-full w-full object-cover object-center"
-                loading="lazy"
-              />
-            </Link>
-            <div className="flex items-center justify-between pt-1.5 text-neutral-300">
-              <p title={recommendation.title} className="w-2/3 truncate">
-                {recommendation.title}
-              </p>
-              <p className="text flex items-center gap-x-1">
-                <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
-                {recommendation.voteAverage}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
+            <div
+              className="prose prose-sm prose-invert pt-4 line-clamp-6"
+              dangerouslySetInnerHTML={{
+                __html: reviews.featuredReview.content,
+              }}
+            />
+          </article>
+        ) : (
+          <p className="mt-5 text-center text-neutral-400">
+            We don&apos;t have any reviews for {movie.title}.
+          </p>
+        )}
+      </section>
+      {/* Media */}
+      <section className="mt-8 border-t border-neutral-800 pt-7">
+        <header className="flex items-baseline justify-between">
+          <h2 className="font-bold text-neutral-200">Media</h2>
+          <nav className="flex items-center">
+            {imgTypes.map((imgType) => (
+              <Link
+                key={imgType}
+                to={{
+                  search: convertToSearchParams({ imgType }),
+                }}
+                state={{ scroll: false }}
+                className={clsx(
+                  imgType === currentImgType
+                    ? "bg-neutral-800 text-neutral-200"
+                    : "text-neutral-400 hover:text-neutral-200",
+                  "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition"
+                )}
+              >
+                {imgType}
+              </Link>
+            ))}
+          </nav>
+        </header>
+        <ul key={currentImgType} className="flex gap-x-1 overflow-x-auto pt-5">
+          {currentImgType === "posters"
+            ? posters.featured.map((poster) => (
+                <li
+                  key={poster.file_path}
+                  className="aspect-2/3 h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
+                >
+                  <img
+                    src={
+                      poster.file_path
+                        ? `${BASE_IMAGE_URL}${PosterSizes.xl}${poster.file_path}`
+                        : johnDoe
+                    }
+                    alt={`${movie.title} poster`}
+                    className="h-full w-full object-cover object-center"
+                    width={poster.width}
+                    height={poster.height}
+                    loading="lazy"
+                  />
+                </li>
+              ))
+            : backdrops.featured.map((backdrop) => (
+                <li
+                  key={backdrop.file_path}
+                  className="aspect-video h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
+                >
+                  <img
+                    src={
+                      backdrop.file_path
+                        ? `${BASE_IMAGE_URL}${BackdropSizes.md}${backdrop.file_path}`
+                        : johnDoe
+                    }
+                    alt={`${movie.title} backdrop`}
+                    className="h-full w-full object-cover object-center"
+                    width={backdrop.width}
+                    height={backdrop.height}
+                    loading="lazy"
+                  />
+                </li>
+              ))}
+        </ul>
+      </section>
+      {/* Recommendations */}
+      <section className="mt-8 border-t border-neutral-800 pt-7">
+        <h2 className="font-bold text-neutral-200">Recommendations</h2>
+        {recommendations.length > 0 ? (
+          <ul className="flex gap-x-3 overflow-x-auto pt-5">
+            {recommendations.map((recommendation) => (
+              <li key={recommendation.id} className="w-72 shrink-0">
+                <Link
+                  to={`/movies/detail/${recommendation.id}`}
+                  className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
+                >
+                  <img
+                    src={
+                      recommendation.backdropPath
+                        ? `${BASE_IMAGE_URL}${BackdropSizes.sm}${recommendation.backdropPath}`
+                        : undefined
+                    }
+                    alt={recommendation.title}
+                    className="h-full w-full object-cover object-center"
+                    loading="lazy"
+                  />
+                </Link>
+                <div className="flex items-center justify-between pt-1.5 text-neutral-300">
+                  <p title={recommendation.title} className="w-2/3 truncate">
+                    {recommendation.title}
+                  </p>
+                  <p className="text flex items-center gap-x-1">
+                    <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
+                    {recommendation.voteAverage}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-5 text-center text-neutral-400">
+            We don&apos;t have enough data to suggest any movies based on{" "}
+            {movie.title}. You can help by rating movies you&apos;ve seen.
+          </p>
+        )}
+      </section>
       <div className="mt-8 flex gap-x-3 border-t border-neutral-800 pt-7">
         <ExternalLink
           href={
@@ -389,7 +515,7 @@ const ExternalLink = ({
       className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
       rel="noreferrer"
     >
-      <span className="sr-only">Go to {label} homepage</span>
+      <span className="sr-only">Visit {label} homepage</span>
       <Icon className="h-5 w-5" />
     </a>
   ) : null;
@@ -408,5 +534,7 @@ const Decription = ({
     </div>
   ) : null;
 
-export { loader };
+const imgTypes = ["posters", "backdrops"] as const;
+
+export { loader, unstable_shouldReload };
 export default Movie;
