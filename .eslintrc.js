@@ -20,6 +20,7 @@ module.exports = {
       extends: [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
         "plugin:jsx-a11y/strict",
         "plugin:import/typescript",
         "plugin:@typescript-eslint/recommended",
@@ -121,6 +122,7 @@ module.exports = {
           },
         ],
         "react/destructuring-assignment": ["error", "always"],
+        "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
         "prefer-arrow/prefer-arrow-functions": [
           "error",
           { disallowPrototype: true },
@@ -143,12 +145,6 @@ module.exports = {
          * props and implicily avoids mutating the arguments you use to call the component.
          */
         "@typescript-eslint/prefer-readonly-parameter-types": "off",
-        /**
-         * This two rules are unnecesary since React v17.0:
-         * @link https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
-         */
-        "react/jsx-uses-react": "off",
-        "react/react-in-jsx-scope": "off",
         /**
          * This rule was deprecated in v6.1.0:
          * @link https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-for.md
