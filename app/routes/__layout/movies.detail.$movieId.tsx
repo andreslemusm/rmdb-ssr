@@ -1,8 +1,6 @@
-import { Fragment } from "react";
 import type { LoaderArgs } from "@remix-run/node";
-import type { ShouldReloadFunction } from "@remix-run/react";
+import { Modal } from "~/components/modal";
 import clsx from "clsx";
-import { convertToSearchParams } from "~/utils/api-client";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
 import { marked } from "marked";
@@ -14,7 +12,8 @@ import {
 } from "~/utils/tmdb";
 import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TwitterIcon } from "~/assets/icons";
-import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
+import { Fragment, useState } from "react";
+import { Link, useLoaderData } from "@remix-run/react";
 import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
@@ -27,24 +26,31 @@ import {
   getMovieImages,
   getMovieRecommendations,
   getMovieReviews,
+  getMovieVideos,
 } from "~/services/movies.server";
-
-const unstable_shouldReload: ShouldReloadFunction = () => false;
 
 const loader = async ({ params }: LoaderArgs) => {
   if (!params.movieId) {
     throw new Error(`No movie found`);
   }
 
-  const [movie, credits, recommendations, externalIDs, reviews, images] =
-    await Promise.all([
-      getMovie(params.movieId),
-      getMovieCredits(params.movieId),
-      getMovieRecommendations(params.movieId),
-      getMovieExternalIDs(params.movieId),
-      getMovieReviews(params.movieId),
-      getMovieImages(params.movieId),
-    ]);
+  const [
+    movie,
+    credits,
+    recommendations,
+    externalIDs,
+    reviews,
+    images,
+    videos,
+  ] = await Promise.all([
+    getMovie(params.movieId),
+    getMovieCredits(params.movieId),
+    getMovieRecommendations(params.movieId),
+    getMovieExternalIDs(params.movieId),
+    getMovieReviews(params.movieId),
+    getMovieImages(params.movieId),
+    getMovieVideos(params.movieId),
+  ]);
 
   return json({
     movie: {
@@ -66,6 +72,8 @@ const loader = async ({ params }: LoaderArgs) => {
       revenue: formatNumberAsCurrency(movie.revenue),
       originalLanguage: formatLangCodeAsLangName(movie.original_language),
     },
+    youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
+      ?.key,
     credits: {
       ...credits.crew.reduce(
         (mainCrew, crewPerson) => {
@@ -145,19 +153,9 @@ const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-const Movie = (): React.ReactElement => {
-  const {
-    movie,
-    credits,
-    recommendations,
-    externalIDs,
-    reviews,
-    posters,
-    backdrops,
-  } = useLoaderData<typeof loader>();
-
-  const [searchParams] = useSearchParams();
-  const currentImgType = searchParams.get("imgType") ?? "posters";
+const Movie = () => {
+  const { movie, credits, recommendations, externalIDs, reviews } =
+    useLoaderData<typeof loader>();
 
   return (
     <Fragment>
@@ -196,13 +194,7 @@ const Movie = (): React.ReactElement => {
             </span>
           </p>
         </div>
-        <button
-          type="button"
-          className="flex items-center gap-x-1.5 text-sm text-neutral-400 transition hover:text-neutral-200"
-        >
-          <Play className="h-4 w-4" aria-hidden />
-          See Trailer
-        </button>
+        <TrailerModal />
       </div>
       <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3">
         <p className="text-sm text-neutral-400">
@@ -224,25 +216,25 @@ const Movie = (): React.ReactElement => {
       </p>
       <p className="pt-5 text-justify text-neutral-300">{movie.overview}</p>
       <dl className="grid grid-cols-2 justify-center gap-x-4 gap-y-2 pt-8">
-        <Decription
+        <Description
           term="Directors"
           detail={
             credits.directors.length > 0 ? credits.directors.join(", ") : null
           }
         />
-        <Decription
+        <Description
           term="Writters"
           detail={
             credits.writters.length > 0 ? credits.writters.join(", ") : null
           }
         />
-        <Decription
+        <Description
           term="Characters"
           detail={
             credits.characters.length > 0 ? credits.characters.join(", ") : null
           }
         />
-        <Decription
+        <Description
           term="Editors"
           detail={
             credits.editors.length > 0 ? credits.editors.join(", ") : null
@@ -354,71 +346,7 @@ const Movie = (): React.ReactElement => {
         )}
       </section>
       {/* Media */}
-      <section className="mt-8 border-t border-neutral-800 pt-7">
-        <header className="flex items-baseline justify-between">
-          <h2 className="font-bold text-neutral-200">Media</h2>
-          <nav className="flex items-center">
-            {imgTypes.map((imgType) => (
-              <Link
-                key={imgType}
-                to={{
-                  search: convertToSearchParams({ imgType }),
-                }}
-                state={{ scroll: false }}
-                className={clsx(
-                  imgType === currentImgType
-                    ? "bg-neutral-800 text-neutral-200"
-                    : "text-neutral-400 hover:text-neutral-200",
-                  "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition"
-                )}
-              >
-                {imgType}
-              </Link>
-            ))}
-          </nav>
-        </header>
-        <ul key={currentImgType} className="flex gap-x-1 overflow-x-auto pt-5">
-          {currentImgType === "posters"
-            ? posters.featured.map((poster) => (
-                <li
-                  key={poster.file_path}
-                  className="aspect-2/3 h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
-                >
-                  <img
-                    src={
-                      poster.file_path
-                        ? `${BASE_IMAGE_URL}${PosterSizes.xl}${poster.file_path}`
-                        : johnDoe
-                    }
-                    alt={`${movie.title} poster`}
-                    className="h-full w-full object-cover object-center"
-                    width={poster.width}
-                    height={poster.height}
-                    loading="lazy"
-                  />
-                </li>
-              ))
-            : backdrops.featured.map((backdrop) => (
-                <li
-                  key={backdrop.file_path}
-                  className="aspect-video h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
-                >
-                  <img
-                    src={
-                      backdrop.file_path
-                        ? `${BASE_IMAGE_URL}${BackdropSizes.md}${backdrop.file_path}`
-                        : johnDoe
-                    }
-                    alt={`${movie.title} backdrop`}
-                    className="h-full w-full object-cover object-center"
-                    width={backdrop.width}
-                    height={backdrop.height}
-                    loading="lazy"
-                  />
-                </li>
-              ))}
-        </ul>
-      </section>
+      <Media />
       {/* Recommendations */}
       <section className="mt-8 border-t border-neutral-800 pt-7">
         <h2 className="font-bold text-neutral-200">Recommendations</h2>
@@ -490,37 +418,45 @@ const Movie = (): React.ReactElement => {
         />
       </div>
       <dl className="flex flex-col gap-y-3 pt-4 pb-10">
-        <Decription term="Status" detail={movie.status} />
-        <Decription term="Original Language" detail={movie.originalLanguage} />
-        <Decription term="Budget" detail={movie.budget} />
-        <Decription term="Revenue" detail={movie.revenue} />
+        <Description term="Status" detail={movie.status} />
+        <Description term="Original Language" detail={movie.originalLanguage} />
+        <Description term="Budget" detail={movie.budget} />
+        <Description term="Revenue" detail={movie.revenue} />
       </dl>
     </Fragment>
   );
 };
 
-const ExternalLink = ({
-  label,
-  href,
-  icon: Icon,
-}: {
-  label: string;
-  href: string | null;
-  icon: React.VoidFunctionComponent<{ className: string }>;
-}) =>
-  href ? (
-    <a
-      href={href}
-      target="_blank"
-      className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
-      rel="noreferrer"
-    >
-      <span className="sr-only">Visit {label} homepage</span>
-      <Icon className="h-5 w-5" />
-    </a>
-  ) : null;
+const TrailerModal = () => {
+  const { youtubeTrailerID } = useLoaderData<typeof loader>();
+  const [open, setOpen] = useState(false);
 
-const Decription = ({
+  return youtubeTrailerID ? (
+    <Fragment>
+      <Modal open={open} onClose={setOpen}>
+        <div className="aspect-video">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${youtubeTrailerID}?controls=0`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            className="h-full w-full"
+            allowFullScreen
+          />
+        </div>
+      </Modal>
+      <button
+        type="button"
+        className="flex items-center gap-x-1.5 text-sm text-neutral-400 transition hover:text-neutral-200"
+        onClick={() => setOpen(true)}
+      >
+        <Play className="h-4 w-4" aria-hidden />
+        See Trailer
+      </button>
+    </Fragment>
+  ) : null;
+};
+
+const Description = ({
   term,
   detail,
 }: {
@@ -534,7 +470,97 @@ const Decription = ({
     </div>
   ) : null;
 
-const imgTypes = ["posters", "backdrops"] as const;
+const Media = () => {
+  const { movie, posters, backdrops } = useLoaderData<typeof loader>();
 
-export { loader, unstable_shouldReload };
+  const [currentImgType, setCurrentImgType] = useState("posters");
+
+  return (
+    <section className="mt-8 border-t border-neutral-800 pt-7">
+      <header className="flex items-baseline justify-between">
+        <h2 className="font-bold text-neutral-200">Media</h2>
+        <nav className="flex items-center">
+          {["posters", "backdrops"].map((imgType) => (
+            <button
+              key={imgType}
+              onClick={() => setCurrentImgType(imgType)}
+              className={clsx(
+                imgType === currentImgType
+                  ? "bg-neutral-800 text-neutral-200"
+                  : "text-neutral-400 hover:text-neutral-200",
+                "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition"
+              )}
+            >
+              {imgType}
+            </button>
+          ))}
+        </nav>
+      </header>
+      <ul className="flex gap-x-1 overflow-x-auto pt-5">
+        {currentImgType === "posters"
+          ? posters.featured.map((poster) => (
+              <li
+                key={poster.file_path}
+                className="aspect-2/3 h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
+              >
+                <img
+                  src={
+                    poster.file_path
+                      ? `${BASE_IMAGE_URL}${PosterSizes.xl}${poster.file_path}`
+                      : johnDoe
+                  }
+                  alt={`${movie.title} poster`}
+                  className="h-full w-full object-cover object-center"
+                  width={poster.width}
+                  height={poster.height}
+                  loading="lazy"
+                />
+              </li>
+            ))
+          : backdrops.featured.map((backdrop) => (
+              <li
+                key={backdrop.file_path}
+                className="aspect-video h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
+              >
+                <img
+                  src={
+                    backdrop.file_path
+                      ? `${BASE_IMAGE_URL}${BackdropSizes.md}${backdrop.file_path}`
+                      : johnDoe
+                  }
+                  alt={`${movie.title} backdrop`}
+                  className="h-full w-full object-cover object-center"
+                  width={backdrop.width}
+                  height={backdrop.height}
+                  loading="lazy"
+                />
+              </li>
+            ))}
+      </ul>
+    </section>
+  );
+};
+
+const ExternalLink = ({
+  label,
+  href,
+  icon: Icon,
+}: {
+  label: string;
+  href: string | null;
+  icon: React.FunctionComponent<{ className: string }>;
+}) =>
+  href ? (
+    <a
+      href={href}
+      target="_blank"
+      className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
+      rel="noreferrer"
+    >
+      <span className="sr-only">Visit {label} homepage</span>
+      <Icon className="h-5 w-5" />
+    </a>
+  ) : null;
+
+export { loader };
 export default Movie;
