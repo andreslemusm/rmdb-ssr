@@ -160,12 +160,21 @@ const Movie = () => {
   return (
     <Fragment>
       {/* TODO: add movie navigation */}
-      <div className="mt-5 aspect-video overflow-hidden rounded-xl">
+      <div className="relative mt-8 aspect-video">
         <img
-          src={`${BASE_IMAGE_URL}${BackdropSizes.md}${movie.backdropPath}`}
-          alt={movie.title}
-          className="h-full w-full"
+          src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
+          alt={`${movie.title} main backdrop blurred`}
+          className="h-full w-full rounded-xl object-cover py-10 px-14 blur-2xl"
         />
+        <div className="absolute inset-0 grid place-items-center">
+          <div className="aspect-2/3 w-1/3 overflow-hidden rounded-lg">
+            <img
+              src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
+              alt={`${movie.title} main poster`}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-2 pt-5">
         <h1 className="text-center text-xl font-bold text-neutral-100">
