@@ -1,6 +1,4 @@
-export const FacebookIcon = (
-  props: React.ComponentPropsWithoutRef<"svg">
-): React.ReactElement => (
+export const FacebookIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
   <svg viewBox="0 0 256 256" fill="currentColor" {...props}>
     <path d="M256 128a128 128 0 1 0-148 126.4V165H75.5v-37H108V99.8c0-32 19.1-49.8 48.3-49.8 14 0 28.7 2.5 28.7 2.5V84h-16.1c-16 0-20.9 9.9-20.9 20v24h35.5l-5.7 37H148v89.4A128 128 0 0 0 256 128" />
     <path

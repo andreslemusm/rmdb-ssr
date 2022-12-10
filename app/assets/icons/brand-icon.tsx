@@ -1,8 +1,4 @@
-export const BrandIcon = ({
-  className,
-}: {
-  className?: string;
-}): React.ReactElement => (
+export const BrandIcon = ({ className }: { className?: string }) => (
   <svg
     width={128}
     height={128}

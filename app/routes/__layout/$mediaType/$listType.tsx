@@ -134,7 +134,7 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
 
-const Home = (): React.ReactElement => {
+const Home = () => {
   const { listType, mediaType } = useParams() as {
     mediaType: keyof typeof categories;
     listType: string;

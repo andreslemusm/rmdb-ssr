@@ -11,7 +11,7 @@ import { Form, Link, NavLink, Outlet, useSearchParams } from "@remix-run/react";
 import { Menu, Search, X } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
 
-const Layout = (): React.ReactElement => {
+const Layout = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") ?? "";
 

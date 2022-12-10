@@ -33,7 +33,7 @@ const loader = async ({ request }: LoaderArgs) => {
   });
 };
 
-const Search = (): React.ReactElement => {
+const Search = () => {
   const { movies, totalPages, page, query, totalResults } =
     useLoaderData<typeof loader>();
 

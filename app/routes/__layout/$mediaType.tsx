@@ -4,7 +4,7 @@ import { ChevronDown, Film } from "lucide-react";
 import { Link, NavLink, Outlet, useParams } from "@remix-run/react";
 import { Menu, Transition } from "@headlessui/react";
 
-const MediaType = (): React.ReactElement => {
+const MediaType = () => {
   const { mediaType } = useParams() as {
     mediaType: keyof typeof categories;
   };

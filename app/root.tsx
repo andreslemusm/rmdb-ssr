@@ -68,7 +68,7 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-const App = (): React.ReactElement => (
+const App = () => (
   <html lang="en" className="tk-lato h-full antialiased">
     <head>
       <Meta />
