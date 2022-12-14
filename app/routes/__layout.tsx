@@ -122,7 +122,7 @@ const Layout = () => {
         </div>
       </header>
       <div className="px-4 sm:px-4 lg:px-8">
-        <main className="mx-auto w-full max-w-7xl">
+        <main className="mx-auto w-full max-w-7xl overflow-visible">
           <Outlet />
         </main>
       </div>

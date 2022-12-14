@@ -160,11 +160,11 @@ const Movie = () => {
   return (
     <Fragment>
       {/* TODO: add movie navigation */}
-      <div className="relative mt-8 aspect-video">
+      <div className="relative mt-8 aspect-video overflow-visible">
         <img
           src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
           alt={`${movie.title} main backdrop blurred`}
-          className="h-full w-full rounded-xl object-cover py-10 px-14 blur-2xl"
+          className="h-full w-full object-cover py-10 px-14 blur-2xl"
         />
         <div className="absolute inset-0 grid place-items-center">
           <div className="aspect-2/3 w-1/3 overflow-hidden rounded-lg">
@@ -176,21 +176,21 @@ const Movie = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-2 pt-5">
-        <h1 className="text-center text-xl font-bold text-neutral-100">
+      <div className="flex flex-wrap items-center justify-center gap-2 pt-5 sm:gap-3">
+        <h1 className="text-center text-xl font-bold text-neutral-100 md:text-2xl">
           {movie.title}
         </h1>
         <a
           href={movie.homepage}
           target="_blank"
-          className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
+          className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100 sm:mt-1.5"
           rel="noreferrer"
         >
           <span className="sr-only">Visit website</span>
           <LinkIcon aria-hidden className="h-3.5 w-3.5" />
         </a>
       </div>
-      <div className="grid grid-cols-2 place-items-center pt-5">
+      <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center pt-5 sm:pt-6">
         <div className="flex items-center gap-x-1.5">
           <Star
             aria-hidden
@@ -205,7 +205,7 @@ const Movie = () => {
         </div>
         <TrailerModal />
       </div>
-      <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3">
+      <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3 sm:mt-6 sm:gap-y-2 sm:pt-3 sm:pb-4">
         <p className="text-sm text-neutral-400">
           {movie.releaseDate} • {movie.runtime}
         </p>
@@ -224,7 +224,7 @@ const Movie = () => {
         {movie.tagline}
       </p>
       <p className="pt-5 text-justify text-neutral-300">{movie.overview}</p>
-      <dl className="grid grid-cols-2 justify-center gap-x-4 gap-y-2 pt-8">
+      <dl className="grid grid-cols-2 justify-center gap-x-4 gap-y-2 pt-8 sm:gap-y-4">
         <Description
           term="Directors"
           detail={
@@ -251,7 +251,7 @@ const Movie = () => {
         />
       </dl>
       {/* Cast */}
-      <section className="mt-8 border-t border-neutral-800 pt-7">
+      <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
         <header className="flex items-center justify-between">
           <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
           {/* TODO: add casting and crew tab */}
@@ -287,7 +287,7 @@ const Movie = () => {
         </ol>
       </section>
       {/* Reviews */}
-      <section className="mt-8 border-t border-neutral-800 pt-7">
+      <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
         <header className="flex items-center justify-between">
           <h2 className="flex items-baseline gap-x-2 font-bold text-neutral-200">
             Reviews
@@ -307,7 +307,7 @@ const Movie = () => {
           ) : null}
         </header>
         {reviews.featuredReview ? (
-          <article className="mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
+          <article className="mx-auto mt-5 max-w-fit rounded-xl border border-neutral-700 bg-neutral-800 p-5">
             <div className="flex items-center gap-x-4">
               <img
                 src={
@@ -357,7 +357,7 @@ const Movie = () => {
       {/* Media */}
       <Media />
       {/* Recommendations */}
-      <section className="mt-8 border-t border-neutral-800 pt-7">
+      <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
         <h2 className="font-bold text-neutral-200">Recommendations</h2>
         {recommendations.length > 0 ? (
           <ul className="flex gap-x-3 overflow-x-auto pt-5">
@@ -391,13 +391,13 @@ const Movie = () => {
             ))}
           </ul>
         ) : (
-          <p className="mt-5 text-center text-neutral-400">
+          <p className="mx-auto mt-5 max-w-lg text-center text-neutral-400">
             We don&apos;t have enough data to suggest any movies based on{" "}
             {movie.title}. You can help by rating movies you&apos;ve seen.
           </p>
         )}
       </section>
-      <div className="mt-8 flex gap-x-3 border-t border-neutral-800 pt-7">
+      <div className="mt-8 flex gap-x-3 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
         <ExternalLink
           href={
             externalIDs.facebookID
@@ -426,7 +426,7 @@ const Movie = () => {
           label="Twitter"
         />
       </div>
-      <dl className="flex flex-col gap-y-3 pt-4 pb-10">
+      <dl className="flex flex-col gap-y-3 pt-4 pb-10 sm:pb-14">
         <Description term="Status" detail={movie.status} />
         <Description term="Original Language" detail={movie.originalLanguage} />
         <Description term="Budget" detail={movie.budget} />
@@ -485,7 +485,7 @@ const Media = () => {
   const [currentImgType, setCurrentImgType] = useState("posters");
 
   return (
-    <section className="mt-8 border-t border-neutral-800 pt-7">
+    <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
       <header className="flex items-baseline justify-between">
         <h2 className="font-bold text-neutral-200">Media</h2>
         <nav className="flex items-center">
