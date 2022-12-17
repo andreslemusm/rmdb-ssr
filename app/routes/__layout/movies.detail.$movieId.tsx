@@ -164,7 +164,7 @@ const Movie = () => {
         <img
           src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
           alt={`${movie.title} main backdrop blurred`}
-          className="h-full w-full object-cover py-10 px-14 blur-2xl"
+          className="h-full w-full object-cover py-10 px-14 blur-2xl sm:blur-3xl"
         />
         <div className="absolute inset-0 grid place-items-center">
           <div className="aspect-2/3 w-1/3 overflow-hidden rounded-lg">
@@ -307,7 +307,7 @@ const Movie = () => {
           ) : null}
         </header>
         {reviews.featuredReview ? (
-          <article className="mx-auto mt-5 max-w-fit rounded-xl border border-neutral-700 bg-neutral-800 p-5">
+          <article className="mx-auto mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
             <div className="flex items-center gap-x-4">
               <img
                 src={
@@ -342,7 +342,7 @@ const Movie = () => {
               </div>
             </div>
             <div
-              className="prose prose-sm prose-invert pt-4 line-clamp-6"
+              className="prose prose-sm prose-invert max-w-full pt-4 md:prose-base"
               dangerouslySetInnerHTML={{
                 __html: reviews.featuredReview.content,
               }}
