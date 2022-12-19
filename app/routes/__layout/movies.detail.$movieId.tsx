@@ -1,5 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { Modal } from "~/components/modal";
+import { Portal } from "@headlessui/react";
 import clsx from "clsx";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
@@ -160,96 +161,140 @@ const Movie = () => {
   return (
     <Fragment>
       {/* TODO: add movie navigation */}
-      <div className="relative mt-8 aspect-video overflow-visible">
-        <img
-          src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
-          alt={`${movie.title} main backdrop blurred`}
-          className="h-full w-full object-cover py-10 px-14 blur-2xl sm:blur-3xl"
-        />
-        <div className="absolute inset-0 grid place-items-center">
-          <div className="aspect-2/3 w-1/3 overflow-hidden rounded-lg">
-            <img
-              src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
-              alt={`${movie.title} main poster`}
-              className="h-full w-full object-cover"
+      {/* Description */}
+      {/* Mobile */}
+      <div className="mt-8 lg:hidden">
+        <div className="relative aspect-video overflow-visible">
+          <img
+            src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
+            alt={`${movie.title} main backdrop blurred`}
+            className="h-full w-full object-cover py-10 px-14 blur-2xl sm:blur-3xl"
+          />
+          <div className="absolute inset-0 grid place-items-center">
+            <div className="aspect-2/3 w-1/3 overflow-hidden rounded-lg">
+              <img
+                src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
+                alt={`${movie.title} main poster`}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-5 sm:gap-3">
+          <h1 className="text-center text-xl font-bold text-neutral-100 md:text-2xl">
+            {movie.title}
+          </h1>
+          <a
+            href={movie.homepage}
+            target="_blank"
+            className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100 sm:mt-1.5"
+            rel="noreferrer"
+          >
+            <span className="sr-only">Visit website</span>
+            <LinkIcon aria-hidden className="h-3.5 w-3.5" />
+          </a>
+        </div>
+        <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center pt-5 sm:pt-6">
+          <div className="flex items-center gap-x-1.5">
+            <Star
+              aria-hidden
+              className="h-4 w-4 fill-yellow-500 stroke-yellow-500"
             />
+            <p className="font-bold text-neutral-200">
+              {movie.voteAverage}
+              <span className="text-sm font-normal text-neutral-400">
+                /10 • {movie.voteCount}
+              </span>
+            </p>
+          </div>
+          <TrailerModal />
+        </div>
+        <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3 sm:mt-6 sm:gap-y-2 sm:pt-3 sm:pb-4">
+          <p className="text-sm text-neutral-400">
+            {movie.releaseDate} • {movie.runtime}
+          </p>
+          <div className="flex items-center justify-center gap-x-1">
+            {movie.genres.map((genre) => (
+              <span
+                key={genre.id}
+                className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200"
+              >
+                {genre.name}
+              </span>
+            ))}
+          </div>
+        </div>
+        <p className="pt-5 text-center italic text-neutral-400">
+          {movie.tagline}
+        </p>
+        <p className="pt-5 text-justify text-neutral-300">{movie.overview}</p>
+        <dl className="grid grid-cols-2 justify-center gap-x-4 gap-y-2 pt-8 sm:gap-y-4">
+          <Description
+            term="Directors"
+            detail={
+              credits.directors.length > 0 ? credits.directors.join(", ") : null
+            }
+          />
+          <Description
+            term="Writters"
+            detail={
+              credits.writters.length > 0 ? credits.writters.join(", ") : null
+            }
+          />
+          <Description
+            term="Characters"
+            detail={
+              credits.characters.length > 0
+                ? credits.characters.join(", ")
+                : null
+            }
+          />
+          <Description
+            term="Editors"
+            detail={
+              credits.editors.length > 0 ? credits.editors.join(", ") : null
+            }
+          />
+        </dl>
+      </div>
+      {/* Desktop */}
+      <div className="hidden grid-cols-3 gap-x-20 pt-10 lg:grid">
+        <Portal
+          as="div"
+          style={{ marginTop: "6.189rem", height: "35rem" }}
+          className="absolute inset-x-0 top-0 -z-10 hidden overflow-hidden lg:block"
+        >
+          <img
+            src={`${BASE_IMAGE_URL}${BackdropSizes.sm}${movie.backdropPath}`}
+            alt={`${movie.title} main backdrop`}
+            className="h-full w-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/80 to-neutral-900" />
+        </Portal>
+        <div className="aspect-2/3 overflow-hidden rounded-xl">
+          <img
+            src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
+            alt={`${movie.title} main poster`}
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="col-span-2">
+          <div className="flex items-center gap-x-3">
+            <h1 className="text-center text-2xl font-bold text-neutral-100">
+              {movie.title}
+            </h1>
+            <a
+              href={movie.homepage}
+              target="_blank"
+              className="mt-1.5 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
+              rel="noreferrer"
+            >
+              <span className="sr-only">Visit website</span>
+              <LinkIcon aria-hidden className="h-3.5 w-3.5" />
+            </a>
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-2 pt-5 sm:gap-3">
-        <h1 className="text-center text-xl font-bold text-neutral-100 md:text-2xl">
-          {movie.title}
-        </h1>
-        <a
-          href={movie.homepage}
-          target="_blank"
-          className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100 sm:mt-1.5"
-          rel="noreferrer"
-        >
-          <span className="sr-only">Visit website</span>
-          <LinkIcon aria-hidden className="h-3.5 w-3.5" />
-        </a>
-      </div>
-      <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center pt-5 sm:pt-6">
-        <div className="flex items-center gap-x-1.5">
-          <Star
-            aria-hidden
-            className="h-4 w-4 fill-yellow-500 stroke-yellow-500"
-          />
-          <p className="font-bold text-neutral-200">
-            {movie.voteAverage}
-            <span className="text-sm font-normal text-neutral-400">
-              /10 • {movie.voteCount}
-            </span>
-          </p>
-        </div>
-        <TrailerModal />
-      </div>
-      <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3 sm:mt-6 sm:gap-y-2 sm:pt-3 sm:pb-4">
-        <p className="text-sm text-neutral-400">
-          {movie.releaseDate} • {movie.runtime}
-        </p>
-        <div className="flex items-center justify-center gap-x-1">
-          {movie.genres.map((genre) => (
-            <span
-              key={genre.id}
-              className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200"
-            >
-              {genre.name}
-            </span>
-          ))}
-        </div>
-      </div>
-      <p className="pt-5 text-center italic text-neutral-400">
-        {movie.tagline}
-      </p>
-      <p className="pt-5 text-justify text-neutral-300">{movie.overview}</p>
-      <dl className="grid grid-cols-2 justify-center gap-x-4 gap-y-2 pt-8 sm:gap-y-4">
-        <Description
-          term="Directors"
-          detail={
-            credits.directors.length > 0 ? credits.directors.join(", ") : null
-          }
-        />
-        <Description
-          term="Writters"
-          detail={
-            credits.writters.length > 0 ? credits.writters.join(", ") : null
-          }
-        />
-        <Description
-          term="Characters"
-          detail={
-            credits.characters.length > 0 ? credits.characters.join(", ") : null
-          }
-        />
-        <Description
-          term="Editors"
-          detail={
-            credits.editors.length > 0 ? credits.editors.join(", ") : null
-          }
-        />
-      </dl>
       {/* Cast */}
       <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
         <header className="flex items-center justify-between">
