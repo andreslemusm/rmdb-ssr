@@ -221,6 +221,17 @@ const getMovieVideos = (movieId: string) =>
     },
   });
 
+const getMovieKeywords = (movieId: string) =>
+  apiClient.query<{
+    id: number;
+    keywords: Array<{
+      id: string;
+      name: string;
+    }>;
+  }>({
+    endpoint: `movie/${movieId}/keywords`,
+  });
+
 export {
   getMovies,
   getMovie,
@@ -230,4 +241,5 @@ export {
   getMovieReviews,
   getMovieImages,
   getMovieVideos,
+  getMovieKeywords,
 };

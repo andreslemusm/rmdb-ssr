@@ -25,6 +25,7 @@ import {
   getMovieCredits,
   getMovieExternalIDs,
   getMovieImages,
+  getMovieKeywords,
   getMovieRecommendations,
   getMovieReviews,
   getMovieVideos,
@@ -43,6 +44,7 @@ const loader = async ({ params }: LoaderArgs) => {
     reviews,
     images,
     videos,
+    keywords,
   ] = await Promise.all([
     getMovie(params.movieId),
     getMovieCredits(params.movieId),
@@ -51,6 +53,7 @@ const loader = async ({ params }: LoaderArgs) => {
     getMovieReviews(params.movieId),
     getMovieImages(params.movieId),
     getMovieVideos(params.movieId),
+    getMovieKeywords(params.movieId),
   ]);
 
   return json({
@@ -151,11 +154,12 @@ const loader = async ({ params }: LoaderArgs) => {
       instagramID: externalIDs.instagram_id,
       twitterID: externalIDs.twitter_id,
     },
+    keywords: keywords.keywords,
   });
 };
 
 const Movie = () => {
-  const { movie, credits, recommendations, externalIDs, reviews } =
+  const { movie, credits, recommendations, externalIDs, reviews, keywords } =
     useLoaderData<typeof loader>();
 
   return (
@@ -217,7 +221,7 @@ const Movie = () => {
             {movie.genres.map((genre) => (
               <span
                 key={genre.id}
-                className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200"
+                className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200"
               >
                 {genre.name}
               </span>
@@ -476,6 +480,21 @@ const Movie = () => {
         <Description term="Original Language" detail={movie.originalLanguage} />
         <Description term="Budget" detail={movie.budget} />
         <Description term="Revenue" detail={movie.revenue} />
+        <Description
+          term="Keywords"
+          detail={
+            <div className="mt-2 flex max-w-xs flex-wrap items-center gap-2">
+              {keywords.map((keyword) => (
+                <span
+                  key={keyword.id}
+                  className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs capitalize text-neutral-200"
+                >
+                  {keyword.name}
+                </span>
+              ))}
+            </div>
+          }
+        />
       </dl>
     </Fragment>
   );
