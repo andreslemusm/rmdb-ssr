@@ -262,7 +262,7 @@ const Movie = () => {
         </dl>
       </div>
       {/* Desktop */}
-      <div className="hidden grid-cols-3 gap-x-20 pt-10 lg:grid">
+      <div className="hidden gap-x-20 pt-10 lg:flex">
         <Portal
           as="div"
           style={{ marginTop: "6.189rem", height: "35rem" }}
@@ -275,16 +275,28 @@ const Movie = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/80 to-neutral-900" />
         </Portal>
-        <div className="aspect-2/3 overflow-hidden rounded-xl">
-          <img
-            src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
-            alt={`${movie.title} main poster`}
-            className="h-full w-full object-cover"
-          />
+        <div className="shrink-0">
+          <div className="aspect-2/3 h-96 overflow-hidden rounded-xl xl:h-[28rem]">
+            <img
+              src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
+              alt={`${movie.title} main poster`}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="mt-5 flex max-w-[16rem] flex-wrap items-center justify-center gap-2 xl:max-w-[18.66625rem]">
+            {movie.genres.map((genre) => (
+              <span
+                key={genre.id}
+                className="shrink-0 rounded-lg bg-neutral-800 px-2.5 py-0.5 text-sm text-neutral-100"
+              >
+                {genre.name}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="col-span-2">
+        <div>
           <div className="flex items-center gap-x-3">
-            <h1 className="text-center text-2xl font-bold text-neutral-100">
+            <h1 className="text-center text-3xl font-bold text-neutral-100">
               {movie.title}
             </h1>
             <a
@@ -297,205 +309,270 @@ const Movie = () => {
               <LinkIcon aria-hidden className="h-3.5 w-3.5" />
             </a>
           </div>
+          <p className="pt-1 text-sm text-neutral-400">
+            {movie.releaseDate} • {movie.runtime}
+          </p>
+          <div className="flex items-baseline gap-x-10 pt-6">
+            <div className="flex items-center gap-x-1.5">
+              <Star
+                aria-hidden
+                className="h-5 w-5 fill-yellow-500 stroke-yellow-500"
+              />
+              <p className="text-xl font-bold text-neutral-200">
+                {movie.voteAverage}
+                <span className="text-sm font-normal text-neutral-400">
+                  /10 • {movie.voteCount}
+                </span>
+              </p>
+            </div>
+            <TrailerModal />
+          </div>
+          <p className="pt-6 italic text-neutral-400">{movie.tagline}</p>
+          <p className="max-w-3xl pt-4 text-neutral-200">{movie.overview}</p>
+          <dl className="grid grid-cols-2 justify-center gap-4 pt-7">
+            <Description
+              term="Directors"
+              detail={
+                credits.directors.length > 0
+                  ? credits.directors.join(", ")
+                  : null
+              }
+            />
+            <Description
+              term="Writters"
+              detail={
+                credits.writters.length > 0 ? credits.writters.join(", ") : null
+              }
+            />
+            <Description
+              term="Characters"
+              detail={
+                credits.characters.length > 0
+                  ? credits.characters.join(", ")
+                  : null
+              }
+            />
+            <Description
+              term="Editors"
+              detail={
+                credits.editors.length > 0 ? credits.editors.join(", ") : null
+              }
+            />
+          </dl>
         </div>
       </div>
-      {/* Cast */}
-      <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
-        <header className="flex items-center justify-between">
-          <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
-          {/* TODO: add casting and crew tab */}
-          <Link
-            to="."
-            className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
-          >
-            View Credits
-            <ChevronRight aria-hidden className="mt-0.5 h-4 w-4" />
-          </Link>
-        </header>
-        <ol className="flex gap-x-3 overflow-x-auto pt-5">
-          {credits.topCast.map((castPerson) => (
-            <li key={castPerson.id} className="w-36 shrink-0">
-              <div className="block aspect-2/3 overflow-hidden rounded-xl bg-neutral-800">
-                <img
-                  src={
-                    castPerson.profilePath
-                      ? `${BASE_IMAGE_URL}${ProfileSizes.md}${castPerson.profilePath}`
-                      : johnDoe
-                  }
-                  alt={castPerson.name}
-                  className="h-full w-full object-cover object-center"
-                  loading="lazy"
-                />
-              </div>
-              <p title={castPerson.name} className="pt-1.5 text-neutral-200">
-                {castPerson.name}
-              </p>
-              <p className="text-neutral-400">{castPerson.character}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-      {/* Reviews */}
-      <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
-        <header className="flex items-center justify-between">
-          <h2 className="flex items-baseline gap-x-2 font-bold text-neutral-200">
-            Reviews
-            <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
-              {reviews.count}
-            </span>
-          </h2>
-          {/* TODO: add review tab */}
-          {reviews.featuredReview ? (
-            <Link
-              to="."
-              className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
-            >
-              View Reviews
-              <ChevronRight aria-hidden className="mt-1 h-3.5 w-3.5" />
-            </Link>
-          ) : null}
-        </header>
-        {reviews.featuredReview ? (
-          <article className="mx-auto mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
-            <div className="flex items-center gap-x-4">
-              <img
-                src={
-                  reviews.featuredReview.author.avatarPath
-                    ? reviews.featuredReview.author.avatarPath.includes(
-                        "gravatar"
-                      )
-                      ? reviews.featuredReview.author.avatarPath.slice(1)
-                      : `${BASE_IMAGE_URL}${ProfileSizes.xs}${reviews.featuredReview.author.avatarPath}`
-                    : johnDoe
-                }
-                alt={`${reviews.featuredReview.author.name} Avatar`}
-                className="h-12 w-12 rounded-full bg-neutral-400"
-                width={48}
-                height={48}
-                loading="lazy"
-              />
-              <div>
-                <h3 className="text-sm font-bold text-neutral-100">
-                  {reviews.featuredReview.author.name}
-                </h3>
-                <p className="flex items-center gap-x-1 font-normal">
-                  <Star
-                    aria-hidden
-                    className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
-                  />
-                  <span className="text-sm text-neutral-200">
-                    {reviews.featuredReview.rating}
-                    <span className="text-xs text-neutral-400">/10</span>
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div
-              className="prose prose-sm prose-invert max-w-full pt-4 md:prose-base"
-              dangerouslySetInnerHTML={{
-                __html: reviews.featuredReview.content,
-              }}
-            />
-          </article>
-        ) : (
-          <p className="mt-5 text-center text-neutral-400">
-            We don&apos;t have any reviews for {movie.title}.
-          </p>
-        )}
-      </section>
-      {/* Media */}
-      <Media />
-      {/* Recommendations */}
-      <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
-        <h2 className="font-bold text-neutral-200">Recommendations</h2>
-        {recommendations.length > 0 ? (
-          <ul className="flex gap-x-3 overflow-x-auto pt-5">
-            {recommendations.map((recommendation) => (
-              <li key={recommendation.id} className="w-72 shrink-0">
+      <div className="mt-8 grid grid-cols-4 border-t border-neutral-800 pb-10 pt-7 sm:mt-9 sm:pb-14 sm:pt-8 lg:gap-x-12">
+        <div className="col-span-4 lg:col-span-3">
+          {/* Cast */}
+          <section>
+            <header className="flex items-center justify-between">
+              <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
+              {/* TODO: add casting and crew tab */}
+              <Link
+                to="."
+                className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
+              >
+                View Credits
+                <ChevronRight aria-hidden className="mt-0.5 h-4 w-4" />
+              </Link>
+            </header>
+            <ol className="flex gap-x-3 overflow-x-auto pt-5">
+              {credits.topCast.map((castPerson) => (
+                <li key={castPerson.id} className="w-36 shrink-0">
+                  <div className="block aspect-2/3 overflow-hidden rounded-xl bg-neutral-800">
+                    <img
+                      src={
+                        castPerson.profilePath
+                          ? `${BASE_IMAGE_URL}${ProfileSizes.md}${castPerson.profilePath}`
+                          : johnDoe
+                      }
+                      alt={castPerson.name}
+                      className="h-full w-full object-cover object-center"
+                      loading="lazy"
+                    />
+                  </div>
+                  <p
+                    title={castPerson.name}
+                    className="pt-1.5 text-neutral-200"
+                  >
+                    {castPerson.name}
+                  </p>
+                  <p className="text-neutral-400">{castPerson.character}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
+          {/* Reviews */}
+          <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
+            <header className="flex items-center justify-between">
+              <h2 className="flex items-baseline gap-x-2 font-bold text-neutral-200">
+                Reviews
+                <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
+                  {reviews.count}
+                </span>
+              </h2>
+              {/* TODO: add review tab */}
+              {reviews.featuredReview ? (
                 <Link
-                  to={`/movies/detail/${recommendation.id}`}
-                  className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
+                  to="."
+                  className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
                 >
+                  View Reviews
+                  <ChevronRight aria-hidden className="mt-1 h-3.5 w-3.5" />
+                </Link>
+              ) : null}
+            </header>
+            {reviews.featuredReview ? (
+              <article className="mx-auto mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
+                <div className="flex items-center gap-x-4">
                   <img
                     src={
-                      recommendation.backdropPath
-                        ? `${BASE_IMAGE_URL}${BackdropSizes.sm}${recommendation.backdropPath}`
-                        : undefined
+                      reviews.featuredReview.author.avatarPath
+                        ? reviews.featuredReview.author.avatarPath.includes(
+                            "gravatar"
+                          )
+                          ? reviews.featuredReview.author.avatarPath.slice(1)
+                          : `${BASE_IMAGE_URL}${ProfileSizes.xs}${reviews.featuredReview.author.avatarPath}`
+                        : johnDoe
                     }
-                    alt={recommendation.title}
-                    className="h-full w-full object-cover object-center"
+                    alt={`${reviews.featuredReview.author.name} Avatar`}
+                    className="h-12 w-12 rounded-full bg-neutral-400"
+                    width={48}
+                    height={48}
                     loading="lazy"
                   />
-                </Link>
-                <div className="flex items-center justify-between pt-1.5 text-neutral-300">
-                  <p title={recommendation.title} className="w-2/3 truncate">
-                    {recommendation.title}
-                  </p>
-                  <p className="text flex items-center gap-x-1">
-                    <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
-                    {recommendation.voteAverage}
-                  </p>
+                  <div>
+                    <h3 className="text-sm font-bold text-neutral-100">
+                      {reviews.featuredReview.author.name}
+                    </h3>
+                    <p className="flex items-center gap-x-1 font-normal">
+                      <Star
+                        aria-hidden
+                        className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
+                      />
+                      <span className="text-sm text-neutral-200">
+                        {reviews.featuredReview.rating}
+                        <span className="text-xs text-neutral-400">/10</span>
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mx-auto mt-5 max-w-lg text-center text-neutral-400">
-            We don&apos;t have enough data to suggest any movies based on{" "}
-            {movie.title}. You can help by rating movies you&apos;ve seen.
-          </p>
-        )}
-      </section>
-      <div className="mt-8 flex gap-x-3 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
-        <ExternalLink
-          href={
-            externalIDs.facebookID
-              ? `https://facebook.com/${externalIDs.facebookID}`
-              : null
-          }
-          icon={FacebookIcon}
-          label="Facebook"
-        />
-        <ExternalLink
-          href={
-            externalIDs.instagramID
-              ? `https://instagram.com/${externalIDs.instagramID}`
-              : null
-          }
-          icon={InstagramIcon}
-          label="Instagram"
-        />
-        <ExternalLink
-          href={
-            externalIDs.twitterID
-              ? `https://twitter.com/${externalIDs.twitterID}`
-              : null
-          }
-          icon={TwitterIcon}
-          label="Twitter"
-        />
+                <div
+                  className="prose prose-sm prose-invert max-w-full pt-4 md:prose-base"
+                  dangerouslySetInnerHTML={{
+                    __html: reviews.featuredReview.content,
+                  }}
+                />
+              </article>
+            ) : (
+              <p className="mt-5 text-center text-neutral-400">
+                We don&apos;t have any reviews for {movie.title}.
+              </p>
+            )}
+          </section>
+          {/* Media */}
+          <Media />
+          {/* Recommendations */}
+          <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
+            <h2 className="font-bold text-neutral-200">Recommendations</h2>
+            {recommendations.length > 0 ? (
+              <ul className="flex gap-x-3 overflow-x-auto pt-5">
+                {recommendations.map((recommendation) => (
+                  <li key={recommendation.id} className="w-72 shrink-0">
+                    <Link
+                      to={`/movies/detail/${recommendation.id}`}
+                      className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
+                    >
+                      <img
+                        src={
+                          recommendation.backdropPath
+                            ? `${BASE_IMAGE_URL}${BackdropSizes.sm}${recommendation.backdropPath}`
+                            : undefined
+                        }
+                        alt={recommendation.title}
+                        className="h-full w-full object-cover object-center"
+                        loading="lazy"
+                      />
+                    </Link>
+                    <div className="flex items-center justify-between pt-1.5 text-neutral-300">
+                      <p
+                        title={recommendation.title}
+                        className="w-2/3 truncate"
+                      >
+                        {recommendation.title}
+                      </p>
+                      <p className="text flex items-center gap-x-1">
+                        <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
+                        {recommendation.voteAverage}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mx-auto mt-5 max-w-lg text-center text-neutral-400">
+                We don&apos;t have enough data to suggest any movies based on{" "}
+                {movie.title}. You can help by rating movies you&apos;ve seen.
+              </p>
+            )}
+          </section>
+        </div>
+        <div className="col-span-4 mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8 lg:col-span-1 lg:mt-0 lg:border-none lg:pt-0">
+          <div className="flex gap-x-3">
+            <ExternalLink
+              href={
+                externalIDs.facebookID
+                  ? `https://facebook.com/${externalIDs.facebookID}`
+                  : null
+              }
+              icon={FacebookIcon}
+              label="Facebook"
+            />
+            <ExternalLink
+              href={
+                externalIDs.instagramID
+                  ? `https://instagram.com/${externalIDs.instagramID}`
+                  : null
+              }
+              icon={InstagramIcon}
+              label="Instagram"
+            />
+            <ExternalLink
+              href={
+                externalIDs.twitterID
+                  ? `https://twitter.com/${externalIDs.twitterID}`
+                  : null
+              }
+              icon={TwitterIcon}
+              label="Twitter"
+            />
+          </div>
+          <dl className="flex flex-col gap-y-4 pt-7 lg:gap-y-5">
+            <Description term="Status" detail={movie.status} />
+            <Description
+              term="Original Language"
+              detail={movie.originalLanguage}
+            />
+            <Description term="Budget" detail={movie.budget} />
+            <Description term="Revenue" detail={movie.revenue} />
+            <Description
+              term="Keywords"
+              detail={
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {keywords.map((keyword) => (
+                    <span
+                      key={keyword.id}
+                      className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs capitalize text-neutral-200"
+                    >
+                      {keyword.name}
+                    </span>
+                  ))}
+                </div>
+              }
+            />
+          </dl>
+        </div>
       </div>
-      <dl className="flex flex-col gap-y-3 pt-4 pb-10 sm:pb-14">
-        <Description term="Status" detail={movie.status} />
-        <Description term="Original Language" detail={movie.originalLanguage} />
-        <Description term="Budget" detail={movie.budget} />
-        <Description term="Revenue" detail={movie.revenue} />
-        <Description
-          term="Keywords"
-          detail={
-            <div className="mt-2 flex max-w-xs flex-wrap items-center gap-2">
-              {keywords.map((keyword) => (
-                <span
-                  key={keyword.id}
-                  className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs capitalize text-neutral-200"
-                >
-                  {keyword.name}
-                </span>
-              ))}
-            </div>
-          }
-        />
-      </dl>
     </Fragment>
   );
 };
@@ -519,7 +596,7 @@ const TrailerModal = () => {
       </Modal>
       <button
         type="button"
-        className="flex items-center gap-x-1.5 text-sm text-neutral-400 transition hover:text-neutral-200"
+        className="flex items-center gap-x-1.5 text-sm text-neutral-200 transition hover:text-cyan-500 lg:text-base"
         onClick={() => setOpen(true)}
       >
         <Play className="h-4 w-4" aria-hidden />
