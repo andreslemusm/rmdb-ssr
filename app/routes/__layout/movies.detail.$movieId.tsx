@@ -56,106 +56,113 @@ const loader = async ({ params }: LoaderArgs) => {
     getMovieKeywords(params.movieId),
   ]);
 
-  return json({
-    movie: {
-      backdropPath: movie.backdrop_path,
-      posterPath: movie.poster_path,
-      title: movie.title,
-      homepage: movie.homepage,
-      voteAverage: movie.vote_average.toPrecision(2),
-      voteCount: formatNumberAsCompactNumber(movie.vote_count),
-      releaseDate: movie.release_date,
-      runtime: `${Math.floor(movie.runtime / 60)}h ${
-        movie.runtime - Math.floor(movie.runtime / 60) * 60
-      }m`,
-      genres: movie.genres,
-      tagline: movie.tagline,
-      overview: movie.overview,
-      status: movie.status,
-      budget: formatNumberAsCurrency(movie.budget),
-      revenue: formatNumberAsCurrency(movie.revenue),
-      originalLanguage: formatLangCodeAsLangName(movie.original_language),
-    },
-    youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
-      ?.key,
-    credits: {
-      ...credits.crew.reduce(
-        (mainCrew, crewPerson) => {
-          if (crewPerson.job === "Director")
-            return {
-              ...mainCrew,
-              directors: [...mainCrew.directors, crewPerson.name],
-            };
-          if (crewPerson.job === "Writer") {
-            return {
-              ...mainCrew,
-              writters: [...mainCrew.writters, crewPerson.name],
-            };
-          }
-          if (crewPerson.job === "Characters") {
-            return {
-              ...mainCrew,
-              characters: [...mainCrew.writters, crewPerson.name],
-            };
-          }
-          if (crewPerson.job === "Editor") {
-            return {
-              ...mainCrew,
-              editors: [...mainCrew.writters, crewPerson.name],
-            };
-          }
-
-          return mainCrew;
-        },
-        {
-          directors: [] as Array<string>,
-          writters: [] as Array<string>,
-          characters: [] as Array<string>,
-          editors: [] as Array<string>,
-        }
-      ),
-      topCast: credits.cast.slice(0, 9).map((castPerson) => ({
-        id: castPerson.id,
-        profilePath: castPerson.profile_path,
-        name: castPerson.name,
-        character: castPerson.character,
-      })),
-    },
-    reviews: {
-      featuredReview:
-        reviews.results.length > 0
-          ? {
-              author: {
-                avatarPath: reviews.results[0].author_details.avatar_path,
-                name: reviews.results[0].author_details.name,
-              },
-              rating: reviews.results[0].author_details.rating,
-              content: marked.parse(reviews.results[0].content),
+  return json(
+    {
+      movie: {
+        backdropPath: movie.backdrop_path,
+        posterPath: movie.poster_path,
+        title: movie.title,
+        homepage: movie.homepage,
+        voteAverage: movie.vote_average.toPrecision(2),
+        voteCount: formatNumberAsCompactNumber(movie.vote_count),
+        releaseDate: movie.release_date,
+        runtime: `${Math.floor(movie.runtime / 60)}h ${
+          movie.runtime - Math.floor(movie.runtime / 60) * 60
+        }m`,
+        genres: movie.genres,
+        tagline: movie.tagline,
+        overview: movie.overview,
+        status: movie.status,
+        budget: formatNumberAsCurrency(movie.budget),
+        revenue: formatNumberAsCurrency(movie.revenue),
+        originalLanguage: formatLangCodeAsLangName(movie.original_language),
+      },
+      youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
+        ?.key,
+      credits: {
+        ...credits.crew.reduce(
+          (mainCrew, crewPerson) => {
+            if (crewPerson.job === "Director")
+              return {
+                ...mainCrew,
+                directors: [...mainCrew.directors, crewPerson.name],
+              };
+            if (crewPerson.job === "Writer") {
+              return {
+                ...mainCrew,
+                writters: [...mainCrew.writters, crewPerson.name],
+              };
             }
-          : null,
-      count: reviews.total_results,
+            if (crewPerson.job === "Characters") {
+              return {
+                ...mainCrew,
+                characters: [...mainCrew.writters, crewPerson.name],
+              };
+            }
+            if (crewPerson.job === "Editor") {
+              return {
+                ...mainCrew,
+                editors: [...mainCrew.writters, crewPerson.name],
+              };
+            }
+
+            return mainCrew;
+          },
+          {
+            directors: [] as Array<string>,
+            writters: [] as Array<string>,
+            characters: [] as Array<string>,
+            editors: [] as Array<string>,
+          }
+        ),
+        topCast: credits.cast.slice(0, 9).map((castPerson) => ({
+          id: castPerson.id,
+          profilePath: castPerson.profile_path,
+          name: castPerson.name,
+          character: castPerson.character,
+        })),
+      },
+      reviews: {
+        featuredReview:
+          reviews.results.length > 0
+            ? {
+                author: {
+                  avatarPath: reviews.results[0].author_details.avatar_path,
+                  name: reviews.results[0].author_details.name,
+                },
+                rating: reviews.results[0].author_details.rating,
+                content: marked.parse(reviews.results[0].content),
+              }
+            : null,
+        count: reviews.total_results,
+      },
+      recommendations: recommendations.results.map((recommendation) => ({
+        id: recommendation.id,
+        backdropPath: recommendation.backdrop_path,
+        title: recommendation.title,
+        voteAverage: recommendation.vote_average.toPrecision(2),
+      })),
+      posters: {
+        count: images.posters.length,
+        featured: images.posters.slice(0, 9),
+      },
+      backdrops: {
+        count: images.backdrops.length,
+        featured: images.backdrops.slice(0, 9),
+      },
+      externalIDs: {
+        facebookID: externalIDs.facebook_id,
+        instagramID: externalIDs.instagram_id,
+        twitterID: externalIDs.twitter_id,
+      },
+      keywords: keywords.keywords,
     },
-    recommendations: recommendations.results.map((recommendation) => ({
-      id: recommendation.id,
-      backdropPath: recommendation.backdrop_path,
-      title: recommendation.title,
-      voteAverage: recommendation.vote_average.toPrecision(2),
-    })),
-    posters: {
-      count: images.posters.length,
-      featured: images.posters.slice(0, 9),
-    },
-    backdrops: {
-      count: images.backdrops.length,
-      featured: images.backdrops.slice(0, 9),
-    },
-    externalIDs: {
-      facebookID: externalIDs.facebook_id,
-      instagramID: externalIDs.instagram_id,
-      twitterID: externalIDs.twitter_id,
-    },
-    keywords: keywords.keywords,
-  });
+    {
+      headers: {
+        "Cache-Control": "public, max-age=10, stale-while-revalidate=31536000",
+      },
+    }
+  );
 };
 
 const Movie = () => {

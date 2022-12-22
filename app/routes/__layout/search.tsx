@@ -14,23 +14,30 @@ const loader = async ({ request }: LoaderArgs) => {
 
   const movies = await getSearchMovies({ query, page });
 
-  return json({
-    query,
-    page,
-    movies: movies.results.map((movie) => ({
-      id: movie.id,
-      posterPath: movie.poster_path,
-      title: movie.title,
-      releaseDate: movie.release_date
-        ? new Intl.DateTimeFormat("en-US", {
-            dateStyle: "medium",
-          }).format(new Date(movie.release_date))
-        : null,
-      overview: movie.overview,
-    })),
-    totalPages: movies.total_pages,
-    totalResults: formatNumberAsCompactNumber(movies.total_results),
-  });
+  return json(
+    {
+      query,
+      page,
+      movies: movies.results.map((movie) => ({
+        id: movie.id,
+        posterPath: movie.poster_path,
+        title: movie.title,
+        releaseDate: movie.release_date
+          ? new Intl.DateTimeFormat("en-US", {
+              dateStyle: "medium",
+            }).format(new Date(movie.release_date))
+          : null,
+        overview: movie.overview,
+      })),
+      totalPages: movies.total_pages,
+      totalResults: formatNumberAsCompactNumber(movies.total_results),
+    },
+    {
+      headers: {
+        "Cache-Control": "public, max-age=10, stale-while-revalidate=31536000",
+      },
+    }
+  );
 };
 
 const Search = () => {
