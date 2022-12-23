@@ -73,8 +73,10 @@ const loader = async ({ params }: LoaderArgs) => {
         tagline: movie.tagline,
         overview: movie.overview,
         status: movie.status,
-        budget: formatNumberAsCurrency(movie.budget),
-        revenue: formatNumberAsCurrency(movie.revenue),
+        budget:
+          movie.budget !== 0 ? formatNumberAsCurrency(movie.budget) : null,
+        revenue:
+          movie.revenue !== 0 ? formatNumberAsCurrency(movie.revenue) : null,
         originalLanguage: formatLangCodeAsLangName(movie.original_language),
       },
       youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
@@ -560,21 +562,31 @@ const Movie = () => {
               term="Original Language"
               detail={movie.originalLanguage}
             />
-            <Description term="Budget" detail={movie.budget} />
-            <Description term="Revenue" detail={movie.revenue} />
+            <Description
+              term="Budget"
+              detail={movie.budget ? movie.budget : "--"}
+            />
+            <Description
+              term="Revenue"
+              detail={movie.revenue ? movie.revenue : "--"}
+            />
             <Description
               term="Keywords"
               detail={
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  {keywords.map((keyword) => (
-                    <span
-                      key={keyword.id}
-                      className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs capitalize text-neutral-200"
-                    >
-                      {keyword.name}
-                    </span>
-                  ))}
-                </div>
+                keywords.length > 0 ? (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    {keywords.map((keyword) => (
+                      <span
+                        key={keyword.id}
+                        className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs capitalize text-neutral-200"
+                      >
+                        {keyword.name}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  "No keywords have been added."
+                )
               }
             />
           </dl>
