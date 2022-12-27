@@ -23,7 +23,6 @@ const MediaType = () => {
               "shrink-0 rounded-lg px-3 py-2 text-sm font-bold transition"
             )
           }
-          prefetch="intent"
           end
         >
           {label}
