@@ -179,7 +179,7 @@ const Movie = () => {
       <div className="mt-8 lg:hidden">
         <div className="relative aspect-video overflow-visible">
           <img
-            src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
+            src={`${BASE_IMAGE_URL}${BackdropSizes.sm}${movie.backdropPath}`}
             alt={`${movie.title} main backdrop`}
             className="h-full w-full"
           />
