@@ -180,8 +180,15 @@ const Movie = () => {
         <div className="relative aspect-video overflow-visible">
           <img
             src={`${BASE_IMAGE_URL}${BackdropSizes.xs}${movie.backdropPath}`}
-            alt={`${movie.title} main backdrop blurred`}
-            className="h-full w-full object-cover py-10 px-14 blur-2xl sm:blur-3xl"
+            alt={`${movie.title} main backdrop`}
+            className="h-full w-full"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, #171717, rgba(23, 23, 23, 0.3), #171717), linear-gradient(to left, #171717, transparent,  #171717)",
+            }}
           />
           <div className="absolute inset-0 grid place-items-center">
             <div className="aspect-2/3 w-1/3 overflow-hidden rounded-lg">
