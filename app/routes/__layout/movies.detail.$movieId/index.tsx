@@ -284,7 +284,7 @@ const Movie = () => {
           className="absolute inset-x-0 top-0 -z-10 hidden overflow-hidden lg:block"
         >
           <img
-            src={`${BASE_IMAGE_URL}${BackdropSizes.sm}${movie.backdropPath}`}
+            src={`${BASE_IMAGE_URL}${BackdropSizes.md}${movie.backdropPath}`}
             alt={`${movie.title} main backdrop`}
             className="h-full w-full object-cover object-top"
           />
