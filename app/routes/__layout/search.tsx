@@ -65,7 +65,9 @@ const Search = () => {
                     ? `${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`
                     : undefined
                 }
-                alt={movie.title}
+                alt={`${movie.title} poster`}
+                width={154}
+                height={231}
                 className="aspect-2/3 w-24 shrink-0 object-cover object-center"
               />
               <div className="overflow-hidden pt-4 pb-5 pr-4">

@@ -146,11 +146,15 @@ const loader = async ({ params }: LoaderArgs) => {
       })),
       posters: {
         count: images.posters.length,
-        featured: images.posters.slice(0, 9),
+        featured: images.posters.slice(0, 9).map((poster) => ({
+          filePath: poster.file_path,
+        })),
       },
       backdrops: {
         count: images.backdrops.length,
-        featured: images.backdrops.slice(0, 9),
+        featured: images.backdrops.slice(0, 9).map((backdrop) => ({
+          filePath: backdrop.file_path,
+        })),
       },
       externalIDs: {
         facebookID: externalIDs.facebook_id,
@@ -180,6 +184,8 @@ const Movie = () => {
           <img
             src={`${BASE_IMAGE_URL}${BackdropSizes.sm}${movie.backdropPath}`}
             alt={`${movie.title} main backdrop`}
+            width={780}
+            height={439}
             className="h-full w-full"
           />
           <div
@@ -194,6 +200,8 @@ const Movie = () => {
               <img
                 src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
                 alt={`${movie.title} main poster`}
+                width={780}
+                height={1169}
                 className="h-full w-full object-cover"
               />
             </div>
@@ -286,6 +294,8 @@ const Movie = () => {
           <img
             src={`${BASE_IMAGE_URL}${BackdropSizes.md}${movie.backdropPath}`}
             alt={`${movie.title} main backdrop`}
+            width={1280}
+            height={720}
             className="h-full w-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/80 to-neutral-900" />
@@ -295,6 +305,8 @@ const Movie = () => {
             <img
               src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
               alt={`${movie.title} main poster`}
+              width={1280}
+              height={720}
               className="h-full w-full object-cover"
             />
           </div>
@@ -402,6 +414,8 @@ const Movie = () => {
                           : johnDoe
                       }
                       alt={castPerson.name}
+                      width={421}
+                      height={632}
                       className="h-full w-full object-cover object-center"
                       loading="lazy"
                     />
@@ -505,6 +519,8 @@ const Movie = () => {
                             : undefined
                         }
                         alt={`${recommendation.title} main backdrop`}
+                        width={780}
+                        height={439}
                         className="h-full w-full object-cover object-center"
                         loading="lazy"
                       />
@@ -675,38 +691,38 @@ const Media = () => {
         {currentImgType === "posters"
           ? posters.featured.map((poster) => (
               <li
-                key={poster.file_path}
+                key={poster.filePath}
                 className="aspect-2/3 h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
               >
                 <img
                   src={
-                    poster.file_path
-                      ? `${BASE_IMAGE_URL}${PosterSizes.xl}${poster.file_path}`
+                    poster.filePath
+                      ? `${BASE_IMAGE_URL}${PosterSizes.xl}${poster.filePath}`
                       : johnDoe
                   }
                   alt={`${movie.title} poster`}
                   className="h-full w-full object-cover object-center"
-                  width={poster.width}
-                  height={poster.height}
+                  width={500}
+                  height={750}
                   loading="lazy"
                 />
               </li>
             ))
           : backdrops.featured.map((backdrop) => (
               <li
-                key={backdrop.file_path}
+                key={backdrop.filePath}
                 className="aspect-video h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
               >
                 <img
                   src={
-                    backdrop.file_path
-                      ? `${BASE_IMAGE_URL}${BackdropSizes.md}${backdrop.file_path}`
+                    backdrop.filePath
+                      ? `${BASE_IMAGE_URL}${BackdropSizes.md}${backdrop.filePath}`
                       : johnDoe
                   }
                   alt={`${movie.title} backdrop`}
                   className="h-full w-full object-cover object-center"
-                  width={backdrop.width}
-                  height={backdrop.height}
+                  width={1280}
+                  height={720}
                   loading="lazy"
                 />
               </li>

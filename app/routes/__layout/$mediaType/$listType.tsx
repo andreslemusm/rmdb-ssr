@@ -159,7 +159,9 @@ const Home = () => {
             >
               <img
                 src={`${BASE_IMAGE_URL}${PosterSizes.lg}${mediaItem.posterPath}`}
-                alt={mediaItem.title}
+                alt={`${mediaItem.title} poster`}
+                width={342}
+                height={513}
                 className="h-full w-full object-cover object-bottom"
               />
             </Link>
