@@ -53,14 +53,14 @@ const links: LinksFunction = () => [
   {
     as: "font",
     crossOrigin: "anonymous",
-    href: "https://use.typekit.net/af/220823/000000000000000000015231/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3",
+    href: "https://fonts.gstatic.com/s/lato/v23/S6uyw4BMUTPHjx4wXg.woff2",
     rel: "preload",
     type: "font/woff2",
   },
   {
     as: "font",
     crossOrigin: "anonymous",
-    href: "https://use.typekit.net/af/180254/00000000000000000001522c/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+    href: "https://fonts.gstatic.com/s/lato/v23/S6u9w4BMUTPHh6UVSwiPGQ.woff2",
     rel: "preload",
     type: "font/woff2",
   },
@@ -69,7 +69,7 @@ const links: LinksFunction = () => [
 ];
 
 const App = () => (
-  <html lang="en" className="tk-lato h-full antialiased">
+  <html lang="en" className="h-full antialiased">
     <head>
       <Meta />
       <Links />

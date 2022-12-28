@@ -1,5 +1,5 @@
 const colors = require("tailwindcss/colors");
-const { fontWeight } = require("tailwindcss/defaultTheme");
+const { fontWeight, fontFamily } = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -25,6 +25,9 @@ module.exports = {
       "7xl": ["4.5rem", { lineHeight: "1" }],
       "8xl": ["6rem", { lineHeight: "1" }],
       "9xl": ["8rem", { lineHeight: "1" }],
+    },
+    fontFamily: {
+      sans: ["Lato", ...fontFamily.sans],
     },
     fontWeight: {
       bold: fontWeight.bold,
