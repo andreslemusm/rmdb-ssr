@@ -111,11 +111,14 @@ const loader = async ({ params }: LoaderArgs) => {
             return mainCrew;
           },
           {
-            directors: [] as Array<string>,
-            writters: [] as Array<string>,
-            characters: [] as Array<string>,
-            editors: [] as Array<string>,
-          }
+            directors: [],
+            writters: [],
+            characters: [],
+            editors: [],
+          } as Record<
+            "directors" | "writters" | "characters" | "editors",
+            Array<string>
+          >
         ),
         topCast: credits.cast.slice(0, 9).map((castPerson) => ({
           id: castPerson.id,
