@@ -237,7 +237,7 @@ const Credits = () => {
 
   return (
     <Fragment>
-      {/* TODO: add mvoie section */}
+      {/* TODO: improve movie section */}
       <div className="flex items-start gap-x-4 pt-10">
         <div className="aspect-2/3 w-16 shrink-0 overflow-hidden rounded-lg">
           <img
@@ -250,18 +250,22 @@ const Credits = () => {
         </div>
         <h1 className="text-lg font-bold text-white">{movie.title}</h1>
       </div>
-      <CreditSection title="Cast" people={cast} />
-      <CreditSection title="Art" people={art} />
-      <CreditSection title="Camera" people={camera} />
-      <CreditSection title="Costume & Make-Up" people={costumeAndMakeUp} />
-      <CreditSection title="Crew" people={crew} />
-      <CreditSection title="Directing" people={directing} />
-      <CreditSection title="Editing" people={editing} />
-      <CreditSection title="Lighting" people={lighting} />
-      <CreditSection title="Production" people={production} />
-      <CreditSection title="Sound" people={sound} />
-      <CreditSection title="Visual Effects" people={visualEffects} />
-      <CreditSection title="Writing" people={writing} />
+      <div className="mt-8 grid gap-y-12 gap-x-10 border-t border-neutral-800 pb-16 pt-7 sm:grid-cols-2 lg:mt-9 lg:pt-8">
+        <CreditSection title="Cast" people={cast} />
+        <div className="space-y-12">
+          <CreditSection title="Art" people={art} />
+          <CreditSection title="Camera" people={camera} />
+          <CreditSection title="Costume & Make-Up" people={costumeAndMakeUp} />
+          <CreditSection title="Crew" people={crew} />
+          <CreditSection title="Directing" people={directing} />
+          <CreditSection title="Editing" people={editing} />
+          <CreditSection title="Lighting" people={lighting} />
+          <CreditSection title="Production" people={production} />
+          <CreditSection title="Sound" people={sound} />
+          <CreditSection title="Visual Effects" people={visualEffects} />
+          <CreditSection title="Writing" people={writing} />
+        </div>
+      </div>
     </Fragment>
   );
 };
@@ -277,35 +281,36 @@ const CreditSection = ({
     name: string;
     characterOrJob: string;
   }>;
-}) => (
-  <section className="mt-9 border-t border-neutral-800 pt-7">
-    <h2 className="text-lg font-bold text-neutral-200">{title}</h2>
-    <ul className="grid gap-y-12 pt-5">
-      {people.map((castPerson) => (
-        <li
-          key={`${castPerson.id}-${castPerson.characterOrJob}`}
-          className="flex items-center gap-x-4 lg:gap-x-6"
-        >
-          <img
-            className="h-16 w-16 shrink-0 rounded-full bg-neutral-800 object-cover object-top lg:h-20 lg:w-20"
-            src={
-              castPerson.profilePath
-                ? `${BASE_IMAGE_URL}${ProfileSizes.md}${castPerson.profilePath}`
-                : johnDoe
-            }
-            alt={castPerson.name}
-            width={421}
-            height={632}
-          />
-          <div>
-            <h3 className="text-neutral-200">{castPerson.name}</h3>
-            <p className="text-neutral-400">{castPerson.characterOrJob}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
-  </section>
-);
+}) =>
+  people.length > 0 ? (
+    <section>
+      <h2 className="text-lg font-bold text-neutral-200">{title}</h2>
+      <ul className="flex flex-col gap-y-10 pt-8">
+        {people.map((castPerson) => (
+          <li
+            key={`${castPerson.id}-${castPerson.characterOrJob}`}
+            className="flex items-center gap-x-5"
+          >
+            <img
+              className="h-16 w-16 shrink-0 rounded-full bg-neutral-800 object-cover object-top"
+              src={
+                castPerson.profilePath
+                  ? `${BASE_IMAGE_URL}${ProfileSizes.md}${castPerson.profilePath}`
+                  : johnDoe
+              }
+              alt={castPerson.name}
+              width={421}
+              height={632}
+            />
+            <div>
+              <h3 className="text-neutral-200">{castPerson.name}</h3>
+              <p className="text-neutral-400">{castPerson.characterOrJob}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : null;
 
 export { loader };
 export default Credits;
