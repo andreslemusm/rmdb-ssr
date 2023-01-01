@@ -399,7 +399,7 @@ const Movie = () => {
               <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
               {/* TODO: add casting and crew tab */}
               <Link
-                to="."
+                to="./credits"
                 className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
               >
                 View Credits
