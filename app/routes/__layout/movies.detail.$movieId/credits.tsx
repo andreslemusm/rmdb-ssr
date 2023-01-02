@@ -17,7 +17,11 @@ const loader = async ({ params }: LoaderArgs) => {
   ]);
 
   return json({
-    movie,
+    movie: {
+      title: movie.title,
+      posterPath: movie.poster_path,
+      releaseDate: movie.release_date,
+    },
     cast: credits.cast.map((castPerson) => ({
       id: castPerson.id,
       profilePath: castPerson.profile_path,
@@ -237,18 +241,22 @@ const Credits = () => {
 
   return (
     <Fragment>
-      {/* TODO: improve movie section */}
-      <div className="flex items-start gap-x-4 pt-10">
+      <div className="flex items-start gap-x-4 pt-10 sm:gap-x-5">
         <div className="aspect-2/3 w-16 shrink-0 overflow-hidden rounded-lg">
           <img
-            src={`${BASE_IMAGE_URL}${PosterSizes.sm}${movie.poster_path}`}
+            src={`${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`}
             alt={`${movie.title} main poster`}
             width={780}
             height={1169}
             className="h-full w-full object-cover"
           />
         </div>
-        <h1 className="text-lg font-bold text-white">{movie.title}</h1>
+        <div>
+          <h1 className="text-lg font-bold text-white lg:text-xl">
+            {movie.title}
+          </h1>
+          <p className="pt-1 text-sm text-neutral-400">{movie.releaseDate}</p>
+        </div>
       </div>
       <div className="mt-8 grid gap-y-12 gap-x-10 border-t border-neutral-800 pb-16 pt-7 sm:grid-cols-2 lg:mt-9 lg:pt-8">
         <CreditSection title="Cast" people={cast} />
@@ -284,7 +292,12 @@ const CreditSection = ({
 }) =>
   people.length > 0 ? (
     <section>
-      <h2 className="text-lg font-bold text-neutral-200">{title}</h2>
+      <h2 className="flex items-center gap-x-2 text-lg font-bold text-neutral-200">
+        {title}
+        <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
+          {people.length}
+        </span>
+      </h2>
       <ul className="flex flex-col gap-y-10 pt-8">
         {people.map((castPerson) => (
           <li

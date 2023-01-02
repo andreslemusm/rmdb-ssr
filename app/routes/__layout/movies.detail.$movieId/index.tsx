@@ -397,7 +397,6 @@ const Movie = () => {
           <section>
             <header className="flex items-center justify-between">
               <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
-              {/* TODO: add casting and crew tab */}
               <Link
                 to="./credits"
                 className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
