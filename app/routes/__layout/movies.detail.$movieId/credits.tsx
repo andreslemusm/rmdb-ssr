@@ -292,7 +292,7 @@ const CreditSection = ({
 }) =>
   people.length > 0 ? (
     <section>
-      <h2 className="flex items-center gap-x-2 text-lg font-bold text-neutral-200">
+      <h2 className="flex items-baseline gap-x-2 text-lg font-bold text-neutral-200">
         {title}
         <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
           {people.length}
