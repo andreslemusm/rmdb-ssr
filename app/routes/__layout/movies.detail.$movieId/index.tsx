@@ -133,7 +133,9 @@ const loader = async ({ params }: LoaderArgs) => {
             ? {
                 author: {
                   avatarPath: reviews.results[0].author_details.avatar_path,
-                  name: reviews.results[0].author_details.name,
+                  name: reviews.results[0].author_details.name
+                    ? reviews.results[0].author_details.name
+                    : reviews.results[0].author_details.username,
                 },
                 rating: reviews.results[0].author_details.rating,
                 content: marked.parse(reviews.results[0].content),
@@ -454,8 +456,8 @@ const Movie = () => {
               ) : null}
             </header>
             {reviews.featuredReview ? (
-              <article className="mx-auto mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
-                <div className="flex items-center gap-x-4">
+              <article className="mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
+                <div className="flex items-start gap-x-4">
                   <img
                     src={
                       reviews.featuredReview.author.avatarPath
@@ -476,16 +478,18 @@ const Movie = () => {
                     <h3 className="text-sm font-bold text-neutral-100">
                       {reviews.featuredReview.author.name}
                     </h3>
-                    <p className="flex items-center gap-x-1 font-normal">
-                      <Star
-                        aria-hidden
-                        className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
-                      />
-                      <span className="text-sm text-neutral-200">
-                        {reviews.featuredReview.rating}
-                        <span className="text-xs text-neutral-400">/10</span>
-                      </span>
-                    </p>
+                    {reviews.featuredReview.rating ? (
+                      <p className="flex items-center gap-x-1 font-normal">
+                        <Star
+                          aria-hidden
+                          className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
+                        />
+                        <span className="text-sm text-neutral-200">
+                          {reviews.featuredReview.rating}
+                          <span className="text-xs text-neutral-400">/10</span>
+                        </span>
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <div

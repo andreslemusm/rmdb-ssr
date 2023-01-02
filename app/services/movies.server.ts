@@ -162,7 +162,7 @@ const getMovieReviews = (movieId: string) =>
         name: string;
         username: string;
         avatar_path: string | null;
-        rating: number;
+        rating: number | null;
       };
       content: string;
       created_at: string;
