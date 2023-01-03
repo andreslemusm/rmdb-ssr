@@ -1,6 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
+import { Review } from "./review.component";
 import clsx from "clsx";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
@@ -139,6 +140,9 @@ const loader = async ({ params }: LoaderArgs) => {
                 },
                 rating: reviews.results[0].author_details.rating,
                 content: marked.parse(reviews.results[0].content),
+                createdDate: new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "medium",
+                }).format(new Date(reviews.results[0].created_at)),
               }
             : null,
         count: reviews.total_results,
@@ -456,49 +460,9 @@ const Movie = () => {
               ) : null}
             </header>
             {reviews.featuredReview ? (
-              <article className="mt-5 rounded-xl border border-neutral-700 bg-neutral-800 p-5">
-                <div className="flex items-start gap-x-4">
-                  <img
-                    src={
-                      reviews.featuredReview.author.avatarPath
-                        ? reviews.featuredReview.author.avatarPath.includes(
-                            "gravatar"
-                          )
-                          ? reviews.featuredReview.author.avatarPath.slice(1)
-                          : `${BASE_IMAGE_URL}${ProfileSizes.xs}${reviews.featuredReview.author.avatarPath}`
-                        : johnDoe
-                    }
-                    alt={`${reviews.featuredReview.author.name} Avatar`}
-                    className="h-12 w-12 rounded-full bg-neutral-400"
-                    width={48}
-                    height={48}
-                    loading="lazy"
-                  />
-                  <div>
-                    <h3 className="text-sm font-bold text-neutral-100">
-                      {reviews.featuredReview.author.name}
-                    </h3>
-                    {reviews.featuredReview.rating ? (
-                      <p className="flex items-center gap-x-1 font-normal">
-                        <Star
-                          aria-hidden
-                          className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
-                        />
-                        <span className="text-sm text-neutral-200">
-                          {reviews.featuredReview.rating}
-                          <span className="text-xs text-neutral-400">/10</span>
-                        </span>
-                      </p>
-                    ) : null}
-                  </div>
-                </div>
-                <div
-                  className="prose prose-sm prose-invert max-w-full pt-4 md:prose-base"
-                  dangerouslySetInnerHTML={{
-                    __html: reviews.featuredReview.content,
-                  }}
-                />
-              </article>
+              <div className="pt-5">
+                <Review {...reviews.featuredReview} />
+              </div>
             ) : (
               <p className="mt-5 text-center text-neutral-400">
                 We don&apos;t have any reviews for {movie.title}.
