@@ -59,15 +59,15 @@ const Content = ({ content }: { content: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const id = useId();
+  const contentId = useId();
 
   return (
-    <div>
+    <div className="pt-4">
       <div
-        id={id}
+        id={contentId}
         className={clsx(
-          !isOpen && "line-clamp-4",
-          "prose prose-sm prose-invert max-w-full pt-4"
+          !isOpen && "line-clamp-4 md:line-clamp-5 lg:line-clamp-6",
+          "prose prose-sm prose-invert max-w-full"
         )}
         dangerouslySetInnerHTML={{
           __html: content,
@@ -78,7 +78,7 @@ const Content = ({ content }: { content: string }) => {
         onClick={toggle}
         className="flex items-center gap-x-0.5 text-sm text-cyan-500 transition hover:text-cyan-400"
         aria-expanded={isOpen}
-        aria-controls={id}
+        aria-controls={contentId}
       >
         See {isOpen ? "less" : "more"}
         <ChevronDown

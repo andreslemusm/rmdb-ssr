@@ -448,10 +448,9 @@ const Movie = () => {
                   {reviews.count}
                 </span>
               </h2>
-              {/* TODO: add review tab */}
               {reviews.featuredReview ? (
                 <Link
-                  to="."
+                  to="./reviews"
                   className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
                 >
                   View Reviews
