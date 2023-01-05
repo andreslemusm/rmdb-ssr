@@ -1,6 +1,15 @@
 import { ConditionalScrollRestoration } from "./components/conditional-scroll-restoration";
+import NProgress from "nprogress";
 import styles from "./styles/index.output.css";
-import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
+import { useEffect } from "react";
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  useTransition,
+} from "@remix-run/react";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 
 const meta: MetaFunction = () => ({
@@ -42,20 +51,37 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-const App = () => (
-  <html lang="en" className="h-full antialiased">
-    <head>
-      <Meta />
-      <Links />
-    </head>
-    <body className="flex h-full flex-col bg-neutral-900">
-      <Outlet />
-      <ConditionalScrollRestoration />
-      <Scripts />
-      <LiveReload />
-    </body>
-  </html>
-);
+NProgress.configure({
+  easing: "linear",
+  minimum: 0.1,
+  showSpinner: false,
+  trickleSpeed: 100,
+});
+
+const App = () => {
+  const transition = useTransition();
+
+  // Show loading bar on every page transition
+  useEffect(() => {
+    if (transition.state === "idle") NProgress.done();
+    else NProgress.start();
+  }, [transition.state]);
+
+  return (
+    <html lang="en" className="h-full antialiased">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body className="flex h-full flex-col bg-neutral-900">
+        <Outlet />
+        <ConditionalScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  );
+};
 
 export { links, meta };
 export default App;
