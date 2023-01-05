@@ -69,13 +69,19 @@ const Reviews = () => {
             {reviews.length}
           </span>
         </h2>
-        <ul className="flex flex-col gap-y-10 pt-8">
-          {reviews.map((review) => (
-            <li key={review.id}>
-              <Review {...review} />
-            </li>
-          ))}
-        </ul>
+        {reviews.length > 0 ? (
+          <ul className="flex flex-col gap-y-10 pt-8">
+            {reviews.map((review) => (
+              <li key={review.id}>
+                <Review {...review} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-5 text-center text-neutral-400">
+            We don&apos;t have any reviews for {movie.title}.
+          </p>
+        )}
       </section>
     </Fragment>
   );
