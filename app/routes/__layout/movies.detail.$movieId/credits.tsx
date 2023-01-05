@@ -1,9 +1,9 @@
 import { Fragment } from "react";
-import type { LoaderArgs } from "@remix-run/node";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { BASE_IMAGE_URL, PosterSizes, ProfileSizes } from "~/utils/tmdb";
+import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { getMovie, getMovieCredits } from "~/services/movies.server";
 
 const loader = async ({ params }: LoaderArgs) => {
@@ -222,6 +222,10 @@ const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
+const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
+});
+
 const Credits = () => {
   const {
     movie,
@@ -325,5 +329,5 @@ const CreditSection = ({
     </section>
   ) : null;
 
-export { loader };
+export { loader, headers };
 export default Credits;

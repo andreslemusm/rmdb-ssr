@@ -1,4 +1,3 @@
-import type { LoaderArgs } from "@remix-run/node";
 import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
 import { Review } from "./review.component";
@@ -15,6 +14,7 @@ import {
 import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TwitterIcon } from "~/assets/icons";
 import { Fragment, useState } from "react";
+import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import {
   formatLangCodeAsLangName,
@@ -179,6 +179,10 @@ const loader = async ({ params }: LoaderArgs) => {
     }
   );
 };
+
+const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
+});
 
 const Movie = () => {
   const { movie, credits, recommendations, externalIDs, reviews, keywords } =
@@ -722,5 +726,5 @@ const ExternalLink = ({
     </a>
   ) : null;
 
-export { loader };
+export { loader, headers };
 export default Movie;

@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import type { LoaderArgs } from "@remix-run/node";
 import { Review } from "./review.component";
 import { json } from "@remix-run/node";
 import { marked } from "marked";
 import { useLoaderData } from "@remix-run/react";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
+import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { getMovie, getMovieReviews } from "~/services/movies.server";
 
 const loader = async ({ params }: LoaderArgs) => {
@@ -39,6 +39,10 @@ const loader = async ({ params }: LoaderArgs) => {
     })),
   });
 };
+
+const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
+});
 
 const Reviews = () => {
   const { movie, reviews } = useLoaderData<typeof loader>();
@@ -87,5 +91,5 @@ const Reviews = () => {
   );
 };
 
-export { loader };
+export { loader, headers };
 export default Reviews;

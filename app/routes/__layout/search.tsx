@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import type { LoaderArgs } from "@remix-run/node";
 import { Pagination } from "~/components/pagination";
 import { formatNumberAsCompactNumber } from "~/utils/formatters.server";
 import { getSearchMovies } from "~/services/search.server";
 import { json } from "@remix-run/node";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
+import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
 const loader = async ({ request }: LoaderArgs) => {
@@ -39,6 +39,10 @@ const loader = async ({ request }: LoaderArgs) => {
     }
   );
 };
+
+const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
+});
 
 const Search = () => {
   const { movies, totalPages, page, query, totalResults } =
@@ -95,5 +99,5 @@ const Search = () => {
   );
 };
 
-export { loader };
+export { loader, headers };
 export default Search;
