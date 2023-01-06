@@ -2,9 +2,17 @@ import { apiClient } from "~/utils/api-client";
 
 const getSearchMovies = ({
   query,
+  language,
+  include_adult,
+  region,
+  year,
   page,
 }: {
   query: string;
+  language?: string | null;
+  year?: string | null;
+  include_adult?: boolean | null;
+  region?: boolean | null;
   page?: number | null;
 }) =>
   apiClient.query<{
@@ -31,7 +39,11 @@ const getSearchMovies = ({
     endpoint: "search/movie",
     searchParams: {
       query,
+      language,
+      include_adult,
+      region,
       page,
+      year,
     },
   });
 

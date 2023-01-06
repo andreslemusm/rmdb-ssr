@@ -41,7 +41,7 @@ const fetchFn = async <TReturnType = void>(request: Request) => {
 };
 
 const convertToSearchParams = (
-  obj: Record<string, string | number | null | undefined>
+  obj: Record<string, string | boolean | number | null | undefined>
 ): string => {
   const cleanedObject = Object.keys(obj).reduce<Record<string, string>>(
     (acc, key) => {
@@ -53,6 +53,10 @@ const convertToSearchParams = (
 
       if (typeof keyValue === "string") {
         return { ...acc, [key]: keyValue };
+      }
+
+      if (typeof keyValue === "boolean") {
+        return { ...acc, [key]: keyValue.toString() };
       }
 
       return acc;
