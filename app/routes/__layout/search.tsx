@@ -53,16 +53,16 @@ const Search = () => {
       <h1 className="mt-10 text-center text-2xl font-bold capitalize text-neutral-100">
         {query}
       </h1>
-      <p className="mt-4 text-center text-neutral-400">
+      <p className="mt-4 text-center text-base text-neutral-400">
         Explore {totalResults} {query} movies
       </p>
-      <ul className="mt-10 flex flex-col gap-y-4">
+      <ul className="mt-10 grid grid-cols-1 gap-9 md:grid-cols-2 xl:grid-cols-3">
         {movies.map((movie) => (
-          <li key={movie.id}>
-            <Link
-              to={`/movies/detail/${movie.id}`}
-              className="flex gap-x-5 overflow-hidden rounded-xl border border-neutral-800"
-            >
+          <li
+            key={movie.id}
+            className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 transition hover:border-neutral-700 hover:bg-neutral-800"
+          >
+            <Link to={`/movies/detail/${movie.id}`} className="flex">
               <img
                 src={
                   movie.posterPath
@@ -72,10 +72,13 @@ const Search = () => {
                 alt={`${movie.title} poster`}
                 width={154}
                 height={231}
-                className="aspect-2/3 w-24 shrink-0 object-cover object-center"
+                className="aspect-2/3 w-28 shrink-0 object-cover"
               />
-              <div className="overflow-hidden pt-4 pb-5 pr-4">
-                <h2 className="truncate font-bold text-neutral-100">
+              <div className="overflow-hidden p-4">
+                <h2
+                  title={movie.title}
+                  className="truncate font-bold text-neutral-100"
+                >
                   {movie.title}
                 </h2>
                 {movie.releaseDate ? (
@@ -86,7 +89,7 @@ const Search = () => {
                     {movie.releaseDate}
                   </time>
                 ) : null}
-                <p className="mt-4 text-sm text-neutral-200 line-clamp-2">
+                <p className="mt-4 text-sm text-neutral-200 line-clamp-3">
                   {movie.overview}
                 </p>
               </div>
