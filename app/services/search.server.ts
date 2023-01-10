@@ -12,7 +12,7 @@ const getSearchMovies = ({
   language?: string | null;
   year?: string | null;
   include_adult?: boolean | null;
-  region?: boolean | null;
+  region?: string | null;
   page?: number | null;
 }) =>
   apiClient.query<{
