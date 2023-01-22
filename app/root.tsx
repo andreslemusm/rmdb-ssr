@@ -8,7 +8,7 @@ import {
   Meta,
   Outlet,
   Scripts,
-  useTransition,
+  useNavigation,
 } from "@remix-run/react";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 
@@ -59,13 +59,13 @@ NProgress.configure({
 });
 
 const App = () => {
-  const transition = useTransition();
+  const navigation = useNavigation();
 
-  // Show loading bar on every page transition
+  // Show loading bar on every page navigation
   useEffect(() => {
-    if (transition.state === "idle") NProgress.done();
+    if (navigation.state === "idle") NProgress.done();
     else NProgress.start();
-  }, [transition.state]);
+  }, [navigation.state]);
 
   return (
     <html lang="en" className="h-full antialiased">
