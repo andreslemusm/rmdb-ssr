@@ -2,10 +2,8 @@ import { Fragment } from "react";
 import { Pagination } from "~/components/pagination";
 import { Star } from "lucide-react";
 import type { categories } from "../$mediaType";
-import clsx from "clsx";
 import { getMovies } from "~/services/movies.server";
 import { getTVShows } from "~/services/tv-shows.server";
-import { getTrending } from "~/services/trending.server";
 import { json } from "@remix-run/node";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
@@ -14,42 +12,6 @@ import { Link, useLoaderData, useParams } from "@remix-run/react";
 const loader = async ({ request, params }: LoaderArgs) => {
   const searchParams = new URL(request.url).searchParams;
   const page = Number(searchParams.get("page") ?? 1);
-
-  if (
-    (params.mediaType === "movies" || params.mediaType === "tv-shows") &&
-    params.listType === "trending"
-  ) {
-    const trendingMedia = await getTrending({
-      mediaType: params.mediaType === "movies" ? "movie" : "tv",
-      timeWindow: "day",
-    });
-
-    return json(
-      {
-        totalPages: 1,
-        results: trendingMedia.results.map((trendingMedia) => ({
-          id: trendingMedia.id,
-          posterPath: trendingMedia.poster_path,
-          title:
-            trendingMedia.media_type === "movie"
-              ? trendingMedia.title
-              : trendingMedia.name,
-          voteAverage: trendingMedia.vote_average,
-          releaseDate:
-            trendingMedia.media_type === "movie"
-              ? trendingMedia.release_date
-              : trendingMedia.first_air_date,
-        })),
-        page: 1,
-      },
-      {
-        headers: {
-          "Cache-Control":
-            "public, max-age=10, stale-while-revalidate=31536000",
-        },
-      }
-    );
-  }
 
   if (
     params.mediaType === "movies" &&
@@ -135,22 +97,16 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 });
 
 const Home = () => {
-  const { listType, mediaType } = useParams() as {
+  const { results, page, totalPages } = useLoaderData<typeof loader>();
+
+  const { mediaType } = useParams() as {
     mediaType: keyof typeof categories;
     listType: string;
   };
-  const isTrending = listType === "trending";
-
-  const { results, page, totalPages } = useLoaderData<typeof loader>();
 
   return (
     <Fragment>
-      <ul
-        className={clsx(
-          isTrending && "pb-20",
-          "grid grid-cols-2 gap-x-8 gap-y-10 pt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:pt-14"
-        )}
-      >
+      <ul className="grid grid-cols-2 gap-x-8 gap-y-10 pt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:pt-14">
         {results.map((mediaItem) => (
           <li key={mediaItem.id}>
             <Link
@@ -178,7 +134,7 @@ const Home = () => {
           </li>
         ))}
       </ul>
-      {isTrending ? null : <Pagination page={page} totalPages={totalPages} />}
+      <Pagination page={page} totalPages={totalPages} />
     </Fragment>
   );
 };

@@ -53,14 +53,14 @@ const MediaType = () => {
                 {[
                   {
                     label: "Movies",
-                    path: "/movies/trending",
+                    path: "/movies/now-playing",
                     icon: Film,
                   },
                   // Disable while I finish everything related to movies
                   /*
                    * {
                    *   label: "TV Shows",
-                   *   path: "/tv-shows/trending",
+                   *   path: "/tv-shows/airing-today",
                    *   icon: Tv,
                    * },
                    */
@@ -104,10 +104,6 @@ const MediaType = () => {
 const categories = {
   movies: [
     {
-      label: "Trending",
-      path: "./trending",
-    },
-    {
       label: "Now Playing",
       path: "./now-playing",
     },
@@ -125,10 +121,6 @@ const categories = {
     },
   ],
   "tv-shows": [
-    {
-      label: "Trending",
-      path: "./trending",
-    },
     {
       label: "Airing Today",
       path: "./airing-today",
