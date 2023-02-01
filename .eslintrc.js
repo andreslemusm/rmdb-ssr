@@ -25,9 +25,7 @@ module.exports = {
         "plugin:import/typescript",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:functional/external-recommended",
-        "plugin:functional/no-mutations",
-        "plugin:functional/no-object-orientation",
+        "plugin:functional/strict",
         "plugin:testing-library/react",
         "plugin:jest-dom/recommended",
         "prettier",
@@ -69,22 +67,13 @@ module.exports = {
             memberSyntaxSortOrder: ["single", "all", "multiple", "none"],
           },
         ],
-        "functional/immutable-data": [
-          "error",
-          {
-            ignoreImmediateMutation: true,
-            /**
-             * @description `*.current` property is used by React refs to persist a value for the full lifetime of the component.
-             * @link https://reactjs.org/docs/hooks-reference.html#useref
-             * s
-             * @description `*.displayName` property is used for better DX.
-             * @link https://reactjs.org/docs/forwarding-refs.html#displaying-a-custom-name-in-devtools
-             * @link https://reactjs.org/docs/context.html#contextdisplayname
-             */
-            ignoreAccessorPattern: ["*.current", "*.displayName"],
-          },
-        ],
-        "functional/no-loop-statement": "error",
+        "functional/prefer-immutable-types": "off",
+        "functional/no-throw-statements": "off",
+        "functional/type-declaration-immutability": "off",
+        "functional/functional-parameters": "off",
+        "functional/no-conditional-statements": "off",
+        "functional/no-expression-statements": "off",
+        "functional/no-return-void": "off",
         "import/export": "error",
         "import/exports-last": "error",
         "import/first": "error",

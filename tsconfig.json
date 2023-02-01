@@ -13,6 +13,7 @@
     "paths": {
       "~/*": ["./app/*"]
     },
+    "skipLibCheck": true,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": false
