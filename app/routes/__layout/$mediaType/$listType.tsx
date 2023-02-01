@@ -106,31 +106,35 @@ const Home = () => {
 
   return (
     <Fragment>
-      <ul className="grid grid-cols-2 gap-x-8 gap-y-10 pt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:pt-14">
+      <ul className="grid grid-cols-2 gap-6 pt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:pt-14">
         {results.map((mediaItem) => (
-          <li key={mediaItem.id}>
-            <Link
-              to={`/${mediaType}/detail/${mediaItem.id}`}
-              className="block aspect-2/3 overflow-hidden rounded-lg bg-neutral-700 bg-clip-padding transition duration-500 hover:brightness-50"
-            >
-              <img
-                src={`${BASE_IMAGE_URL}${PosterSizes.lg}${mediaItem.posterPath}`}
-                alt={`${mediaItem.title} poster`}
-                width={342}
-                height={513}
-                className="h-full w-full object-cover object-bottom"
-              />
+          <li
+            key={mediaItem.id}
+            className="block rounded-lg p-2 transition duration-500 hover:bg-neutral-800"
+          >
+            <Link to={`/${mediaType}/detail/${mediaItem.id}`}>
+              <div className="aspect-2/3 overflow-hidden rounded-lg">
+                <img
+                  src={`${BASE_IMAGE_URL}${PosterSizes.lg}${mediaItem.posterPath}`}
+                  alt={`${mediaItem.title} poster`}
+                  width={342}
+                  height={513}
+                  className="h-full w-full object-cover object-bottom"
+                />
+              </div>
+              <div className="flex items-center justify-between pt-2 text-sm text-neutral-200">
+                <p title={mediaItem.title} className="w-2/3 truncate font-bold">
+                  {mediaItem.title}
+                </p>
+                <p className="flex items-center gap-x-1 font-normal">
+                  <Star className="mb-0.5 h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0" />
+                  {mediaItem.voteAverage.toPrecision(2)}
+                </p>
+              </div>
+              <p className="text-xs text-neutral-400">
+                {mediaItem.releaseDate}
+              </p>
             </Link>
-            <div className="flex items-center justify-between pt-2 text-sm text-neutral-200">
-              <p title={mediaItem.title} className="w-2/3 truncate font-bold">
-                {mediaItem.title}
-              </p>
-              <p className="flex items-center gap-x-1 font-normal">
-                <Star className="mb-0.5 h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0" />
-                {mediaItem.voteAverage.toPrecision(2)}
-              </p>
-            </div>
-            <p className="text-xs text-neutral-400">{mediaItem.releaseDate}</p>
           </li>
         ))}
       </ul>
