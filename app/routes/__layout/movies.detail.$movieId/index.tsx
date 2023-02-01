@@ -1,3 +1,4 @@
+import type { IconType } from "@icons-pack/react-simple-icons";
 import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
 import { Review } from "./review.component";
@@ -12,7 +13,7 @@ import {
   ProfileSizes,
 } from "~/utils/tmdb";
 import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
-import { FacebookIcon, InstagramIcon, TwitterIcon } from "~/assets/icons";
+import { Facebook, Instagram, Twitter } from "@icons-pack/react-simple-icons";
 import { Fragment, useState } from "react";
 import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -529,7 +530,7 @@ const Movie = () => {
                   ? `https://facebook.com/${externalIDs.facebookID}`
                   : null
               }
-              icon={FacebookIcon}
+              icon={Facebook}
               label="Facebook"
             />
             <ExternalLink
@@ -538,7 +539,7 @@ const Movie = () => {
                   ? `https://instagram.com/${externalIDs.instagramID}`
                   : null
               }
-              icon={InstagramIcon}
+              icon={Instagram}
               label="Instagram"
             />
             <ExternalLink
@@ -547,7 +548,7 @@ const Movie = () => {
                   ? `https://twitter.com/${externalIDs.twitterID}`
                   : null
               }
-              icon={TwitterIcon}
+              icon={Twitter}
               label="Twitter"
             />
           </div>
@@ -712,7 +713,7 @@ const ExternalLink = ({
 }: {
   label: string;
   href: string | null;
-  icon: React.FunctionComponent<{ className: string }>;
+  icon: IconType;
 }) =>
   href ? (
     <a
@@ -722,7 +723,7 @@ const ExternalLink = ({
       rel="noreferrer"
     >
       <span className="sr-only">Visit {label} homepage</span>
-      <Icon className="h-5 w-5" />
+      <Icon className="h-4 w-4" />
     </a>
   ) : null;
 

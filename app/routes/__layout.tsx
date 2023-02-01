@@ -1,13 +1,13 @@
+import { BrandIcon } from "~/assets/icons";
 import { Fragment } from "react";
 import clsx from "clsx";
-import {
-  BrandIcon,
-  GithubIcon,
-  InstagramIcon,
-  LinkedInIcon,
-  TwitterIcon,
-} from "~/assets/icons";
 import { Form, Link, NavLink, Outlet, useSearchParams } from "@remix-run/react";
+import {
+  Github,
+  Instagram,
+  Linkedin,
+  Twitter,
+} from "@icons-pack/react-simple-icons";
 import { Menu, Search, X } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
 
@@ -134,11 +134,11 @@ const Layout = () => {
                 key={item.name}
                 href={item.href}
                 target="_blank"
-                className="text-neutral-400 hover:text-neutral-500"
+                className="text-neutral-400 transition-colors hover:text-neutral-500"
                 rel="noreferrer"
               >
                 <span className="sr-only">{item.name}</span>
-                <item.icon className="h-6 w-6" aria-hidden="true" />
+                <item.icon className="h-5 w-5" aria-hidden="true" />
               </a>
             ))}
           </nav>
@@ -158,22 +158,22 @@ const socialNetworks = [
   {
     name: "Instagram",
     href: "https://instagram.com/andreslemusm",
-    icon: InstagramIcon,
+    icon: Instagram,
   },
   {
     name: "Twitter",
     href: "https://twitter.com/andreslemusm1",
-    icon: TwitterIcon,
+    icon: Twitter,
   },
   {
     name: "GitHub",
     href: "https://github.com/andreslemusm",
-    icon: GithubIcon,
+    icon: Github,
   },
   {
     name: "LinkedIn",
     href: "https://linkedin.com/in/andreslemusm",
-    icon: LinkedInIcon,
+    icon: Linkedin,
   },
 ];
 
