@@ -29,6 +29,7 @@
     "lucide-react": "0.108.0",
     "marked": "4.2.12",
     "nprogress": "0.2.0",
+    "posthog-js": "1.42.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },

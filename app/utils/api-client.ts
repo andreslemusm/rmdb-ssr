@@ -5,7 +5,7 @@ const apiClient = {
   }): Promise<TReturnType> => {
     const request = new Request(
       `https://api.themoviedb.org/3/${config.endpoint}${convertToSearchParams({
-        api_key: process.env.API_KEY,
+        api_key: process.env.TDMB_API_KEY,
         ...config.searchParams,
       })}`,
       {

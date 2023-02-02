@@ -2,7 +2,8 @@
 
 declare namespace NodeJS {
   export interface ProcessEnv {
-    readonly API_KEY: string;
+    readonly TDMB_API_KEY: string;
+    readonly POSTHOG_API_KEY: string;
   }
 }
 
