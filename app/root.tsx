@@ -1,5 +1,6 @@
 import { ConditionalScrollRestoration } from "./components/conditional-scroll-restoration";
 import NProgress from "nprogress";
+import { json } from "@remix-run/node";
 import styles from "./styles/index.output.css";
 import { useEffect } from "react";
 import {
@@ -8,6 +9,7 @@ import {
   Meta,
   Outlet,
   Scripts,
+  useLoaderData,
   useNavigation,
 } from "@remix-run/react";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
@@ -58,7 +60,22 @@ NProgress.configure({
   trickleSpeed: 100,
 });
 
+const loader = () =>
+  json(
+    {
+      ENV: {
+        POSTHOG_API_KEY: process.env.POSTHOG_API_KEY,
+      },
+    },
+    {
+      headers: {
+        "Cache-Control": "public, max-age=10, stale-while-revalidate=31536000",
+      },
+    }
+  );
+
 const App = () => {
+  const { ENV } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
 
   // Show loading bar on every page navigation
@@ -76,6 +93,11 @@ const App = () => {
       <body className="flex h-full flex-col bg-neutral-900">
         <Outlet />
         <ConditionalScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(ENV)}`,
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>
@@ -83,5 +105,5 @@ const App = () => {
   );
 };
 
-export { links, meta };
+export { links, meta, loader };
 export default App;

@@ -4,7 +4,7 @@ import posthog from "posthog-js";
 import { StrictMode, startTransition } from "react";
 
 if (process.env.NODE_ENV === "production") {
-  posthog.init(process.env.POSTHOG_API_KEY, {
+  posthog.init(window.ENV.POSTHOG_API_KEY, {
     api_host: "https://app.posthog.com",
   });
 }

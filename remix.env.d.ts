@@ -7,4 +7,10 @@ declare namespace NodeJS {
   }
 }
 
+interface Window {
+  readonly ENV: {
+    readonly POSTHOG_API_KEY: string;
+  };
+}
+
 /// <reference types="@remix-run/node/globals" />
