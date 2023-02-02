@@ -4,9 +4,7 @@ import posthog from "posthog-js";
 import { StrictMode, startTransition } from "react";
 
 if (process.env.NODE_ENV === "production") {
-  posthog.init(window.ENV.POSTHOG_API_KEY, {
-    api_host: "https://app.posthog.com",
-  });
+  posthog.init(window.ENV.POSTHOG_API_KEY);
 }
 
 const hydrate = () =>

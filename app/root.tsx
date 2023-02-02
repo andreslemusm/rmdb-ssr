@@ -1,4 +1,3 @@
-import { ConditionalScrollRestoration } from "./components/conditional-scroll-restoration";
 import NProgress from "nprogress";
 import { json } from "@remix-run/node";
 import styles from "./styles/index.output.css";
@@ -9,6 +8,7 @@ import {
   Meta,
   Outlet,
   Scripts,
+  ScrollRestoration,
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
@@ -53,13 +53,6 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-NProgress.configure({
-  easing: "linear",
-  minimum: 0.1,
-  showSpinner: false,
-  trickleSpeed: 100,
-});
-
 const loader = () =>
   json(
     {
@@ -73,6 +66,13 @@ const loader = () =>
       },
     }
   );
+
+NProgress.configure({
+  easing: "linear",
+  minimum: 0.1,
+  showSpinner: false,
+  trickleSpeed: 100,
+});
 
 const App = () => {
   const { ENV } = useLoaderData<typeof loader>();
@@ -92,12 +92,12 @@ const App = () => {
       </head>
       <body className="flex h-full flex-col bg-neutral-900">
         <Outlet />
-        <ConditionalScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(ENV)}`,
           }}
         />
+        <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
