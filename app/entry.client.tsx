@@ -1,11 +1,9 @@
 import { RemixBrowser } from "@remix-run/react";
 import { hydrateRoot } from "react-dom/client";
-import posthog from "posthog-js";
+import { setupPostHog } from "./utils/posthog.client";
 import { StrictMode, startTransition } from "react";
 
-if (process.env.NODE_ENV === "production") {
-  posthog.init(window.ENV.POSTHOG_API_KEY);
-}
+setupPostHog();
 
 const hydrate = () =>
   startTransition(() => {

@@ -76,6 +76,7 @@ NProgress.configure({
 
 const App = () => {
   const { ENV } = useLoaderData<typeof loader>();
+
   const navigation = useNavigation();
 
   // Show loading bar on every page navigation
