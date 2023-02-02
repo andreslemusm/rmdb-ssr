@@ -1,9 +1,6 @@
 import { RemixBrowser } from "@remix-run/react";
 import { hydrateRoot } from "react-dom/client";
-import { setupPostHog } from "./utils/posthog";
 import { StrictMode, startTransition } from "react";
-
-setupPostHog();
 
 const hydrate = () =>
   startTransition(() => {

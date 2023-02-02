@@ -2,6 +2,7 @@ import NProgress from "nprogress";
 import { json } from "@remix-run/node";
 import styles from "./styles/index.output.css";
 import { useEffect } from "react";
+import { usePostHog } from "./utils/posthog";
 import {
   Links,
   LiveReload,
@@ -84,6 +85,8 @@ const App = () => {
     if (navigation.state === "idle") NProgress.done();
     else NProgress.start();
   }, [navigation.state]);
+
+  usePostHog();
 
   return (
     <html lang="en" className="h-full antialiased">
