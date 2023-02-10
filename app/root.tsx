@@ -54,6 +54,8 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
+const shouldRevalidate = () => false;
+
 const loader = () =>
   json(
     {
@@ -109,5 +111,5 @@ const App = () => {
   );
 };
 
-export { links, meta, loader };
+export { shouldRevalidate, links, meta, loader };
 export default App;

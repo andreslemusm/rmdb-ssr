@@ -1,6 +1,7 @@
 import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
 import { Review } from "./review.component";
+import type { ShouldRevalidateFunction } from "@remix-run/react";
 import clsx from "clsx";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
@@ -15,7 +16,7 @@ import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
 import { Facebook, Instagram, Twitter } from "@icons-pack/react-simple-icons";
 import { Fragment, useState } from "react";
 import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
@@ -31,6 +32,11 @@ import {
   getMovieReviews,
   getMovieVideos,
 } from "~/services/movies.server";
+
+const shouldRevalidate: ShouldRevalidateFunction = ({
+  currentParams,
+  nextParams,
+}) => currentParams.movieId !== nextParams.movieId;
 
 const loader = async ({ params }: LoaderArgs) => {
   if (!params.movieId) {
@@ -185,8 +191,19 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 });
 
 const Movie = () => {
-  const { movie, credits, recommendations, externalIDs, reviews, keywords } =
-    useLoaderData<typeof loader>();
+  const {
+    movie,
+    credits,
+    recommendations,
+    externalIDs,
+    reviews,
+    keywords,
+    posters,
+    backdrops,
+  } = useLoaderData<typeof loader>();
+
+  const [searchParams] = useSearchParams();
+  const mediaType = searchParams.get("mediaType") ?? "posters";
 
   return (
     <Fragment>
@@ -473,7 +490,72 @@ const Movie = () => {
             )}
           </section>
           {/* Media */}
-          <Media />
+          <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
+            <header className="flex items-baseline justify-between">
+              <h2 className="font-bold text-neutral-200">Media</h2>
+              <nav className="flex items-center">
+                {["posters", "backdrops"].map((imgType) => (
+                  <Link
+                    key={imgType}
+                    to={{
+                      pathname: ".",
+                      search: `mediaType=${imgType}`,
+                    }}
+                    className={clsx(
+                      imgType === mediaType
+                        ? "bg-neutral-800 text-neutral-200"
+                        : "text-neutral-400 hover:text-neutral-200",
+                      "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition"
+                    )}
+                    preventScrollReset
+                  >
+                    {imgType}
+                  </Link>
+                ))}
+              </nav>
+            </header>
+            <ul className="flex gap-x-1 overflow-x-auto pt-5">
+              {mediaType === "posters"
+                ? posters.featured.map((poster) => (
+                    <li
+                      key={poster.filePath}
+                      className="aspect-2/3 h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
+                    >
+                      <img
+                        src={
+                          poster.filePath
+                            ? `${BASE_IMAGE_URL}${PosterSizes.xl}${poster.filePath}`
+                            : johnDoe
+                        }
+                        alt={`${movie.title} poster`}
+                        className="h-full w-full object-cover object-center"
+                        width={500}
+                        height={750}
+                        loading="lazy"
+                      />
+                    </li>
+                  ))
+                : backdrops.featured.map((backdrop) => (
+                    <li
+                      key={backdrop.filePath}
+                      className="aspect-video h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
+                    >
+                      <img
+                        src={
+                          backdrop.filePath
+                            ? `${BASE_IMAGE_URL}${BackdropSizes.md}${backdrop.filePath}`
+                            : johnDoe
+                        }
+                        alt={`${movie.title} backdrop`}
+                        className="h-full w-full object-cover object-center"
+                        width={1280}
+                        height={720}
+                        loading="lazy"
+                      />
+                    </li>
+                  ))}
+            </ul>
+          </section>
           {/* Recommendations */}
           <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
             <h2 className="font-bold text-neutral-200">Recommendations</h2>
@@ -643,76 +725,5 @@ const Description = ({
     </div>
   ) : null;
 
-const Media = () => {
-  const { movie, posters, backdrops } = useLoaderData<typeof loader>();
-
-  const [currentImgType, setCurrentImgType] = useState("posters");
-
-  return (
-    <section className="mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8">
-      <header className="flex items-baseline justify-between">
-        <h2 className="font-bold text-neutral-200">Media</h2>
-        <nav className="flex items-center">
-          {["posters", "backdrops"].map((imgType) => (
-            <button
-              key={imgType}
-              onClick={() => setCurrentImgType(imgType)}
-              className={clsx(
-                imgType === currentImgType
-                  ? "bg-neutral-800 text-neutral-200"
-                  : "text-neutral-400 hover:text-neutral-200",
-                "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition"
-              )}
-            >
-              {imgType}
-            </button>
-          ))}
-        </nav>
-      </header>
-      <ul className="flex gap-x-1 overflow-x-auto pt-5">
-        {currentImgType === "posters"
-          ? posters.featured.map((poster) => (
-              <li
-                key={poster.filePath}
-                className="aspect-2/3 h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
-              >
-                <img
-                  src={
-                    poster.filePath
-                      ? `${BASE_IMAGE_URL}${PosterSizes.xl}${poster.filePath}`
-                      : johnDoe
-                  }
-                  alt={`${movie.title} poster`}
-                  className="h-full w-full object-cover object-center"
-                  width={500}
-                  height={750}
-                  loading="lazy"
-                />
-              </li>
-            ))
-          : backdrops.featured.map((backdrop) => (
-              <li
-                key={backdrop.filePath}
-                className="aspect-video h-56 shrink-0 overflow-hidden bg-neutral-400 first:rounded-l-xl last:rounded-r-xl"
-              >
-                <img
-                  src={
-                    backdrop.filePath
-                      ? `${BASE_IMAGE_URL}${BackdropSizes.md}${backdrop.filePath}`
-                      : johnDoe
-                  }
-                  alt={`${movie.title} backdrop`}
-                  className="h-full w-full object-cover object-center"
-                  width={1280}
-                  height={720}
-                  loading="lazy"
-                />
-              </li>
-            ))}
-      </ul>
-    </section>
-  );
-};
-
-export { loader, headers };
+export { shouldRevalidate, loader, headers };
 export default Movie;
