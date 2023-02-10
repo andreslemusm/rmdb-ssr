@@ -1,4 +1,3 @@
-import type { IconType } from "@icons-pack/react-simple-icons";
 import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
 import { Review } from "./review.component";
@@ -524,33 +523,42 @@ const Movie = () => {
         </div>
         <div className="col-span-4 mt-8 border-t border-neutral-800 pt-7 sm:mt-9 sm:pt-8 lg:col-span-1 lg:mt-0 lg:border-none lg:pt-0">
           <div className="flex gap-x-3">
-            <ExternalLink
-              href={
-                externalIDs.facebookID
+            {[
+              {
+                href: externalIDs.facebookID
                   ? `https://facebook.com/${externalIDs.facebookID}`
-                  : null
-              }
-              icon={Facebook}
-              label="Facebook"
-            />
-            <ExternalLink
-              href={
-                externalIDs.instagramID
+                  : null,
+                icon: Facebook,
+                label: "Facebook",
+              },
+              {
+                href: externalIDs.instagramID
                   ? `https://instagram.com/${externalIDs.instagramID}`
-                  : null
-              }
-              icon={Instagram}
-              label="Instagram"
-            />
-            <ExternalLink
-              href={
-                externalIDs.twitterID
+                  : null,
+                icon: Instagram,
+                label: "Instagram",
+              },
+              {
+                href: externalIDs.twitterID
                   ? `https://twitter.com/${externalIDs.twitterID}`
-                  : null
-              }
-              icon={Twitter}
-              label="Twitter"
-            />
+                  : null,
+                icon: Twitter,
+                label: "Twitter",
+              },
+            ].map(({ href, icon: Icon, label }) =>
+              href ? (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
+                >
+                  <span className="sr-only">Visit {label} homepage</span>
+                  <Icon className="h-4 w-4" />
+                </a>
+              ) : null
+            )}
           </div>
           <dl className="flex flex-col gap-y-4 pt-7 lg:gap-y-5">
             <Description term="Status" detail={movie.status} />
@@ -705,27 +713,6 @@ const Media = () => {
     </section>
   );
 };
-
-const ExternalLink = ({
-  label,
-  href,
-  icon: Icon,
-}: {
-  label: string;
-  href: string | null;
-  icon: IconType;
-}) =>
-  href ? (
-    <a
-      href={href}
-      target="_blank"
-      className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
-      rel="noreferrer"
-    >
-      <span className="sr-only">Visit {label} homepage</span>
-      <Icon className="h-4 w-4" />
-    </a>
-  ) : null;
 
 export { loader, headers };
 export default Movie;
