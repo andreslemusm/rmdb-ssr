@@ -8,17 +8,17 @@ import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
 const loader = async ({ request }: LoaderArgs) => {
-  const searchParams = new URL(request.url).searchParams;
-  const page = Number(searchParams.get("page") ?? 1);
-  const query = searchParams.get("query") ?? "";
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get("page") ?? 1);
+  const query = url.searchParams.get("query") ?? "";
 
-  const movies = await getSearchMovies({ query, page });
+  const moviesResponse = await getSearchMovies({ query, page });
 
   return json(
     {
       query,
       page,
-      movies: movies.results.map((movie) => ({
+      movies: moviesResponse.results.map((movie) => ({
         id: movie.id,
         posterPath: movie.poster_path,
         title: movie.title,
@@ -29,8 +29,8 @@ const loader = async ({ request }: LoaderArgs) => {
           : null,
         overview: movie.overview,
       })),
-      totalPages: movies.total_pages,
-      totalResults: formatNumberAsCompactNumber(movies.total_results),
+      totalPages: moviesResponse.total_pages,
+      totalResults: formatNumberAsCompactNumber(moviesResponse.total_results),
     },
     {
       headers: {
