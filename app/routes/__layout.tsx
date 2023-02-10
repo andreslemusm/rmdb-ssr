@@ -1,8 +1,7 @@
 import { BrandIcon } from "~/assets/icons";
 import { Fragment } from "react";
 import { Search } from "lucide-react";
-import clsx from "clsx";
-import { Form, Link, NavLink, Outlet, useSearchParams } from "@remix-run/react";
+import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
 import {
   Github,
   Instagram,
@@ -23,23 +22,6 @@ const Layout = () => {
               <span className="sr-only">Home</span>
               <BrandIcon className="block h-9 w-9 text-white" />
             </Link>
-            <div className="hidden lg:block">
-              <nav className="flex items-center gap-x-4">
-                <NavLink
-                  to="/discover"
-                  className={({ isActive }) =>
-                    clsx(
-                      isActive
-                        ? "text-neutral-100 underline underline-offset-4"
-                        : "text-neutral-400",
-                      "rounded-lg px-3 py-1 text-base font-bold transition hover:bg-neutral-800 hover:text-neutral-200 hover:no-underline"
-                    )
-                  }
-                >
-                  Discover
-                </NavLink>
-              </nav>
-            </div>
           </div>
           <Form action="/search" className="w-full max-w-xs sm:max-w-md">
             <label htmlFor="search" className="relative block">
@@ -53,7 +35,7 @@ const Layout = () => {
                 defaultValue={query}
                 name="query"
                 className="block w-full rounded-xl border border-transparent bg-neutral-800 py-2 pl-10 pr-3 leading-5 text-neutral-200 placeholder-neutral-500 transition hover:border-neutral-700 focus:border-neutral-700 focus:outline-none focus:ring-neutral-700 sm:text-sm"
-                placeholder="Search for a movie..."
+                placeholder="Search your favorite movie..."
                 type="search"
               />
             </label>
