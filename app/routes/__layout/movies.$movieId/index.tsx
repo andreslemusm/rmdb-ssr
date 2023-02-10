@@ -483,7 +483,7 @@ const Movie = () => {
                 {recommendations.map((recommendation) => (
                   <li key={recommendation.id} className="w-72 shrink-0">
                     <Link
-                      to={`/movies/detail/${recommendation.id}`}
+                      to={`/movies/${recommendation.id}`}
                       className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
                     >
                       <img

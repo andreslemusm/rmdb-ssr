@@ -1,5 +1,6 @@
 import { BrandIcon } from "~/assets/icons";
 import { Fragment } from "react";
+import { Search } from "lucide-react";
 import clsx from "clsx";
 import { Form, Link, NavLink, Outlet, useSearchParams } from "@remix-run/react";
 import {
@@ -8,8 +9,6 @@ import {
   Linkedin,
   Twitter,
 } from "@icons-pack/react-simple-icons";
-import { Menu, Search, X } from "lucide-react";
-import { Popover, Transition } from "@headlessui/react";
 
 const Layout = () => {
   const [searchParams] = useSearchParams();
@@ -42,7 +41,7 @@ const Layout = () => {
               </nav>
             </div>
           </div>
-          <Form action="/search" className="w-full max-w-lg lg:max-w-md">
+          <Form action="/search" className="w-full max-w-xs sm:max-w-md">
             <label htmlFor="search" className="relative block">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <Search
@@ -59,66 +58,6 @@ const Layout = () => {
               />
             </label>
           </Form>
-          <Popover className="-ml-1 shrink-0 lg:hidden">
-            <Popover.Button className="rounded-lg border-none p-1.5 text-base font-bold text-neutral-400 transition focus:outline-none focus:ring-2 focus:ring-neutral-700">
-              <span className="sr-only">Open navigation menu</span>
-              <Menu className="h-6 w-6" />
-            </Popover.Button>
-            <Transition.Root>
-              <Transition.Child
-                as={Fragment}
-                enter="duration-150 ease-out"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="duration-150 ease-in"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <Popover.Overlay className="fixed inset-0 z-20 bg-black/80 backdrop-blur-sm" />
-              </Transition.Child>
-              <Transition.Child
-                as={Fragment}
-                enter="duration-150 ease-out"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="duration-150 ease-in"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Popover.Panel
-                  focus
-                  className="absolute inset-x-0 top-0 z-30 mx-auto w-full max-w-3xl origin-top transform p-4 transition"
-                >
-                  <div className="rounded-xl bg-neutral-900 ring-1 ring-neutral-800">
-                    <div className="py-5">
-                      <div className="flex items-center justify-between px-4">
-                        <Link
-                          to="/"
-                          className="flex-shrink-0 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-neutral-700"
-                        >
-                          <span className="sr-only">Home</span>
-                          <BrandIcon className="block h-9 w-9 text-white" />
-                        </Link>
-                        <Popover.Button className="text-neutral-400">
-                          <span className="sr-only">Close navigation menu</span>
-                          <X className="h-8 w-8" aria-hidden="true" />
-                        </Popover.Button>
-                      </div>
-                      <div className="mt-5 space-y-1 px-3">
-                        <Popover.Button
-                          as={Link}
-                          to="/discover"
-                          className="block rounded-xl px-3 py-2 text-base font-bold capitalize text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
-                        >
-                          Discover
-                        </Popover.Button>
-                      </div>
-                    </div>
-                  </div>
-                </Popover.Panel>
-              </Transition.Child>
-            </Transition.Root>
-          </Popover>
         </div>
       </header>
       <div className="px-4 sm:px-4 lg:px-8">
@@ -129,7 +68,28 @@ const Layout = () => {
       <footer className="border-t border-neutral-800">
         <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
           <nav className="flex justify-center space-x-6 md:order-2">
-            {socialNetworks.map((item) => (
+            {[
+              {
+                name: "Instagram",
+                href: "https://instagram.com/andreslemusm",
+                icon: Instagram,
+              },
+              {
+                name: "Twitter",
+                href: "https://twitter.com/andreslemusm1",
+                icon: Twitter,
+              },
+              {
+                name: "GitHub",
+                href: "https://github.com/andreslemusm",
+                icon: Github,
+              },
+              {
+                name: "LinkedIn",
+                href: "https://linkedin.com/in/andreslemusm",
+                icon: Linkedin,
+              },
+            ].map((item) => (
               <a
                 key={item.name}
                 href={item.href}
@@ -153,28 +113,5 @@ const Layout = () => {
     </Fragment>
   );
 };
-
-const socialNetworks = [
-  {
-    name: "Instagram",
-    href: "https://instagram.com/andreslemusm",
-    icon: Instagram,
-  },
-  {
-    name: "Twitter",
-    href: "https://twitter.com/andreslemusm1",
-    icon: Twitter,
-  },
-  {
-    name: "GitHub",
-    href: "https://github.com/andreslemusm",
-    icon: Github,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://linkedin.com/in/andreslemusm",
-    icon: Linkedin,
-  },
-];
 
 export default Layout;
