@@ -18,15 +18,40 @@ import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 const meta: V2_MetaFunction = () => [
   { charSet: "utf-8" },
   { name: "viewport", content: "width=device-width, initial-scale=1" },
-  { title: "React Movie Database" },
+  // Primary Meta Tags
+  { title: "React Movie Database (RMDB)" },
+  { name: "title", content: "React Movie Database (RMDB)" },
   {
-    name: "decription",
+    name: "description",
     content:
-      "Find everything you want to know of your favorite movies and TV shows",
+      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
   },
+  // Open Graph / Facebook
+  { property: "og:type", content: "website" },
+  { property: "og:url", content: "https://rmdb.andreslemusm.com/" },
+  { property: "og:title", content: "React Movie Database (RMDB)" },
+  {
+    property: "og:description",
+    content:
+      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
+  },
+  { property: "og:image", content: "/preview.png" },
+  // Twitter
+  { property: "twitter:card", content: "summary_large_image" },
+  { property: "twitter:url", content: "https://rmdb.andreslemusm.com/" },
+  { property: "twitter:title", content: "React Movie Database (RMDB)" },
+  {
+    property: "twitter:description",
+    content:
+      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
+  },
+  { property: "twitter:image", content: "/preview.png" },
   // Favicons
-  { name: "apple-mobile-web-app-title", content: "React Movie Database" },
-  { name: "application-name", content: "React Movie Database" },
+  {
+    name: "apple-mobile-web-app-title",
+    content: "React Movie Database (RMDB)",
+  },
+  { name: "application-name", content: "React Movie Database (RMDB)" },
   { name: "msapplication-TileColor", content: "#2d89ef" },
   { name: "theme-color", content: "#ffffff" },
 ];
