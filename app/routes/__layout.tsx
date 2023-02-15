@@ -34,7 +34,7 @@ const Layout = () => {
               <input
                 defaultValue={query}
                 name="query"
-                className="block w-full rounded-xl border border-transparent bg-neutral-800 py-2 pl-10 pr-3 leading-5 text-neutral-200 placeholder-neutral-500 transition hover:border-neutral-700 focus:border-neutral-700 focus:outline-none focus:ring-neutral-700 sm:text-sm"
+                className="block w-full rounded-xl border border-transparent bg-neutral-800 py-2 pl-10 pr-3 leading-5 text-neutral-200 placeholder-neutral-500 hover:border-neutral-700 focus:border-neutral-700 focus:outline-none focus:ring-neutral-700 sm:text-sm"
                 placeholder="Search your favorite movie..."
                 type="search"
               />

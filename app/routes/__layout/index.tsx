@@ -2,10 +2,15 @@ import { Fragment } from "react";
 import { Pagination } from "~/components/pagination";
 import { Star } from "lucide-react";
 import clsx from "clsx";
+import { generateMetaTags } from "~/utils/meta-tags";
 import { getMovies } from "~/services/movies.server";
 import { json } from "@remix-run/node";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
-import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
 const loader = async ({ request }: LoaderArgs) => {
@@ -33,7 +38,7 @@ const loader = async ({ request }: LoaderArgs) => {
 
   return json(
     {
-      listType,
+      listType: listType,
       totalPages: moviesResponse.total_pages,
       movies: moviesResponse.results.map((movie) => ({
         id: movie.id,
@@ -56,30 +61,23 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
 
+const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+  generateMetaTags({
+    title: `${
+      listTypes.find(({ value }) => value === data.listType)?.label ??
+      "Now Playing"
+    } | React Movie Database (RMDB)`,
+    description:
+      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
+  });
+
 const Home = () => {
   const { movies, page, totalPages, listType } = useLoaderData<typeof loader>();
 
   return (
     <Fragment>
       <div className="flex items-center gap-x-1 overflow-x-auto pt-4 sm:pt-7 lg:pt-9">
-        {[
-          {
-            label: "Now Playing",
-            value: "now-playing",
-          },
-          {
-            label: "Popular",
-            value: "popular",
-          },
-          {
-            label: "Top Rated",
-            value: "top-rated",
-          },
-          {
-            label: "Upcoming",
-            value: "upcoming",
-          },
-        ].map(({ label, value }) => (
+        {listTypes.map(({ label, value }) => (
           <Link
             to={{ pathname: ".", search: `?listType=${value}` }}
             key={value}
@@ -129,5 +127,24 @@ const Home = () => {
   );
 };
 
-export { loader, headers };
+const listTypes = [
+  {
+    label: "Now Playing",
+    value: "now-playing",
+  },
+  {
+    label: "Popular",
+    value: "popular",
+  },
+  {
+    label: "Top Rated",
+    value: "top-rated",
+  },
+  {
+    label: "Upcoming",
+    value: "upcoming",
+  },
+] as const;
+
+export { loader, headers, meta };
 export default Home;

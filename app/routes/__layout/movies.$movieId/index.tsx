@@ -3,6 +3,7 @@ import { Portal } from "@headlessui/react";
 import { Review } from "./review.component";
 import type { ShouldRevalidateFunction } from "@remix-run/react";
 import clsx from "clsx";
+import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
 import { marked } from "marked";
@@ -15,7 +16,11 @@ import {
 import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
 import { Facebook, Instagram, Twitter } from "@icons-pack/react-simple-icons";
 import { Fragment, useState } from "react";
-import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import {
   formatLangCodeAsLangName,
@@ -189,6 +194,12 @@ const loader = async ({ params }: LoaderArgs) => {
 const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
+
+const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+  generateMetaTags({
+    title: `${data.movie.title} | React Movie Database (RMDB)`,
+    description: data.movie.overview,
+  });
 
 const Movie = () => {
   const {
@@ -725,5 +736,5 @@ const Description = ({
     </div>
   ) : null;
 
-export { shouldRevalidate, loader, headers };
+export { meta, shouldRevalidate, loader, headers };
 export default Movie;

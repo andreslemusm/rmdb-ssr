@@ -1,3 +1,4 @@
+import type { LinksFunction } from "@remix-run/node";
 import NProgress from "nprogress";
 import { json } from "@remix-run/node";
 import styles from "./styles/index.output.css";
@@ -13,54 +14,22 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 
-const meta: V2_MetaFunction = () => [
-  { charSet: "utf-8" },
-  { name: "viewport", content: "width=device-width, initial-scale=1" },
-  // Primary Meta Tags
-  { title: "React Movie Database (RMDB)" },
-  { name: "title", content: "React Movie Database (RMDB)" },
-  {
-    name: "description",
-    content:
-      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
-  },
-  // Open Graph / Facebook
-  { property: "og:type", content: "website" },
-  { property: "og:url", content: "https://rmdb.andreslemusm.com/" },
-  { property: "og:title", content: "React Movie Database (RMDB)" },
-  {
-    property: "og:description",
-    content:
-      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
-  },
-  {
-    property: "og:image",
-    content: "https://rmdb.andreslemusm.com/preview.png",
-  },
-  // Twitter
-  { property: "twitter:card", content: "summary_large_image" },
-  { property: "twitter:url", content: "https://rmdb.andreslemusm.com/" },
-  { property: "twitter:title", content: "React Movie Database (RMDB)" },
-  {
-    property: "twitter:description",
-    content:
-      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
-  },
-  {
-    property: "twitter:image",
-    content: "https://rmdb.andreslemusm.com/preview.png",
-  },
-  // Favicons
-  {
-    name: "apple-mobile-web-app-title",
-    content: "React Movie Database (RMDB)",
-  },
-  { name: "application-name", content: "React Movie Database (RMDB)" },
-  { name: "msapplication-TileColor", content: "#2d89ef" },
-  { name: "theme-color", content: "#ffffff" },
-];
+const shouldRevalidate = () => false;
+
+const loader = () =>
+  json(
+    {
+      ENV: {
+        POSTHOG_API_KEY: process.env.POSTHOG_API_KEY,
+      },
+    },
+    {
+      headers: {
+        "Cache-Control": "public, max-age=10, stale-while-revalidate=31536000",
+      },
+    }
+  );
 
 const links: LinksFunction = () => [
   // Favicons
@@ -97,22 +66,6 @@ const links: LinksFunction = () => [
   // Stylesheets
   { rel: "stylesheet", href: styles },
 ];
-
-const shouldRevalidate = () => false;
-
-const loader = () =>
-  json(
-    {
-      ENV: {
-        POSTHOG_API_KEY: process.env.POSTHOG_API_KEY,
-      },
-    },
-    {
-      headers: {
-        "Cache-Control": "public, max-age=10, stale-while-revalidate=31536000",
-      },
-    }
-  );
 
 NProgress.configure({
   easing: "linear",
@@ -155,5 +108,5 @@ const App = () => {
   );
 };
 
-export { shouldRevalidate, links, meta, loader };
+export { shouldRevalidate, links, loader };
 export default App;

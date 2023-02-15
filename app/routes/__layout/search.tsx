@@ -1,10 +1,15 @@
 import { Fragment } from "react";
 import { Pagination } from "~/components/pagination";
 import { formatNumberAsCompactNumber } from "~/utils/formatters.server";
+import { generateMetaTags } from "~/utils/meta-tags";
 import { getSearchMovies } from "~/services/search.server";
 import { json } from "@remix-run/node";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
-import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
 const loader = async ({ request }: LoaderArgs) => {
@@ -43,6 +48,13 @@ const loader = async ({ request }: LoaderArgs) => {
 const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
+
+const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+  generateMetaTags({
+    title: `Search: ${data.query} | React Movie Database (RMDB)`,
+    description:
+      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
+  });
 
 const Search = () => {
   const { movies, totalPages, page, query, totalResults } =
@@ -102,5 +114,5 @@ const Search = () => {
   );
 };
 
-export { loader, headers };
+export { meta, loader, headers };
 export default Search;

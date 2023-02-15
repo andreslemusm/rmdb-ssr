@@ -1,10 +1,15 @@
 import { Fragment } from "react";
 import { Review } from "./review.component";
+import { generateMetaTags } from "~/utils/meta-tags";
 import { json } from "@remix-run/node";
 import { marked } from "marked";
 import { useLoaderData } from "@remix-run/react";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
-import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import { getMovie, getMovieReviews } from "~/services/movies.server";
 
 const loader = async ({ params }: LoaderArgs) => {
@@ -22,6 +27,7 @@ const loader = async ({ params }: LoaderArgs) => {
       title: movie.title,
       posterPath: movie.poster_path,
       releaseDate: movie.release_date,
+      overview: movie.release_date,
     },
     reviews: reviews.results.map((review) => ({
       id: review.id,
@@ -43,6 +49,12 @@ const loader = async ({ params }: LoaderArgs) => {
 const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
+
+const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+  generateMetaTags({
+    title: `${data.movie.title} - Reviews | React Movie Database (RMDB)`,
+    description: data.movie.overview,
+  });
 
 const Reviews = () => {
   const { movie, reviews } = useLoaderData<typeof loader>();
@@ -91,5 +103,5 @@ const Reviews = () => {
   );
 };
 
-export { loader, headers };
+export { meta, loader, headers };
 export default Reviews;

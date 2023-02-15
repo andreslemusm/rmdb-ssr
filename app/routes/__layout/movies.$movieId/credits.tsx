@@ -1,9 +1,14 @@
 import { Fragment } from "react";
+import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { BASE_IMAGE_URL, PosterSizes, ProfileSizes } from "~/utils/tmdb";
-import type { HeadersFunction, LoaderArgs } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import { getMovie, getMovieCredits } from "~/services/movies.server";
 
 const loader = async ({ params }: LoaderArgs) => {
@@ -21,6 +26,7 @@ const loader = async ({ params }: LoaderArgs) => {
       title: movie.title,
       posterPath: movie.poster_path,
       releaseDate: movie.release_date,
+      overview: movie.overview,
     },
     cast: credits.cast.map((castPerson) => ({
       id: castPerson.id,
@@ -226,6 +232,12 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
 
+const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+  generateMetaTags({
+    title: `${data.movie.title} - Credits | React Movie Database (RMDB)`,
+    description: data.movie.overview,
+  });
+
 const Credits = () => {
   const {
     movie,
@@ -329,5 +341,5 @@ const CreditSection = ({
     </section>
   ) : null;
 
-export { loader, headers };
+export { meta, loader, headers };
 export default Credits;
