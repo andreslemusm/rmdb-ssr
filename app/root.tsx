@@ -13,28 +13,41 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 
-const meta: MetaFunction = () => ({
-  charSet: "utf-8",
-  viewport: "width=device-width, initial-scale=1",
-  // Primary Meta Tags
-  title: "React Movie Database (RMDB)",
-  description:
-    "Find everything you want to know of your favorite movies and TV shows",
-  //  Open Graph / Facebook
-  "og:type": "website",
-  "og:url": "https://rmdb.andreslemus.dev/",
-  "og:title": "React Movie Database (RMDB)",
-  "og:description":
-    "Find everything you want to know of your favorite movies and TV shows",
-  "og:image": "/preview.png",
-  // Colors
-  "theme-color": "#ffffff",
-  "msapplication-TileColor": "#ffffff",
-});
+const meta: V2_MetaFunction = () => [
+  { charSet: "utf-8" },
+  { name: "viewport", content: "width=device-width, initial-scale=1" },
+  { title: "React Movie Database" },
+  {
+    name: "decription",
+    content:
+      "Find everything you want to know of your favorite movies and TV shows",
+  },
+  // Favicons
+  { name: "apple-mobile-web-app-title", content: "React Movie Database" },
+  { name: "application-name", content: "React Movie Database" },
+  { name: "msapplication-TileColor", content: "#2d89ef" },
+  { name: "theme-color", content: "#ffffff" },
+];
 
 const links: LinksFunction = () => [
+  // Favicons
+  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+  {
+    rel: "icon",
+    type: "image/png",
+    sizes: "32x32",
+    href: "/favicon-32x32.png",
+  },
+  {
+    rel: "icon",
+    type: "image/png",
+    sizes: "16x16",
+    href: "/favicon-16x16.png",
+  },
+  { rel: "manifest", href: "/site.webmanifest" },
+  { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#5bbad5" },
   // Lato 400, 700
   {
     as: "font",

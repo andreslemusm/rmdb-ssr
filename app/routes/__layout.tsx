@@ -20,7 +20,7 @@ const Layout = () => {
           <div className="flex items-center gap-x-8">
             <Link to="/" className="flex-shrink-0">
               <span className="sr-only">Home</span>
-              <BrandIcon className="block h-9 w-9 text-white" />
+              <BrandIcon className="block h-10 w-10" />
             </Link>
           </div>
           <Form action="/search" className="w-full max-w-xs sm:max-w-md">
@@ -47,8 +47,8 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
-      <footer className="border-t border-neutral-800">
-        <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+      <footer className="border-t border-neutral-800 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl md:flex md:items-center md:justify-between">
           <nav className="flex justify-center space-x-6 md:order-2">
             {[
               {

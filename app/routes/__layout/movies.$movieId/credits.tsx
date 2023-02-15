@@ -256,7 +256,7 @@ const Credits = () => {
           />
         </div>
         <div>
-          <h1 className="text-lg font-bold text-white lg:text-xl">
+          <h1 className="text-lg font-bold text-neutral-50 lg:text-xl">
             {movie.title}
           </h1>
           <p className="pt-1 text-sm text-neutral-400">{movie.releaseDate}</p>
