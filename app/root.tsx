@@ -35,7 +35,10 @@ const meta: V2_MetaFunction = () => [
     content:
       "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
   },
-  { property: "og:image", content: "/preview.png" },
+  {
+    property: "og:image",
+    content: "https://rmdb.andreslemusm.com/preview.png",
+  },
   // Twitter
   { property: "twitter:card", content: "summary_large_image" },
   { property: "twitter:url", content: "https://rmdb.andreslemusm.com/" },
@@ -45,7 +48,10 @@ const meta: V2_MetaFunction = () => [
     content:
       "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
   },
-  { property: "twitter:image", content: "/preview.png" },
+  {
+    property: "twitter:image",
+    content: "https://rmdb.andreslemusm.com/preview.png",
+  },
   // Favicons
   {
     name: "apple-mobile-web-app-title",
