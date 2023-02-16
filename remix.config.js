@@ -3,6 +3,7 @@ module.exports = {
   future: {
     v2_meta: true,
   },
+  serverDependenciesToBundle: ["marked"],
   serverBuildTarget: "netlify",
   server:
     process.env.NETLIFY || process.env.NETLIFY_LOCAL
