@@ -1,12 +1,11 @@
-import { BrandIcon } from "~/assets/icons";
 import { Fragment } from "react";
 import { Search } from "lucide-react";
+import { BrandIcon, tmdbAltShort } from "~/assets/icons";
 import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
 import {
-  Github,
-  Instagram,
-  Linkedin,
-  Twitter,
+  Sigithub,
+  Silinkedin,
+  Sitwitter,
 } from "@icons-pack/react-simple-icons";
 
 const Layout = () => {
@@ -52,32 +51,25 @@ const Layout = () => {
           <nav className="flex justify-center space-x-6 md:order-2">
             {[
               {
-                name: "Instagram",
-                href: "https://instagram.com/andreslemusm",
-                icon: Instagram,
-              },
-              {
                 name: "Twitter",
                 href: "https://twitter.com/andreslemusm1",
-                icon: Twitter,
+                icon: Sitwitter,
               },
               {
                 name: "GitHub",
                 href: "https://github.com/andreslemusm",
-                icon: Github,
+                icon: Sigithub,
               },
               {
                 name: "LinkedIn",
                 href: "https://linkedin.com/in/andreslemusm",
-                icon: Linkedin,
+                icon: Silinkedin,
               },
             ].map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                target="_blank"
-                className="text-neutral-400 transition-colors hover:text-neutral-500"
-                rel="noreferrer"
+                className="text-neutral-500 transition-colors hover:text-neutral-400"
               >
                 <span className="sr-only">{item.name}</span>
                 <item.icon className="h-5 w-5" aria-hidden="true" />
@@ -85,9 +77,16 @@ const Layout = () => {
             ))}
           </nav>
           <div className="mt-8 md:order-1 md:mt-0">
-            <p className="text-center text-base text-neutral-400">
+            <p className="text-center text-xs font-normal leading-5 text-neutral-400">
               &copy; {new Date().getFullYear()} Andres Lemus. All rights
-              reserved.
+              reserved. |{" "}
+              <a
+                href="/"
+                className="inline-flex items-baseline gap-x-1 hover:underline"
+              >
+                Powered by{" "}
+                <img src={tmdbAltShort} alt="TMDB API" className="h-3 w-auto" />
+              </a>
             </p>
           </div>
         </div>
