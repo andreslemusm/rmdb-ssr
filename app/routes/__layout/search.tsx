@@ -75,17 +75,19 @@ const Search = () => {
             className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 transition hover:border-neutral-700 hover:bg-neutral-800"
           >
             <Link to={`/movies/${movie.id}`} className="flex">
-              <img
-                src={
-                  movie.posterPath
-                    ? `${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`
-                    : undefined
-                }
-                alt={`${movie.title} poster`}
-                width={154}
-                height={231}
-                className="aspect-2/3 w-28 shrink-0 object-cover"
-              />
+              {movie.posterPath ? (
+                <img
+                  src={`${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`}
+                  alt={`${movie.title} poster`}
+                  width={154}
+                  height={231}
+                  className="aspect-2/3 w-28 shrink-0 object-cover"
+                />
+              ) : (
+                <div className="grid aspect-2/3 w-28 shrink-0 place-items-center bg-pink-500/10">
+                  <p className="font-bold text-pink-500">No Poster</p>
+                </div>
+              )}
               <div className="overflow-hidden p-4">
                 <h2
                   title={movie.title}

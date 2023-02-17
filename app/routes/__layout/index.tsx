@@ -100,13 +100,19 @@ const Home = () => {
           >
             <Link to={`/movies/${movie.id}`}>
               <div className="aspect-2/3 overflow-hidden rounded-lg">
-                <img
-                  src={`${BASE_IMAGE_URL}${PosterSizes.lg}${movie.posterPath}`}
-                  alt={`${movie.title} poster`}
-                  width={342}
-                  height={513}
-                  className="h-full w-full object-cover object-bottom"
-                />
+                {movie.posterPath ? (
+                  <img
+                    src={`${BASE_IMAGE_URL}${PosterSizes.lg}${movie.posterPath}`}
+                    alt={`${movie.title} poster`}
+                    width={342}
+                    height={513}
+                    className="h-full w-full object-cover object-bottom"
+                  />
+                ) : (
+                  <div className="grid h-full w-full place-items-center bg-pink-500/10">
+                    <p className="font-bold text-pink-500">No Poster</p>
+                  </div>
+                )}
               </div>
               <div className="flex items-center justify-between pt-2 text-sm text-neutral-200">
                 <p title={movie.title} className="w-2/3 truncate font-bold">

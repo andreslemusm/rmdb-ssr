@@ -11,14 +11,14 @@ const getMovies = ({
     page: number;
     results: Array<{
       adult: boolean;
-      backdrop_path: string;
+      backdrop_path: string | null;
       genre_ids: Array<string>;
       id: number;
       original_language: string;
       original_title: string;
       overview: string;
       popularity: number;
-      poster_path: string;
+      poster_path: string | null;
       release_date: string;
       title: string;
       video: boolean;
@@ -37,23 +37,23 @@ const getMovies = ({
 const getMovie = (movieId: string) =>
   apiClient.query<{
     adult: boolean;
-    backdrop_path: string;
+    backdrop_path: string | null;
     belongs_to_collection: {
       id: number;
       name: string;
       poster_path: string;
       backdrop_path: string;
-    };
+    } | null;
     budget: number;
     genres: Array<{ id: number; name: string }>;
     homepage: string;
     id: number;
-    imdb_id: string;
+    imdb_id: string | null;
     original_language: string;
     original_title: string;
-    overview: string;
+    overview: string | null;
     popularity: number;
-    poster_path: string;
+    poster_path: string | null;
     production_companies: Array<{
       id: number;
       logo_path: string;
@@ -120,14 +120,14 @@ const getMovieRecommendations = (movieId: string) =>
     page: number;
     results: Array<{
       adult: boolean;
-      backdrop_path: string;
+      backdrop_path: string | null;
       genre_ids: Array<string>;
       id: number;
       original_language: string;
       original_title: string;
       overview: string;
       popularity: number;
-      poster_path: string;
+      poster_path: string | null;
       release_date: string;
       title: string;
       video: boolean;

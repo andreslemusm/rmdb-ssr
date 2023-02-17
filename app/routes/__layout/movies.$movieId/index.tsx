@@ -202,7 +202,7 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
     title: `${data.movie.title} | React Movie Database (RMDB)`,
-    description: data.movie.overview,
+    description: data.movie.overview ?? "",
   });
 
 const Movie = () => {
@@ -226,13 +226,15 @@ const Movie = () => {
       {/* Mobile */}
       <div className="pt-6 lg:hidden">
         <div className="relative aspect-video overflow-visible">
-          <img
-            src={`${BASE_IMAGE_URL}${BackdropSizes.sm}${movie.backdropPath}`}
-            alt={`${movie.title} main backdrop`}
-            width={780}
-            height={439}
-            className="h-full w-full"
-          />
+          {movie.backdropPath ? (
+            <img
+              src={`${BASE_IMAGE_URL}${BackdropSizes.sm}${movie.backdropPath}`}
+              alt={`${movie.title} main backdrop`}
+              width={780}
+              height={439}
+              className="h-full w-full"
+            />
+          ) : null}
           <div
             className="absolute inset-0"
             style={{
@@ -242,13 +244,19 @@ const Movie = () => {
           />
           <div className="absolute inset-0 grid place-items-center">
             <div className="aspect-2/3 w-1/3 overflow-hidden rounded-lg">
-              <img
-                src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
-                alt={`${movie.title} main poster`}
-                width={780}
-                height={1169}
-                className="h-full w-full object-cover"
-              />
+              {movie.posterPath ? (
+                <img
+                  src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
+                  alt={`${movie.title} main poster`}
+                  width={780}
+                  height={1169}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="grid h-full w-full place-items-center bg-red-500/10">
+                  <p className="font-bold text-red-500">No Poster</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -331,29 +339,37 @@ const Movie = () => {
       </div>
       {/* Desktop */}
       <div className="hidden gap-x-20 pt-8 lg:flex">
-        <Portal
-          as="div"
-          style={{ marginTop: "6.189rem", height: "35rem" }}
-          className="absolute inset-x-0 top-0 -z-10 hidden overflow-hidden lg:block"
-        >
-          <img
-            src={`${BASE_IMAGE_URL}${BackdropSizes.md}${movie.backdropPath}`}
-            alt={`${movie.title} main backdrop`}
-            width={1280}
-            height={720}
-            className="h-full w-full object-cover object-top"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/80 to-neutral-900" />
-        </Portal>
-        <div className="shrink-0">
-          <div className="aspect-2/3 h-96 overflow-hidden rounded-xl xl:h-[28rem]">
+        {movie.backdropPath ? (
+          <Portal
+            as="div"
+            style={{ marginTop: "6.189rem", height: "35rem" }}
+            className="absolute inset-x-0 top-0 -z-10 hidden overflow-hidden lg:block"
+          >
             <img
-              src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
-              alt={`${movie.title} main poster`}
+              src={`${BASE_IMAGE_URL}${BackdropSizes.md}${movie.backdropPath}`}
+              alt={`${movie.title} main backdrop`}
               width={1280}
               height={720}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-top"
             />
+            <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/80 to-neutral-900" />
+          </Portal>
+        ) : null}
+        <div className="shrink-0">
+          <div className="aspect-2/3 h-96 overflow-hidden rounded-xl xl:h-[28rem]">
+            {movie.posterPath ? (
+              <img
+                src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
+                alt={`${movie.title} main poster`}
+                width={1280}
+                height={720}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="grid h-full w-full place-items-center bg-pink-500/10">
+                <p className="font-bold text-pink-500">No Poster</p>
+              </div>
+            )}
           </div>
           <div className="mt-5 flex max-w-[16rem] flex-wrap items-center justify-center gap-2 xl:max-w-[18.66625rem]">
             {movie.genres.map((genre) => (
@@ -582,18 +598,20 @@ const Movie = () => {
                       to={`/movies/${recommendation.id}`}
                       className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
                     >
-                      <img
-                        src={
-                          recommendation.backdropPath
-                            ? `${BASE_IMAGE_URL}${BackdropSizes.sm}${recommendation.backdropPath}`
-                            : undefined
-                        }
-                        alt={`${recommendation.title} main backdrop`}
-                        width={780}
-                        height={439}
-                        className="h-full w-full object-cover object-center"
-                        loading="lazy"
-                      />
+                      {recommendation.backdropPath ? (
+                        <img
+                          src={`${BASE_IMAGE_URL}${BackdropSizes.sm}${recommendation.backdropPath}`}
+                          alt={`${recommendation.title} main backdrop`}
+                          width={780}
+                          height={439}
+                          className="h-full w-full object-cover object-center"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="grid h-full w-full place-items-center bg-pink-500/10">
+                          <p className="font-bold text-pink-500">No Backdrop</p>
+                        </div>
+                      )}
                     </Link>
                     <div className="flex items-center justify-between pt-1.5 text-neutral-300">
                       <p

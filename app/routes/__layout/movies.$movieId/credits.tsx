@@ -235,7 +235,7 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
     title: `${data.movie.title} - Credits | React Movie Database (RMDB)`,
-    description: data.movie.overview,
+    description: data.movie.overview ?? "",
   });
 
 const Credits = () => {
@@ -259,13 +259,19 @@ const Credits = () => {
     <Fragment>
       <div className="flex items-start gap-x-4 pt-10 sm:gap-x-5">
         <div className="aspect-2/3 w-16 shrink-0 overflow-hidden rounded-lg">
-          <img
-            src={`${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`}
-            alt={`${movie.title} main poster`}
-            width={780}
-            height={1169}
-            className="h-full w-full object-cover"
-          />
+          {movie.posterPath ? (
+            <img
+              src={`${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`}
+              alt={`${movie.title} main poster`}
+              width={780}
+              height={1169}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="grid h-full w-full place-items-center bg-pink-500/10">
+              <p className="font-bold text-pink-500">No Poster</p>
+            </div>
+          )}
         </div>
         <div>
           <h1 className="text-lg font-bold text-neutral-50 lg:text-xl">
