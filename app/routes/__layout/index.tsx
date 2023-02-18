@@ -110,8 +110,8 @@ const Home = () => {
                     className="h-full w-full object-cover object-bottom"
                   />
                 ) : (
-                  <div className="grid h-full w-full place-items-center bg-pink-500/10">
-                    <p className="font-bold text-pink-500">No Poster</p>
+                  <div className="grid h-full w-full place-items-center bg-cyan-500/10">
+                    <p className="font-bold text-cyan-500">No Poster</p>
                   </div>
                 )}
               </div>

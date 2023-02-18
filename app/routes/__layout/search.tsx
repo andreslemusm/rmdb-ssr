@@ -84,8 +84,8 @@ const Search = () => {
                   className="aspect-2/3 w-28 shrink-0 object-cover"
                 />
               ) : (
-                <div className="grid aspect-2/3 w-28 shrink-0 place-items-center bg-pink-500/10">
-                  <p className="font-bold text-pink-500">No Poster</p>
+                <div className="grid aspect-2/3 w-28 shrink-0 place-items-center bg-cyan-500/10">
+                  <p className="font-bold text-cyan-500">No Poster</p>
                 </div>
               )}
               <div className="overflow-hidden p-4">

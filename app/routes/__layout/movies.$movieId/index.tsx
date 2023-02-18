@@ -253,8 +253,8 @@ const Movie = () => {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="grid h-full w-full place-items-center bg-red-500/10">
-                  <p className="font-bold text-red-500">No Poster</p>
+                <div className="grid h-full w-full place-items-center bg-cyan-500/10">
+                  <p className="font-bold text-cyan-500">No Poster</p>
                 </div>
               )}
             </div>
@@ -366,8 +366,8 @@ const Movie = () => {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="grid h-full w-full place-items-center bg-pink-500/10">
-                <p className="font-bold text-pink-500">No Poster</p>
+              <div className="grid h-full w-full place-items-center bg-cyan-500/10">
+                <p className="font-bold text-cyan-500">No Poster</p>
               </div>
             )}
           </div>
@@ -611,8 +611,8 @@ const Movie = () => {
                           loading="lazy"
                         />
                       ) : (
-                        <div className="grid h-full w-full place-items-center bg-pink-500/10">
-                          <p className="font-bold text-pink-500">No Backdrop</p>
+                        <div className="grid h-full w-full place-items-center bg-cyan-500/10">
+                          <p className="font-bold text-cyan-500">No Backdrop</p>
                         </div>
                       )}
                     </Link>
