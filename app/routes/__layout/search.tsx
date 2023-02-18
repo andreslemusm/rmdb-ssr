@@ -74,7 +74,7 @@ const Search = () => {
             key={movie.id}
             className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 transition hover:border-neutral-700 hover:bg-neutral-800"
           >
-            <Link to={`/movies/${movie.id}`} className="flex">
+            <Link to={`/movies/${movie.id}`} className="flex" prefetch="intent">
               {movie.posterPath ? (
                 <img
                   src={`${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`}

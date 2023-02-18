@@ -87,6 +87,7 @@ const Home = () => {
                 : "text-neutral-400 hover:text-neutral-200",
               "shrink-0 rounded-lg px-3 py-2 text-sm font-bold transition"
             )}
+            prefetch="intent"
           >
             {label}
           </Link>
@@ -98,7 +99,7 @@ const Home = () => {
             key={movie.id}
             className="block rounded-lg p-2 transition duration-500 hover:bg-neutral-800"
           >
-            <Link to={`/movies/${movie.id}`}>
+            <Link to={`/movies/${movie.id}`} prefetch="intent">
               <div className="aspect-2/3 overflow-hidden rounded-lg">
                 {movie.posterPath ? (
                   <img

@@ -17,7 +17,7 @@ const Layout = () => {
       <header className="border-b border-neutral-800 px-4 py-6 sm:py-7 sm:px-4 lg:px-8">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-x-5">
           <div className="flex items-center gap-x-8">
-            <Link to="/" className="flex-shrink-0">
+            <Link to="/" className="flex-shrink-0" prefetch="intent">
               <span className="sr-only">Home</span>
               <BrandIcon className="block h-10 w-10" />
             </Link>

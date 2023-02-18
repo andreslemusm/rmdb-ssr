@@ -44,6 +44,7 @@ const PaginationLink = ({
     <Link
       to={{ pathname: ".", search: searchParams.toString() }}
       className="flex items-center rounded-lg px-3 py-1 text-base font-bold text-neutral-400 transition hover:bg-neutral-800 hover:text-neutral-200"
+      prefetch="intent"
     >
       {children}
     </Link>

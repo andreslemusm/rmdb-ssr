@@ -458,6 +458,7 @@ const Movie = () => {
               <Link
                 to="./credits"
                 className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
+                prefetch="intent"
               >
                 View Credits
                 <ChevronRight aria-hidden className="mt-0.5 h-4 w-4" />
@@ -504,6 +505,7 @@ const Movie = () => {
                 <Link
                   to="./reviews"
                   className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
+                  prefetch="intent"
                 >
                   View Reviews
                   <ChevronRight aria-hidden className="mt-1 h-3.5 w-3.5" />
@@ -597,6 +599,7 @@ const Movie = () => {
                     <Link
                       to={`/movies/${recommendation.id}`}
                       className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
+                      prefetch="intent"
                     >
                       {recommendation.backdropPath ? (
                         <img
