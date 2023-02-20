@@ -77,7 +77,7 @@ const Layout = () => {
             ))}
           </nav>
           <div className="mt-8 md:order-1 md:mt-0">
-            <p className="text-center text-xs font-normal leading-5 text-neutral-400">
+            <p className="whitespace-nowrap text-center text-xs font-normal leading-5 text-neutral-400">
               &copy; {new Date().getFullYear()} Andres Lemus. All rights
               reserved. |{" "}
               <a
