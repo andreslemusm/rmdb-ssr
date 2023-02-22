@@ -77,12 +77,11 @@ const Layout = () => {
             ))}
           </nav>
           <div className="mt-8 md:order-1 md:mt-0">
-            <p className="whitespace-nowrap text-center text-xs font-normal leading-5 text-neutral-400">
-              &copy; {new Date().getFullYear()} Andres Lemus. All rights
-              reserved. |{" "}
+            <p className="text-center text-xs font-normal leading-5 text-neutral-400">
+              &copy; {new Date().getFullYear()} Andres Lemus.{" "}
               <a
                 href="/"
-                className="inline-flex items-baseline gap-x-1 hover:underline"
+                className="inline-flex items-baseline gap-x-1 whitespace-nowrap hover:underline"
               >
                 Powered by{" "}
                 <img src={tmdbAltShort} alt="TMDB API" className="h-3 w-auto" />
