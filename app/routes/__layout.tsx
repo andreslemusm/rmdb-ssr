@@ -2,11 +2,7 @@ import { Fragment } from "react";
 import { Search } from "lucide-react";
 import { BrandIcon, tmdbAltShort } from "~/assets/icons";
 import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
-import {
-  Sigithub,
-  Silinkedin,
-  Sitwitter,
-} from "@icons-pack/react-simple-icons";
+import { Github, Linkedin, Twitter } from "@icons-pack/react-simple-icons";
 
 const Layout = () => {
   const [searchParams] = useSearchParams();
@@ -53,17 +49,17 @@ const Layout = () => {
               {
                 name: "Twitter",
                 href: "https://twitter.com/andreslemusm1",
-                icon: Sitwitter,
+                icon: Twitter,
               },
               {
                 name: "GitHub",
                 href: "https://github.com/andreslemusm",
-                icon: Sigithub,
+                icon: Github,
               },
               {
                 name: "LinkedIn",
                 href: "https://linkedin.com/in/andreslemusm",
-                icon: Silinkedin,
+                icon: Linkedin,
               },
             ].map((item) => (
               <a

@@ -14,6 +14,7 @@ import {
   ProfileSizes,
 } from "~/utils/tmdb";
 import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
+import { Facebook, Instagram, Twitter } from "@icons-pack/react-simple-icons";
 import { Fragment, useState } from "react";
 import type {
   HeadersFunction,
@@ -21,11 +22,6 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/node";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
-import {
-  Sifacebook,
-  Siinstagram,
-  Sitwitter,
-} from "@icons-pack/react-simple-icons";
 import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
@@ -646,21 +642,21 @@ const Movie = () => {
                 href: externalIDs.facebookID
                   ? `https://facebook.com/${externalIDs.facebookID}`
                   : null,
-                icon: Sifacebook,
+                icon: Facebook,
                 label: "Facebook",
               },
               {
                 href: externalIDs.instagramID
                   ? `https://instagram.com/${externalIDs.instagramID}`
                   : null,
-                icon: Siinstagram,
+                icon: Instagram,
                 label: "Instagram",
               },
               {
                 href: externalIDs.twitterID
                   ? `https://twitter.com/${externalIDs.twitterID}`
                   : null,
-                icon: Sitwitter,
+                icon: Twitter,
                 label: "Twitter",
               },
             ].map(({ href, icon: Icon, label }) =>

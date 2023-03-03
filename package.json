@@ -19,7 +19,7 @@
   "dependencies": {
     "@headlessui/react": "1.7.11",
     "@headlessui/tailwindcss": "0.1.2",
-    "@icons-pack/react-simple-icons": "6.3.0",
+    "@icons-pack/react-simple-icons": "5.11.0",
     "@netlify/functions": "1.4.0",
     "@remix-run/netlify": "1.13.0",
     "@remix-run/node": "1.13.0",
