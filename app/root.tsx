@@ -1,10 +1,8 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
 import NProgress from "nprogress";
-import { json } from "@vercel/remix";
 import styles from "./styles/index.output.css";
 import { useEffect } from "react";
-import { usePostHog } from "./utils/posthog";
 import {
   Links,
   LiveReload,
@@ -12,25 +10,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-
-const shouldRevalidate = () => false;
-
-const loader = () =>
-  json(
-    {
-      ENV: {
-        POSTHOG_API_KEY: process.env.POSTHOG_API_KEY,
-      },
-    },
-    {
-      headers: {
-        "Cache-Control": "public, max-age=10, stale-while-revalidate=31536000",
-      },
-    }
-  );
 
 const links: LinksFunction = () => [
   // Favicons
@@ -76,8 +57,6 @@ NProgress.configure({
 });
 
 const App = () => {
-  const { ENV } = useLoaderData<typeof loader>();
-
   const navigation = useNavigation();
 
   // Show loading bar on every page navigation
@@ -85,8 +64,6 @@ const App = () => {
     if (navigation.state === "idle") NProgress.done();
     else NProgress.start();
   }, [navigation.state]);
-
-  usePostHog();
 
   return (
     <html lang="en" className="h-full antialiased">
@@ -96,11 +73,6 @@ const App = () => {
       </head>
       <body className="flex h-full flex-col bg-neutral-900">
         <Outlet />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(ENV)}`,
-          }}
-        />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -110,5 +82,5 @@ const App = () => {
   );
 };
 
-export { shouldRevalidate, links, loader };
+export { links };
 export default App;
