@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Review } from "./review.component";
+import { Review } from "~/components/review";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { json } from "@vercel/remix";
 import { marked } from "marked";

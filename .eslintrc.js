@@ -100,7 +100,10 @@ module.exports = {
         "react-hooks/exhaustive-deps": "error",
         "unicorn/filename-case": [
           "error",
-          { case: "kebabCase", ignore: [/\$/] },
+          {
+            case: "kebabCase",
+            ignore: [/.\$/, /._/],
+          },
         ],
         "react/jsx-fragments": ["error", "element"],
         "react/function-component-definition": [

@@ -1,6 +1,6 @@
 import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
-import { Review } from "./review.component";
+import { Review } from "~/components/review";
 import type { ShouldRevalidateFunction } from "@remix-run/react";
 import clsx from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
