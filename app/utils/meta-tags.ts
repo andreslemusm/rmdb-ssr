@@ -1,4 +1,4 @@
-import type { V2_HtmlMetaDescriptor } from "@remix-run/node";
+import type { V2_HtmlMetaDescriptor } from "@vercel/remix";
 
 export const generateMetaTags = ({
   title,

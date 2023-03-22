@@ -4,13 +4,13 @@ import { Star } from "lucide-react";
 import clsx from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { getMovies } from "~/services/movies.server";
-import { json } from "@remix-run/node";
+import { json } from "@vercel/remix";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type {
   HeadersFunction,
   LoaderArgs,
   V2_MetaFunction,
-} from "@remix-run/node";
+} from "@vercel/remix";
 import { Link, useLoaderData } from "@remix-run/react";
 
 const loader = async ({ request }: LoaderArgs) => {

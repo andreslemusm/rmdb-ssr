@@ -1,14 +1,14 @@
 import { Fragment } from "react";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
-import { json } from "@remix-run/node";
+import { json } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
 import { BASE_IMAGE_URL, PosterSizes, ProfileSizes } from "~/utils/tmdb";
 import type {
   HeadersFunction,
   LoaderArgs,
   V2_MetaFunction,
-} from "@remix-run/node";
+} from "@vercel/remix";
 import { getMovie, getMovieCredits } from "~/services/movies.server";
 
 const loader = async ({ params }: LoaderArgs) => {

@@ -1,6 +1,6 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from "@vercel/remix";
 import NProgress from "nprogress";
-import { json } from "@remix-run/node";
+import { json } from "@vercel/remix";
 import styles from "./styles/index.output.css";
 import { useEffect } from "react";
 import { usePostHog } from "./utils/posthog";

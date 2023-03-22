@@ -5,7 +5,7 @@ import type { ShouldRevalidateFunction } from "@remix-run/react";
 import clsx from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
-import { json } from "@remix-run/node";
+import { json } from "@vercel/remix";
 import { marked } from "marked";
 import {
   BASE_IMAGE_URL,
@@ -20,7 +20,7 @@ import type {
   HeadersFunction,
   LoaderArgs,
   V2_MetaFunction,
-} from "@remix-run/node";
+} from "@vercel/remix";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import {
   formatLangCodeAsLangName,

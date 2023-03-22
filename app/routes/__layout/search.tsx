@@ -3,13 +3,13 @@ import { Pagination } from "~/components/pagination";
 import { formatNumberAsCompactNumber } from "~/utils/formatters.server";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { getSearchMovies } from "~/services/search.server";
-import { json } from "@remix-run/node";
+import { json } from "@vercel/remix";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type {
   HeadersFunction,
   LoaderArgs,
   V2_MetaFunction,
-} from "@remix-run/node";
+} from "@vercel/remix";
 import { Link, useLoaderData } from "@remix-run/react";
 
 const loader = async ({ request }: LoaderArgs) => {
