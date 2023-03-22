@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Pagination } from "~/components/pagination";
+import { cacheHeader } from "pretty-cache-header";
 import { formatNumberAsCompactNumber } from "~/utils/formatters.server";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { getSearchMovies } from "~/services/search.server";
@@ -39,7 +40,11 @@ const loader = async ({ request }: LoaderArgs) => {
     },
     {
       headers: {
-        "Cache-Control": "public, max-age=10, stale-while-revalidate=2678400",
+        "Cache-Control": cacheHeader({
+          public: true,
+          maxAge: "1m",
+          staleWhileRevalidate: "1month",
+        }),
       },
     }
   );

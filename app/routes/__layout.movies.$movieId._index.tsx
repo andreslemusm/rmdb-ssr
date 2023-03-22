@@ -2,6 +2,7 @@ import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
 import { Review } from "~/components/review";
 import type { ShouldRevalidateFunction } from "@remix-run/react";
+import { cacheHeader } from "pretty-cache-header";
 import clsx from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
@@ -185,7 +186,11 @@ const loader = async ({ params }: LoaderArgs) => {
     },
     {
       headers: {
-        "Cache-Control": "public, max-age=10, stale-while-revalidate=2678400",
+        "Cache-Control": cacheHeader({
+          public: true,
+          maxAge: "1m",
+          staleWhileRevalidate: "1month",
+        }),
       },
     }
   );

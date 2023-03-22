@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { cacheHeader } from "pretty-cache-header";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
 import { json } from "@vercel/remix";
@@ -229,7 +230,11 @@ const loader = async ({ params }: LoaderArgs) => {
     },
     {
       headers: {
-        "Cache-Control": "public, max-age=10, stale-while-revalidate=2678400",
+        "Cache-Control": cacheHeader({
+          public: true,
+          maxAge: "1m",
+          staleWhileRevalidate: "1month",
+        }),
       },
     }
   );
