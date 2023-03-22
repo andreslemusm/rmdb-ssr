@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
 import NProgress from "nprogress";
 import { json } from "@vercel/remix";
@@ -103,6 +104,7 @@ const App = () => {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Analytics />
       </body>
     </html>
   );
