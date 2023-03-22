@@ -22,28 +22,35 @@ const loader = async ({ params }: LoaderArgs) => {
     getMovieReviews(params.movieId),
   ]);
 
-  return json({
-    movie: {
-      title: movie.title,
-      posterPath: movie.poster_path,
-      releaseDate: movie.release_date,
-      overview: movie.release_date,
-    },
-    reviews: reviews.results.map((review) => ({
-      id: review.id,
-      author: {
-        avatarPath: review.author_details.avatar_path,
-        name: review.author_details.name
-          ? review.author_details.name
-          : review.author_details.username,
+  return json(
+    {
+      movie: {
+        title: movie.title,
+        posterPath: movie.poster_path,
+        releaseDate: movie.release_date,
+        overview: movie.release_date,
       },
-      rating: review.author_details.rating,
-      content: marked.parse(review.content),
-      createdDate: new Intl.DateTimeFormat("en-US", {
-        dateStyle: "medium",
-      }).format(new Date(reviews.results[0].created_at)),
-    })),
-  });
+      reviews: reviews.results.map((review) => ({
+        id: review.id,
+        author: {
+          avatarPath: review.author_details.avatar_path,
+          name: review.author_details.name
+            ? review.author_details.name
+            : review.author_details.username,
+        },
+        rating: review.author_details.rating,
+        content: marked.parse(review.content),
+        createdDate: new Intl.DateTimeFormat("en-US", {
+          dateStyle: "medium",
+        }).format(new Date(reviews.results[0].created_at)),
+      })),
+    },
+    {
+      headers: {
+        "Cache-Control": "max-age=10, stale-while-revalidate=31536000",
+      },
+    }
+  );
 };
 
 const headers: HeadersFunction = ({ loaderHeaders }) => ({

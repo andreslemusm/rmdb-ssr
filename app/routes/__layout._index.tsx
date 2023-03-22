@@ -51,7 +51,7 @@ const loader = async ({ request }: LoaderArgs) => {
     },
     {
       headers: {
-        "Cache-Control": "public, max-age=10, stale-while-revalidate=31536000",
+        "Cache-Control": "max-age=10, stale-while-revalidate=31536000",
       },
     }
   );

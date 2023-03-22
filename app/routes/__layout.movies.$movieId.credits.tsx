@@ -21,211 +21,218 @@ const loader = async ({ params }: LoaderArgs) => {
     getMovieCredits(params.movieId),
   ]);
 
-  return json({
-    movie: {
-      title: movie.title,
-      posterPath: movie.poster_path,
-      releaseDate: movie.release_date,
-      overview: movie.overview,
-    },
-    cast: credits.cast.map((castPerson) => ({
-      id: castPerson.id,
-      profilePath: castPerson.profile_path,
-      name: castPerson.name,
-      characterOrJob: castPerson.character,
-    })),
-    ...credits.crew.reduce(
-      (mainCrew, crewPerson) => {
-        if (crewPerson.department === "Art") {
-          return {
-            ...mainCrew,
-            art: [
-              ...mainCrew.art,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Camera") {
-          return {
-            ...mainCrew,
-            camera: [
-              ...mainCrew.camera,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Costume & Make-Up") {
-          return {
-            ...mainCrew,
-            costumeAndMakeUp: [
-              ...mainCrew.costumeAndMakeUp,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Crew") {
-          return {
-            ...mainCrew,
-            crew: [
-              ...mainCrew.crew,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Directing") {
-          return {
-            ...mainCrew,
-            directing: [
-              ...mainCrew.directing,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Editing") {
-          return {
-            ...mainCrew,
-            editing: [
-              ...mainCrew.editing,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Lighting") {
-          return {
-            ...mainCrew,
-            lighting: [
-              ...mainCrew.lighting,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Production") {
-          return {
-            ...mainCrew,
-            production: [
-              ...mainCrew.production,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Sound") {
-          return {
-            ...mainCrew,
-            sound: [
-              ...mainCrew.sound,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Visual Effects") {
-          return {
-            ...mainCrew,
-            visualEffects: [
-              ...mainCrew.visualEffects,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-        if (crewPerson.department === "Writing") {
-          return {
-            ...mainCrew,
-            writing: [
-              ...mainCrew.writing,
-              {
-                id: crewPerson.id,
-                name: crewPerson.name,
-                characterOrJob: crewPerson.job,
-                profilePath: crewPerson.profile_path,
-              },
-            ],
-          };
-        }
-
-        return mainCrew;
+  return json(
+    {
+      movie: {
+        title: movie.title,
+        posterPath: movie.poster_path,
+        releaseDate: movie.release_date,
+        overview: movie.overview,
       },
-      {
-        art: [],
-        camera: [],
-        costumeAndMakeUp: [],
-        crew: [],
-        directing: [],
-        editing: [],
-        lighting: [],
-        production: [],
-        sound: [],
-        visualEffects: [],
-        writing: [],
-      } as Record<
-        | "art"
-        | "camera"
-        | "costumeAndMakeUp"
-        | "crew"
-        | "directing"
-        | "editing"
-        | "lighting"
-        | "production"
-        | "sound"
-        | "visualEffects"
-        | "writing",
-        Array<{
-          id: number;
-          profilePath: string | null;
-          name: string;
-          characterOrJob: string;
-        }>
-      >
-    ),
-  });
+      cast: credits.cast.map((castPerson) => ({
+        id: castPerson.id,
+        profilePath: castPerson.profile_path,
+        name: castPerson.name,
+        characterOrJob: castPerson.character,
+      })),
+      ...credits.crew.reduce(
+        (mainCrew, crewPerson) => {
+          if (crewPerson.department === "Art") {
+            return {
+              ...mainCrew,
+              art: [
+                ...mainCrew.art,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Camera") {
+            return {
+              ...mainCrew,
+              camera: [
+                ...mainCrew.camera,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Costume & Make-Up") {
+            return {
+              ...mainCrew,
+              costumeAndMakeUp: [
+                ...mainCrew.costumeAndMakeUp,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Crew") {
+            return {
+              ...mainCrew,
+              crew: [
+                ...mainCrew.crew,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Directing") {
+            return {
+              ...mainCrew,
+              directing: [
+                ...mainCrew.directing,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Editing") {
+            return {
+              ...mainCrew,
+              editing: [
+                ...mainCrew.editing,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Lighting") {
+            return {
+              ...mainCrew,
+              lighting: [
+                ...mainCrew.lighting,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Production") {
+            return {
+              ...mainCrew,
+              production: [
+                ...mainCrew.production,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Sound") {
+            return {
+              ...mainCrew,
+              sound: [
+                ...mainCrew.sound,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Visual Effects") {
+            return {
+              ...mainCrew,
+              visualEffects: [
+                ...mainCrew.visualEffects,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+          if (crewPerson.department === "Writing") {
+            return {
+              ...mainCrew,
+              writing: [
+                ...mainCrew.writing,
+                {
+                  id: crewPerson.id,
+                  name: crewPerson.name,
+                  characterOrJob: crewPerson.job,
+                  profilePath: crewPerson.profile_path,
+                },
+              ],
+            };
+          }
+
+          return mainCrew;
+        },
+        {
+          art: [],
+          camera: [],
+          costumeAndMakeUp: [],
+          crew: [],
+          directing: [],
+          editing: [],
+          lighting: [],
+          production: [],
+          sound: [],
+          visualEffects: [],
+          writing: [],
+        } as Record<
+          | "art"
+          | "camera"
+          | "costumeAndMakeUp"
+          | "crew"
+          | "directing"
+          | "editing"
+          | "lighting"
+          | "production"
+          | "sound"
+          | "visualEffects"
+          | "writing",
+          Array<{
+            id: number;
+            profilePath: string | null;
+            name: string;
+            characterOrJob: string;
+          }>
+        >
+      ),
+    },
+    {
+      headers: {
+        "Cache-Control": "max-age=10, stale-while-revalidate=31536000",
+      },
+    }
+  );
 };
 
 const headers: HeadersFunction = ({ loaderHeaders }) => ({
