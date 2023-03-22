@@ -5,7 +5,6 @@ module.exports = {
     v2_routeConvention: true,
   },
   publicPath: "/build/",
-  serverBuildPath: "api/index.js",
   serverMainFields: ["main", "module"],
   serverModuleFormat: "cjs",
   serverPlatform: "node",
