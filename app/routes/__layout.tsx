@@ -80,7 +80,13 @@ const Layout = () => {
                 className="inline-flex items-baseline gap-x-1 whitespace-nowrap hover:underline"
               >
                 Powered by{" "}
-                <img src={tmdbAltShort} alt="TMDB API" className="h-3 w-auto" />
+                <img
+                  src={tmdbAltShort}
+                  alt="TMDB API"
+                  className="h-3 w-auto"
+                  width={300}
+                  height={39}
+                />
               </a>
             </p>
           </div>
