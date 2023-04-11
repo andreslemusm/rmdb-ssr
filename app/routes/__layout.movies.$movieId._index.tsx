@@ -290,7 +290,7 @@ const Movie = () => {
           </div>
           <TrailerModal />
         </div>
-        <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pt-2 pb-3 sm:mt-6 sm:gap-y-2 sm:pt-3 sm:pb-4">
+        <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pb-3 pt-2 sm:mt-6 sm:gap-y-2 sm:pb-4 sm:pt-3">
           <p className="text-sm text-neutral-400">
             {movie.releaseDate} • {movie.runtime}
           </p>

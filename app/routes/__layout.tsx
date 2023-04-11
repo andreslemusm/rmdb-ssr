@@ -10,7 +10,7 @@ const Layout = () => {
 
   return (
     <Fragment>
-      <header className="border-b border-neutral-800 px-4 py-6 sm:py-7 sm:px-4 lg:px-8">
+      <header className="border-b border-neutral-800 px-4 py-6 sm:px-4 sm:py-7 lg:px-8">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-x-5">
           <div className="flex items-center gap-x-8">
             <Link to="/" className="flex-shrink-0" prefetch="intent">
@@ -42,7 +42,7 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
-      <footer className="border-t border-neutral-800 py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="border-t border-neutral-800 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl md:flex md:items-center md:justify-between">
           <nav className="flex justify-center space-x-6 md:order-2">
             {[
