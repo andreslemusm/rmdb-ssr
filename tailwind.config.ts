@@ -1,14 +1,13 @@
-const colors = require("tailwindcss/colors");
-const { fontWeight, fontFamily } = require("tailwindcss/defaultTheme");
+import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
+import { fontFamily, fontWeight } from "tailwindcss/defaultTheme";
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ["./app/**/*.{ts,tsx,js,jsx}"],
   plugins: [
     require("@tailwindcss/forms"),
     require("@headlessui/tailwindcss"),
     require("@tailwindcss/typography"),
-    require("@tailwindcss/line-clamp"),
   ],
   theme: {
     fontSize: {
@@ -54,4 +53,4 @@ module.exports = {
       },
     },
   },
-};
+} satisfies Config;

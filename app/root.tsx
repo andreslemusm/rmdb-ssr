@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
 import NProgress from "nprogress";
-import styles from "./styles/index.output.css";
+import styles from "./tailwind.css";
 import { useEffect } from "react";
 import {
   Links,

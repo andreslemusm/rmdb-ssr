@@ -225,7 +225,7 @@ const loader = async ({ params }: LoaderArgs) => {
             name: string;
             characterOrJob: string;
           }>
-        >
+        >,
       ),
     },
     {
@@ -236,7 +236,7 @@ const loader = async ({ params }: LoaderArgs) => {
           staleWhileRevalidate: "1month",
         }),
       },
-    }
+    },
   );
 };
 
@@ -246,8 +246,10 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 
 const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
-    title: `${data.movie.title} - Credits | React Movie Database (RMDB)`,
-    description: data.movie.overview ?? "",
+    title: data
+      ? `${data.movie.title} - Credits | React Movie Database (RMDB)`
+      : "React Movie Database (RMDB)",
+    description: data?.movie.overview ?? "",
   });
 
 const Credits = () => {

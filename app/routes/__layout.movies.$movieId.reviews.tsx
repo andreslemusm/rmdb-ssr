@@ -54,7 +54,7 @@ const loader = async ({ params }: LoaderArgs) => {
           staleWhileRevalidate: "1month",
         }),
       },
-    }
+    },
   );
 };
 
@@ -64,8 +64,10 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 
 const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
-    title: `${data.movie.title} - Reviews | React Movie Database (RMDB)`,
-    description: data.movie.overview,
+    title: data
+      ? `${data.movie.title} - Reviews | React Movie Database (RMDB)`
+      : "React Movie Database (RMDB)",
+    description: data?.movie.overview ?? "",
   });
 
 const Reviews = () => {

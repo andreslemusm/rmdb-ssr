@@ -46,7 +46,7 @@ const loader = async ({ request }: LoaderArgs) => {
           staleWhileRevalidate: "1month",
         }),
       },
-    }
+    },
   );
 };
 
@@ -56,7 +56,9 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 
 const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
-    title: `Search: ${data.query} | React Movie Database (RMDB)`,
+    title: data
+      ? `Search: ${data.query} | React Movie Database (RMDB)`
+      : "Search | React Movie Database (RMDB)",
     description:
       "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
   });

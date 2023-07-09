@@ -67,7 +67,7 @@ const Content = ({ content }: { content: string }) => {
         id={contentId}
         className={clsx(
           !isOpen && "line-clamp-4 md:line-clamp-5 lg:line-clamp-6",
-          "prose prose-sm prose-invert max-w-full"
+          "prose prose-sm prose-invert max-w-full",
         )}
         dangerouslySetInnerHTML={{
           __html: content,

@@ -10,7 +10,7 @@ const handleDocumentRequest: HandleDocumentRequestFunction = (
   request,
   responseStatusCode,
   responseHeaders,
-  remixContext
+  remixContext,
 ) => {
   const remixServer = <RemixServer context={remixContext} url={request.url} />;
 
@@ -18,7 +18,7 @@ const handleDocumentRequest: HandleDocumentRequestFunction = (
     request,
     responseStatusCode,
     responseHeaders,
-    remixServer
+    remixServer,
   ) as Promise<Response>;
 };
 

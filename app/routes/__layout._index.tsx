@@ -58,7 +58,7 @@ const loader = async ({ request }: LoaderArgs) => {
           staleWhileRevalidate: "1month",
         }),
       },
-    }
+    },
   );
 };
 
@@ -68,10 +68,12 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
 
 const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
-    title: `${
-      listTypes.find(({ value }) => value === data.listType)?.label ??
-      "Now Playing"
-    } | React Movie Database (RMDB)`,
+    title: data
+      ? `${
+          listTypes.find(({ value }) => value === data.listType)?.label ??
+          "Now Playing"
+        } | React Movie Database (RMDB)`
+      : "React Movie Database (RMDB)",
     description:
       "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
   });
@@ -90,7 +92,7 @@ const Home = () => {
               value === listType
                 ? "bg-neutral-800 text-neutral-200"
                 : "text-neutral-400 hover:text-neutral-200",
-              "shrink-0 rounded-lg px-3 py-2 text-sm font-bold transition"
+              "shrink-0 rounded-lg px-3 py-2 text-sm font-bold transition",
             )}
             prefetch="intent"
           >
