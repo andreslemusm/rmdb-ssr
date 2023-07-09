@@ -4,6 +4,8 @@ import { BrandIcon, tmdbAltShort } from "~/assets/icons";
 import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
 import { Github, Linkedin, Twitter } from "@icons-pack/react-simple-icons";
 
+const config = { runtime: "edge" };
+
 const Layout = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") ?? "";
@@ -96,4 +98,5 @@ const Layout = () => {
   );
 };
 
+export { config };
 export default Layout;
