@@ -9,6 +9,7 @@ module.exports = {
     v2_headers: true,
   },
   tailwind: true,
+  postcss: true,
   serverModuleFormat: "cjs",
   serverDependenciesToBundle: ["marked"],
 };

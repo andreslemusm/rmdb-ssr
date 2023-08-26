@@ -56,6 +56,8 @@ NProgress.configure({
   trickleSpeed: 100,
 });
 
+const config = { runtime: "edge" };
+
 const App = () => {
   const navigation = useNavigation();
 
@@ -82,5 +84,5 @@ const App = () => {
   );
 };
 
-export { links };
+export { config, links };
 export default App;
