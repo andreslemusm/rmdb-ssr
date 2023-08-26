@@ -61,8 +61,7 @@
     "node": "^18"
   },
   "volta": {
-    "node": "18.17.1",
-    "npm": "9.8.1"
+    "node": "18.17.1"
   },
   "config": {
     "commitizen": {
