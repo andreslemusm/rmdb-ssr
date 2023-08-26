@@ -7,7 +7,6 @@ import clsx from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
 import { json } from "@vercel/remix";
-import { marked } from "marked";
 import {
   BASE_IMAGE_URL,
   BackdropSizes,
@@ -27,6 +26,7 @@ import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
   formatNumberAsCurrency,
+  markdownFormatter,
 } from "~/utils/formatters.server";
 import {
   getMovie,
@@ -131,7 +131,7 @@ const loader = async ({ params }: LoaderArgs) => {
           } as Record<
             "directors" | "writters" | "characters" | "editors",
             Array<string>
-          >,
+          >
         ),
         topCast: credits.cast.slice(0, 9).map((castPerson) => ({
           id: castPerson.id,
@@ -151,7 +151,7 @@ const loader = async ({ params }: LoaderArgs) => {
                     : reviews.results[0].author_details.username,
                 },
                 rating: reviews.results[0].author_details.rating,
-                content: marked.parse(reviews.results[0].content),
+                content: markdownFormatter(reviews.results[0].content),
                 createdDate: new Intl.DateTimeFormat("en-US", {
                   dateStyle: "medium",
                 }).format(new Date(reviews.results[0].created_at)),
@@ -192,7 +192,7 @@ const loader = async ({ params }: LoaderArgs) => {
           staleWhileRevalidate: "1month",
         }),
       },
-    },
+    }
   );
 };
 
@@ -541,7 +541,7 @@ const Movie = () => {
                       imgType === mediaType
                         ? "bg-neutral-800 text-neutral-200"
                         : "text-neutral-400 hover:text-neutral-200",
-                      "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition",
+                      "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition"
                     )}
                     preventScrollReset
                   >
@@ -678,7 +678,7 @@ const Movie = () => {
                   <span className="sr-only">Visit {label} homepage</span>
                   <Icon className="h-4 w-4" />
                 </a>
-              ) : null,
+              ) : null
             )}
           </div>
           <dl className="flex flex-col gap-y-4 pt-7 lg:gap-y-5">

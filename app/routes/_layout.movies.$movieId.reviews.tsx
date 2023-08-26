@@ -3,7 +3,7 @@ import { Review } from "~/components/review";
 import { cacheHeader } from "pretty-cache-header";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { json } from "@vercel/remix";
-import { marked } from "marked";
+import { markdownFormatter } from "~/utils/formatters.server";
 import { useLoaderData } from "@remix-run/react";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type {
@@ -40,7 +40,7 @@ const loader = async ({ params }: LoaderArgs) => {
             : review.author_details.username,
         },
         rating: review.author_details.rating,
-        content: marked.parse(review.content),
+        content: markdownFormatter(review.content),
         createdDate: new Intl.DateTimeFormat("en-US", {
           dateStyle: "medium",
         }).format(new Date(reviews.results[0].created_at)),
@@ -54,7 +54,7 @@ const loader = async ({ params }: LoaderArgs) => {
           staleWhileRevalidate: "1month",
         }),
       },
-    },
+    }
   );
 };
 

@@ -1,3 +1,5 @@
+import { parse } from "marked";
+
 const numberFormatter = new Intl.NumberFormat("en", { notation: "compact" });
 const formatNumberAsCompactNumber = (value: number) =>
   numberFormatter.format(value);
@@ -13,8 +15,11 @@ const languageFormatter = new Intl.DisplayNames("en", {
 });
 const formatLangCodeAsLangName = (code: string) => languageFormatter.of(code);
 
+const markdownFormatter = (markdown: string) => parse(markdown);
+
 export {
   formatNumberAsCurrency,
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
+  markdownFormatter,
 };
