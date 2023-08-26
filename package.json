@@ -1,12 +1,10 @@
 {
   "private": true,
   "name": "rmdb-ssr",
-  "description": "",
-  "license": "",
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env NODE_ENV=production remix build",
-    "dev": "cross-env NODE_ENV=development remix dev",
+    "build": "remix build",
+    "dev": "remix dev",
     "lint": "tsc && prettier -c . && eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "prettier . -w && eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "commit": "cz"
