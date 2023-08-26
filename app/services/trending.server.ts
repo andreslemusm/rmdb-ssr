@@ -1,4 +1,4 @@
-import { apiClient } from "~/utils/api-client";
+import { apiClient } from "~/utils/api-client.server";
 
 const getTrending = (params: {
   mediaType: "movie" | "tv";
