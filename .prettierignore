@@ -1,14 +1,14 @@
 node_modules
 
-.cache
+/.cache
+/build
+/public/build
 .env
+
 .vercel
 .output
 
-/build/
-/public/build
 /api/index.js
 /api/index.js.map
 
 package-lock.json
-/app/styles/index.output.css
