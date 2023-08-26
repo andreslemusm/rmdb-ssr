@@ -10,7 +10,7 @@ const apiClient = {
       })}`,
       {
         method: "get",
-      }
+      },
     );
 
     return await fetchFn<TReturnType>(request);
@@ -30,7 +30,7 @@ const fetchFn = async <TReturnType = void>(request: Request) => {
     if (process.env.NODE_ENV === "development") {
       // eslint-disable-next-line no-console -- Improve debugging in development
       console.error(
-        `URL:\n${response.url}\n Error:\n${JSON.stringify(apiError)}\n`
+        `URL:\n${response.url}\n Error:\n${JSON.stringify(apiError)}\n`,
       );
     }
 
@@ -41,7 +41,7 @@ const fetchFn = async <TReturnType = void>(request: Request) => {
 };
 
 const convertToSearchParams = (
-  obj: Record<string, string | boolean | number | null | undefined>
+  obj: Record<string, string | boolean | number | null | undefined>,
 ): string => {
   const cleanedObject = Object.keys(obj).reduce<Record<string, string>>(
     (acc, key) => {
@@ -61,7 +61,7 @@ const convertToSearchParams = (
 
       return acc;
     },
-    {}
+    {},
   );
 
   return `?${new URLSearchParams(cleanedObject).toString()}`;

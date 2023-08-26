@@ -54,7 +54,7 @@ const loader = async ({ params }: LoaderArgs) => {
           staleWhileRevalidate: "1month",
         }),
       },
-    }
+    },
   );
 };
 
