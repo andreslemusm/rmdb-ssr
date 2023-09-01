@@ -21,11 +21,11 @@
     "clsx": "2.0.0",
     "isbot": "3.6.13",
     "lucide-react": "0.269.0",
-    "marked": "7.0.4",
     "nprogress": "0.2.0",
     "pretty-cache-header": "1.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "snarkdown": "^2.0.0"
   },
   "devDependencies": {
     "@remix-run/dev": "1.19.3",
@@ -33,7 +33,6 @@
     "@remix-run/serve": "1.19.3",
     "@tailwindcss/forms": "0.5.5",
     "@tailwindcss/typography": "0.5.9",
-    "@types/marked": "5.0.1",
     "@types/nprogress": "0.2.0",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",

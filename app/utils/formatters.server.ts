@@ -1,4 +1,4 @@
-import { parse } from "marked";
+import snarkdown from "snarkdown";
 
 const numberFormatter = new Intl.NumberFormat("en", { notation: "compact" });
 const formatNumberAsCompactNumber = (value: number) =>
@@ -15,7 +15,7 @@ const languageFormatter = new Intl.DisplayNames("en", {
 });
 const formatLangCodeAsLangName = (code: string) => languageFormatter.of(code);
 
-const markdownFormatter = (markdown: string) => parse(markdown);
+const markdownFormatter = (markdown: string) => snarkdown(markdown);
 
 export {
   formatNumberAsCurrency,

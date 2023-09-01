@@ -12,5 +12,4 @@ module.exports = {
   serverModuleFormat: "cjs",
   tailwind: true,
   postcss: true,
-  serverDependenciesToBundle: ["marked"],
 };
