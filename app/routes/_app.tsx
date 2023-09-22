@@ -1,12 +1,13 @@
 import { Fragment } from "react";
 import { Search } from "lucide-react";
-import { BrandIcon, tmdbAltShort } from "~/assets/icons";
-import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
 import {
-  SiGithub,
-  SiLinkedin,
-  SiTwitter,
-} from "@icons-pack/react-simple-icons";
+  BrandIcon,
+  GithubIcon,
+  LinkedinIcon,
+  XIcon,
+  tmdbAltShort,
+} from "~/assets/icons";
+import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
 
 const Layout = () => {
   const [searchParams] = useSearchParams();
@@ -51,19 +52,19 @@ const Layout = () => {
           <nav className="flex justify-center space-x-6 md:order-2">
             {[
               {
-                name: "Twitter",
+                name: "X",
                 href: "https://twitter.com/andreslemusm1",
-                icon: SiTwitter,
+                icon: XIcon,
               },
               {
                 name: "GitHub",
                 href: "https://github.com/andreslemusm",
-                icon: SiGithub,
+                icon: GithubIcon,
               },
               {
                 name: "LinkedIn",
                 href: "https://linkedin.com/in/andreslemusm",
-                icon: SiLinkedin,
+                icon: LinkedinIcon,
               },
             ].map((item) => (
               <a
