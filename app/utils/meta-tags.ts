@@ -1,4 +1,4 @@
-import type { V2_HtmlMetaDescriptor } from "@vercel/remix";
+import type { MetaDescriptor } from "@vercel/remix";
 
 export const generateMetaTags = ({
   title,
@@ -49,4 +49,4 @@ export const generateMetaTags = ({
     { name: "application-name", content: title },
     { name: "msapplication-TileColor", content: "#2d89ef" },
     { name: "theme-color", content: "#ffffff" },
-  ] satisfies Array<V2_HtmlMetaDescriptor>;
+  ] satisfies Array<MetaDescriptor>;

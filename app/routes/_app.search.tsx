@@ -8,12 +8,12 @@ import { json } from "@vercel/remix";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type {
   HeadersFunction,
-  LoaderArgs,
-  V2_MetaFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from "@vercel/remix";
 import { Link, useLoaderData } from "@remix-run/react";
 
-const loader = async ({ request }: LoaderArgs) => {
+const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const page = Number(url.searchParams.get("page") ?? 1);
   const query = url.searchParams.get("query") ?? "";
@@ -54,7 +54,7 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
 
-const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+const meta: MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
     title: data
       ? `Search: ${data.query} | React Movie Database (RMDB)`
@@ -110,7 +110,7 @@ const Search = () => {
                     {movie.releaseDate}
                   </time>
                 ) : null}
-                <p className="mt-4 text-sm text-neutral-200 line-clamp-3">
+                <p className="mt-4 line-clamp-3 text-sm text-neutral-200">
                   {movie.overview}
                 </p>
               </div>

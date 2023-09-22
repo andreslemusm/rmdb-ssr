@@ -14,10 +14,10 @@ const Modal = ({
     <Dialog as="div" className="relative z-10" onClose={onClose}>
       <Transition.Child
         as="div"
-        enter="ease-out duration-300"
+        enter="duration-300 ease-out"
         enterFrom="opacity-0"
         enterTo="opacity-100"
-        leave="ease-in duration-200"
+        leave="duration-200 ease-in"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
@@ -26,12 +26,12 @@ const Modal = ({
         <div className="flex min-h-full items-center justify-center p-4">
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter="duration-300 ease-out"
+            enterFrom="translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
+            enterTo="translate-y-0 opacity-100 sm:scale-100"
+            leave="duration-200 ease-in"
+            leaveFrom="translate-y-0 opacity-100 sm:scale-100"
+            leaveTo="translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
           >
             <Dialog.Panel className="relative transform overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 px-4 pb-4 pt-5 transition-all sm:my-8 sm:w-full sm:max-w-screen-lg sm:p-6">
               <div className="absolute right-0 top-0 hidden pr-2.5 pt-2.5 sm:block">

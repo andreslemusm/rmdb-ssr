@@ -9,12 +9,12 @@ import { json } from "@vercel/remix";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
 import type {
   HeadersFunction,
-  LoaderArgs,
-  V2_MetaFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from "@vercel/remix";
 import { Link, useLoaderData } from "@remix-run/react";
 
-const loader = async ({ request }: LoaderArgs) => {
+const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const listType = url.searchParams.get("listType") ?? "now-playing";
   const page = Number(url.searchParams.get("page") ?? 1);
@@ -66,7 +66,7 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
 
-const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+const meta: MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
     title: data
       ? `${

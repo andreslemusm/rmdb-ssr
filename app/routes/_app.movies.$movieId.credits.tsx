@@ -7,12 +7,12 @@ import { useLoaderData } from "@remix-run/react";
 import { BASE_IMAGE_URL, PosterSizes, ProfileSizes } from "~/utils/tmdb";
 import type {
   HeadersFunction,
-  LoaderArgs,
-  V2_MetaFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from "@vercel/remix";
 import { getMovie, getMovieCredits } from "~/services/movies.server";
 
-const loader = async ({ params }: LoaderArgs) => {
+const loader = async ({ params }: LoaderFunctionArgs) => {
   if (!params.movieId) {
     throw new Error(`No movie found`);
   }
@@ -244,7 +244,7 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
 
-const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+const meta: MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
     title: data
       ? `${data.movie.title} - Credits | React Movie Database (RMDB)`

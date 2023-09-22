@@ -17,8 +17,8 @@ import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
 import { Fragment, useState } from "react";
 import type {
   HeadersFunction,
-  LoaderArgs,
-  V2_MetaFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from "@vercel/remix";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import {
@@ -48,7 +48,7 @@ const shouldRevalidate: ShouldRevalidateFunction = ({
   nextParams,
 }) => currentParams.movieId !== nextParams.movieId;
 
-const loader = async ({ params }: LoaderArgs) => {
+const loader = async ({ params }: LoaderFunctionArgs) => {
   if (!params.movieId) {
     throw new Error(`No movie found`);
   }
@@ -204,7 +204,7 @@ const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
 });
 
-const meta: V2_MetaFunction<typeof loader> = ({ data }) =>
+const meta: MetaFunction<typeof loader> = ({ data }) =>
   generateMetaTags({
     title: data
       ? `${data.movie.title} | React Movie Database (RMDB)`
