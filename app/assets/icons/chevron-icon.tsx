@@ -1,4 +1,4 @@
-export const XIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
+export const ChevronIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
   <svg
     width={24}
     height={24}
@@ -9,7 +9,7 @@ export const XIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
     {...props}
   >
     <path
-      d="M18 6 6 18M6 6l12 12"
+      d="m9 18 6-6-6-6"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"

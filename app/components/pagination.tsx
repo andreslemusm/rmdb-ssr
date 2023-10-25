@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowIcon } from "~/assets/icons";
 import { Link, useSearchParams } from "@remix-run/react";
 
 const Pagination = ({
@@ -10,12 +10,15 @@ const Pagination = ({
 }) => (
   <nav className="flex items-center justify-center gap-x-10 px-4 py-10 sm:px-0 sm:pb-14 sm:pt-16">
     <PaginationLink disabled={page <= 1} page={page - 1}>
-      <ArrowLeft className="-ml-0.5 mr-2 mt-0.5 h-4 w-4" aria-hidden="true" />
+      <ArrowIcon
+        className="-ml-0.5 mr-2 mt-0.5 h-4 w-4 rotate-180"
+        aria-hidden="true"
+      />
       Previous
     </PaginationLink>
     <PaginationLink disabled={page >= totalPages} page={page + 1}>
       Next
-      <ArrowRight className="-mr-0.5 ml-2 mt-0.5 h-4 w-4" aria-hidden="true" />
+      <ArrowIcon className="-mr-0.5 ml-2 mt-0.5 h-4 w-4" aria-hidden="true" />
     </PaginationLink>
   </nav>
 );

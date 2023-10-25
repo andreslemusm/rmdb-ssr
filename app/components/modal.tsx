@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { X } from "lucide-react";
+import { XIcon } from "~/assets/icons";
 import { Dialog, Transition } from "@headlessui/react";
 
 const Modal = ({
@@ -40,8 +40,12 @@ const Modal = ({
                   className="rounded-lg bg-neutral-900 text-neutral-400 transition hover:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-700"
                   onClick={() => onClose(false)}
                 >
-                  <span className="sr-only">Close</span>
-                  <X className="h-6 w-6" aria-hidden="true" />
+                  <XIcon
+                    className="h-6 w-6"
+                    aria-hidden="true"
+                    role="img"
+                    aria-label="Close"
+                  />
                 </button>
               </div>
               {children}

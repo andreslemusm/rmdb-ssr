@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Pagination } from "~/components/pagination";
-import { Star } from "lucide-react";
+import { StarIcon } from "~/assets/icons";
 import { cacheHeader } from "pretty-cache-header";
 import clsx from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
@@ -127,7 +127,7 @@ const Home = () => {
                   {movie.title}
                 </p>
                 <p className="flex items-center gap-x-1 font-normal">
-                  <Star className="mb-0.5 h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0" />
+                  <StarIcon className="mb-0.5 h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0" />
                   {movie.voteAverage.toPrecision(2)}
                 </p>
               </div>

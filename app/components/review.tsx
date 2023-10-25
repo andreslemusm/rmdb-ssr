@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { johnDoe } from "~/assets/images";
 import { BASE_IMAGE_URL, ProfileSizes } from "~/utils/tmdb";
-import { ChevronDown, Star } from "lucide-react";
+import { ChevronIcon, StarIcon } from "~/assets/icons";
 import { useId, useState } from "react";
 
 const Review = ({
@@ -40,7 +40,7 @@ const Review = ({
       </div>
       {rating ? (
         <p className="flex shrink-0 items-center gap-x-1 font-normal">
-          <Star
+          <StarIcon
             aria-hidden
             className="h-4 w-4 fill-yellow-500 stroke-yellow-500 sm:mb-0"
           />
@@ -81,9 +81,12 @@ const Content = ({ content }: { content: string }) => {
         aria-controls={contentId}
       >
         See {isOpen ? "less" : "more"}
-        <ChevronDown
+        <ChevronIcon
           aria-hidden
-          className={clsx(isOpen && "rotate-180", "mt-0.5 h-4 w-4")}
+          className={clsx(
+            isOpen ? "-rotate-90" : "rotate-90",
+            "mt-0.5 h-4 w-4",
+          )}
         />
       </button>
     </div>

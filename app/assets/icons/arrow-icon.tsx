@@ -1,4 +1,4 @@
-export const XIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
+export const ArrowIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
   <svg
     width={24}
     height={24}
@@ -9,7 +9,7 @@ export const XIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
     {...props}
   >
     <path
-      d="M18 6 6 18M6 6l12 12"
+      d="M5 12h14m-7-7 7 7-7 7"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"

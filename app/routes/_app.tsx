@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import { Search } from "lucide-react";
 import {
   BrandIcon,
   GithubIcon,
   LinkedinIcon,
-  XIcon,
+  SearchIcon,
+  TwitterXIcon,
   tmdbAltShort,
 } from "~/assets/icons";
 import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
@@ -26,7 +26,8 @@ const Layout = () => {
           <Form action="/search" className="w-full max-w-xs sm:max-w-md">
             <label htmlFor="search" className="relative block">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search
+                <SearchIcon
+                  role="img"
                   className="h-5 w-5 text-neutral-400"
                   aria-label="Search"
                 />
@@ -54,7 +55,7 @@ const Layout = () => {
               {
                 name: "X",
                 href: "https://twitter.com/andreslemusm1",
-                icon: XIcon,
+                icon: TwitterXIcon,
               },
               {
                 name: "GitHub",

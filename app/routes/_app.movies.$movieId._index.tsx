@@ -13,8 +13,15 @@ import {
   PosterSizes,
   ProfileSizes,
 } from "~/utils/tmdb";
-import { ChevronRight, Link as LinkIcon, Play, Star } from "lucide-react";
-import { FacebookIcon, InstagramIcon, XIcon } from "~/assets/icons";
+import {
+  ChevronIcon,
+  FacebookIcon,
+  InstagramIcon,
+  LinkIcon,
+  PlayIcon,
+  StarIcon,
+  TwitterXIcon,
+} from "~/assets/icons";
 import { Fragment, useState } from "react";
 import type {
   HeadersFunction,
@@ -279,7 +286,7 @@ const Movie = () => {
         </div>
         <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center pt-5 sm:pt-6">
           <div className="flex items-center gap-x-1.5">
-            <Star
+            <StarIcon
               aria-hidden
               className="h-4 w-4 fill-yellow-500 stroke-yellow-500"
             />
@@ -405,7 +412,7 @@ const Movie = () => {
           </p>
           <div className="flex items-baseline gap-x-10 pt-6">
             <div className="flex items-center gap-x-1.5">
-              <Star
+              <StarIcon
                 aria-hidden
                 className="h-5 w-5 fill-yellow-500 stroke-yellow-500"
               />
@@ -464,7 +471,7 @@ const Movie = () => {
                 prefetch="intent"
               >
                 View Credits
-                <ChevronRight aria-hidden className="mt-0.5 h-4 w-4" />
+                <ChevronIcon aria-hidden className="mt-0.5 h-4 w-4" />
               </Link>
             </header>
             <ol className="flex gap-x-3 overflow-x-auto pt-5">
@@ -507,11 +514,11 @@ const Movie = () => {
               {reviews.featuredReview ? (
                 <Link
                   to="./reviews"
-                  className="flex items-center gap-x-1 text-sm text-cyan-500 transition hover:text-cyan-400"
+                  className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
                   prefetch="intent"
                 >
                   View Reviews
-                  <ChevronRight aria-hidden className="mt-1 h-3.5 w-3.5" />
+                  <ChevronIcon aria-hidden className="mt-0.5 h-4 w-4" />
                 </Link>
               ) : null}
             </header>
@@ -627,7 +634,7 @@ const Movie = () => {
                         {recommendation.title}
                       </p>
                       <p className="text flex items-center gap-x-1">
-                        <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
+                        <StarIcon className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
                         {recommendation.voteAverage}
                       </p>
                     </div>
@@ -663,7 +670,7 @@ const Movie = () => {
                 href: externalIDs.twitterID
                   ? `https://twitter.com/${externalIDs.twitterID}`
                   : null,
-                icon: XIcon,
+                icon: TwitterXIcon,
                 label: "X",
               },
             ].map(({ href, icon: Icon, label }) =>
@@ -743,7 +750,7 @@ const TrailerModal = () => {
         className="flex items-center gap-x-1.5 text-sm text-neutral-200 transition hover:text-cyan-500 lg:text-base"
         onClick={() => setOpen(true)}
       >
-        <Play className="h-4 w-4" aria-hidden />
+        <PlayIcon className="h-4 w-4" aria-hidden />
         See Trailer
       </button>
     </Fragment>
