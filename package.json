@@ -12,13 +12,13 @@
     "commit": "cz"
   },
   "dependencies": {
-    "@headlessui/react": "1.7.17",
+    "@headlessui/react": "1.7.18",
     "@headlessui/tailwindcss": "0.2.0",
-    "@remix-run/node": "2.1.0",
-    "@remix-run/react": "2.1.0",
-    "@vercel/analytics": "1.1.1",
-    "@vercel/remix": "2.1.0",
-    "clsx": "2.0.0",
+    "@remix-run/node": "2.7.2",
+    "@remix-run/react": "2.7.2",
+    "@vercel/analytics": "1.2.2",
+    "@vercel/remix": "2.7.2-preset.1",
+    "clsx": "2.1.0",
     "nprogress": "0.2.0",
     "pretty-cache-header": "1.0.0",
     "react": "18.2.0",
@@ -26,39 +26,40 @@
     "snarkdown": "2.0.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "2.1.0",
-    "@remix-run/eslint-config": "2.1.0",
-    "@remix-run/serve": "2.1.0",
-    "@tailwindcss/forms": "0.5.6",
+    "@remix-run/dev": "2.7.2",
+    "@remix-run/eslint-config": "2.7.2",
+    "@remix-run/serve": "2.7.2",
+    "@tailwindcss/forms": "0.5.7",
     "@tailwindcss/typography": "0.5.10",
-    "@types/nprogress": "0.2.2",
-    "@types/react": "18.2.33",
-    "@types/react-dom": "18.2.14",
+    "@types/nprogress": "0.2.3",
+    "@types/react": "18.2.58",
+    "@types/react-dom": "18.2.19",
     "@typescript-eslint/eslint-plugin": "5.61.0",
     "@typescript-eslint/parser": "5.61.0",
-    "autoprefixer": "10.4.16",
+    "autoprefixer": "10.4.17",
     "commitizen": "4.3.0",
-    "eslint": "8.52.0",
-    "eslint-config-prettier": "9.0.0",
-    "eslint-plugin-functional": "6.0.0",
-    "eslint-plugin-import": "2.29.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-functional": "6.0.1",
+    "eslint-plugin-import": "2.29.1",
     "eslint-plugin-jest-dom": "5.1.0",
-    "eslint-plugin-jsx-a11y": "6.7.1",
+    "eslint-plugin-jsx-a11y": "6.8.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
-    "eslint-plugin-testing-library": "6.1.0",
-    "eslint-plugin-unicorn": "48.0.1",
-    "prettier": "3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.6",
-    "tailwindcss": "3.3.5",
-    "typescript": "5.2.2"
+    "eslint-plugin-testing-library": "6.2.0",
+    "eslint-plugin-unicorn": "51.0.1",
+    "prettier": "3.2.5",
+    "prettier-plugin-tailwindcss": "0.5.11",
+    "tailwindcss": "3.4.1",
+    "typescript": "5.3.3"
   },
   "engines": {
-    "node": "^18"
+    "node": "20.X"
   },
   "volta": {
-    "node": "18.17.1"
+    "node": "20.11.1",
+    "npm": "10.4.0"
   },
   "config": {
     "commitizen": {
