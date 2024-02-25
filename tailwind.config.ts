@@ -26,7 +26,7 @@ export default {
       "9xl": ["8rem", { lineHeight: "1" }],
     },
     fontFamily: {
-      sans: ["Lato", ...fontFamily.sans],
+      sans: fontFamily.sans,
     },
     fontWeight: {
       bold: fontWeight.bold,

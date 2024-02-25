@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
-import NProgress from "nprogress";
+import { globalLoadingBar } from "./components/global-loading-bar";
 import styles from "./tailwind.css";
 import { useEffect } from "react";
 import {
@@ -30,42 +30,24 @@ const links: LinksFunction = () => [
   },
   { rel: "manifest", href: "/site.webmanifest" },
   { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#5bbad5" },
-  // Lato 400, 700
-  {
-    as: "font",
-    crossOrigin: "anonymous",
-    href: "https://fonts.gstatic.com/s/lato/v23/S6uyw4BMUTPHjx4wXg.woff2",
-    rel: "preload",
-    type: "font/woff2",
-  },
-  {
-    as: "font",
-    crossOrigin: "anonymous",
-    href: "https://fonts.gstatic.com/s/lato/v23/S6u9w4BMUTPHh6UVSwiPGQ.woff2",
-    rel: "preload",
-    type: "font/woff2",
-  },
   // Stylesheets
   { rel: "stylesheet", href: styles },
 ];
 
-NProgress.configure({
-  easing: "linear",
-  minimum: 0.1,
-  showSpinner: false,
-  trickleSpeed: 100,
-});
-
 const config = { runtime: "edge" };
 
 const App = () => {
+  // Show progress bar on navigation.
   const navigation = useNavigation();
-
-  // Show loading bar on every page navigation
   useEffect(() => {
-    if (navigation.state === "idle") NProgress.done();
-    else NProgress.start();
-  }, [navigation.state]);
+    // Only show progress bar on normal load.
+    if (navigation.state === "loading" && navigation.formData == null) {
+      globalLoadingBar.start();
+    }
+    if (navigation.state === "idle") {
+      globalLoadingBar.done();
+    }
+  }, [navigation.formData, navigation.state]);
 
   return (
     <html lang="en" className="h-full antialiased">
