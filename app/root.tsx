@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
+import { SpeedInsights } from "@vercel/speed-insights/remix";
 import { globalLoadingBar } from "./components/global-loading-bar";
 import styles from "./tailwind.css";
 import { useEffect } from "react";
@@ -60,6 +61,7 @@ const App = () => {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <SpeedInsights />
         <Analytics />
       </body>
     </html>
