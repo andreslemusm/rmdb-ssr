@@ -2,11 +2,10 @@ import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
 import { SpeedInsights } from "@vercel/speed-insights/remix";
 import { globalLoadingBar } from "./components/global-loading-bar";
-import styles from "./tailwind.css";
+import styles from "./tailwind.css?url";
 import { useEffect } from "react";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -60,7 +59,6 @@ const App = () => {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
         <SpeedInsights />
         <Analytics />
       </body>

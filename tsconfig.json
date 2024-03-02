@@ -1,5 +1,5 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
@@ -20,6 +20,6 @@
     // We don't need to type check the node_modules.
     "skipLibCheck": true,
     // To support dynamic imports.
-    "module": "ES2022"
+    "module": "ESNext"
   }
 }
