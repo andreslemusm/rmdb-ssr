@@ -1,3 +1,7 @@
+/* eslint-disable import/group-exports
+  --
+  Vercel's config requires to be exported on its own, so we can't group all the exports together.
+*/
 import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
 import { SpeedInsights } from "@vercel/speed-insights/remix";
@@ -34,8 +38,6 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-const config = { runtime: "edge" };
-
 const App = () => {
   // Show progress bar on navigation.
   const navigation = useNavigation();
@@ -66,5 +68,7 @@ const App = () => {
   );
 };
 
-export { config, links };
+export const config = { runtime: "edge" };
+
+export { links };
 export default App;
