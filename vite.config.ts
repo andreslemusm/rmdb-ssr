@@ -3,6 +3,7 @@ import { installGlobals } from "@remix-run/node";
 import { vitePlugin as remix } from "@remix-run/dev";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { vercelPreset } from "@vercel/remix/vite";
+import { visualizer } from "rollup-plugin-visualizer";
 
 installGlobals();
 
@@ -12,7 +13,6 @@ export default defineConfig({
   },
   plugins: [
     remix({
-      ignoredRouteFiles: ["**/.*"],
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
@@ -21,5 +21,7 @@ export default defineConfig({
       presets: [vercelPreset()],
     }),
     tsconfigPaths(),
+    // `emitFile` is necessary since Remix builds more than one bundle!
+    visualizer({ emitFile: true }),
   ],
 });
