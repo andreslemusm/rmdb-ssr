@@ -1,4 +1,4 @@
-/* eslint-disable import/group-exports
+/* eslint-disable import/group-exports, import/exports-last
   --
   Vercel's config requires to be exported on its own, so we can't group all the exports together.
 */
@@ -7,7 +7,7 @@ import type { LinksFunction } from "@vercel/remix";
 import { SpeedInsights } from "@vercel/speed-insights/remix";
 import { globalLoadingBar } from "./components/global-loading-bar";
 import styles from "./tailwind.css?url";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import {
   Links,
   Meta,
@@ -17,7 +17,11 @@ import {
   useNavigation,
 } from "@remix-run/react";
 
+export const config = { runtime: "edge" };
+
 const links: LinksFunction = () => [
+  // Stylesheets
+  { rel: "stylesheet", href: styles },
   // Favicons
   { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
   {
@@ -34,9 +38,21 @@ const links: LinksFunction = () => [
   },
   { rel: "manifest", href: "/site.webmanifest" },
   { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#5bbad5" },
-  // Stylesheets
-  { rel: "stylesheet", href: styles },
 ];
+
+const Layout = ({ children }: { children: React.ReactNode }) => (
+  <html lang="en" className="h-full antialiased">
+    <head>
+      <Meta />
+      <Links />
+    </head>
+    <body className="flex h-full flex-col bg-neutral-900">
+      {children}
+      <ScrollRestoration />
+      <Scripts />
+    </body>
+  </html>
+);
 
 const App = () => {
   // Show progress bar on navigation.
@@ -52,23 +68,13 @@ const App = () => {
   }, [navigation.formData, navigation.state]);
 
   return (
-    <html lang="en" className="h-full antialiased">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body className="flex h-full flex-col bg-neutral-900">
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <SpeedInsights />
-        <Analytics />
-      </body>
-    </html>
+    <Fragment>
+      <Outlet />
+      <SpeedInsights />
+      <Analytics />
+    </Fragment>
   );
 };
 
-export const config = { runtime: "edge" };
-
-export { links };
+export { Layout, links };
 export default App;
