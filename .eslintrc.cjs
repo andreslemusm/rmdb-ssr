@@ -1,42 +1,22 @@
-/**
- * @type {import('eslint').Linter.Config}
- */
+/** @type {import("eslint").Linter.Config} */
 module.exports = {
-  env: { node: true, es6: true },
-  extends: [
-    "eslint:recommended",
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
-    "prettier",
-  ],
   root: true,
+  env: { node: true, es2023: true },
+  parserOptions: {
+    sourceType: "module",
+  },
+  extends: ["eslint:recommended", "prettier"],
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
       env: {
-        browser: true,
-        es2021: true,
+        "shared-node-browser": true,
       },
-      extends: [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:react/jsx-runtime",
-        "plugin:jsx-a11y/strict",
-        "plugin:import/typescript",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:functional/strict",
-        "plugin:testing-library/react",
-        "plugin:jest-dom/recommended",
-        "prettier",
-      ],
       parser: "@typescript-eslint/parser",
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
-        ecmaVersion: 2022,
-        sourceType: "module",
         tsconfigRootDir: __dirname,
         project: ["./tsconfig.json"],
       },
@@ -51,6 +31,19 @@ module.exports = {
         "functional",
         "testing-library",
         "jest-dom",
+      ],
+      extends: [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:jsx-a11y/strict",
+        "plugin:import/typescript",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:functional/strict",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended",
+        "prettier",
       ],
       rules: {
         "line-comment-position": ["error", "above"],
@@ -67,13 +60,40 @@ module.exports = {
             memberSyntaxSortOrder: ["single", "all", "multiple", "none"],
           },
         ],
-        "functional/prefer-immutable-types": "off",
-        "functional/no-throw-statements": "off",
-        "functional/type-declaration-immutability": "off",
-        "functional/functional-parameters": "off",
-        "functional/no-conditional-statements": "off",
-        "functional/no-expression-statements": "off",
-        "functional/no-return-void": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [
+              {
+                group: ["@radix-ui/react-form"],
+                message: "Please use '~/components/lib' instead",
+              },
+              {
+                group: ["@remix-run/node"],
+                message: "Please use '@vercel/remix' instead",
+              },
+              {
+                group: ["valibot"],
+                message: "Please use '~/utils/validations' instead",
+              },
+            ],
+          },
+        ],
+        "functional/immutable-data": [
+          "off",
+          {
+            ignoreImmediateMutation: true,
+            /**
+             * @description `*.current` property is used by React refs to persist a value for the full lifetime of the component.
+             * @link https://reactjs.org/docs/hooks-reference.html#useref
+             * s
+             * @description `*.displayName` property is used for better DX.
+             * @link https://reactjs.org/docs/forwarding-refs.html#displaying-a-custom-name-in-devtools
+             * @link https://reactjs.org/docs/context.html#contextdisplayname
+             */
+            ignoreAccessorPattern: ["*.current", "*.displayName"],
+          },
+        ],
         "import/export": "error",
         "import/exports-last": "error",
         "import/first": "error",
@@ -82,6 +102,7 @@ module.exports = {
         "import/no-absolute-path": "error",
         "import/no-cycle": ["error", { ignoreExternal: true }],
         "import/no-deprecated": "error",
+        "import/no-duplicates": "error",
         "import/no-extraneous-dependencies": [
           "error",
           { optionalDependencies: false },
@@ -98,6 +119,12 @@ module.exports = {
         "@typescript-eslint/consistent-type-imports": "error",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error",
+        "jsx-a11y/label-has-associated-control": [
+          "error",
+          {
+            controlComponents: ["Input", "Textarea"],
+          },
+        ],
         "unicorn/filename-case": [
           "error",
           {
@@ -150,6 +177,14 @@ module.exports = {
          * OOP patterns are disabled, so this rule is unnecesary.
          */
         "functional/no-mixed-type": "off",
+        "functional/prefer-immutable-types": "off",
+        "functional/no-throw-statements": "off",
+        "functional/type-declaration-immutability": "off",
+        "functional/functional-parameters": "off",
+        "functional/no-conditional-statements": "off",
+        "functional/no-expression-statements": "off",
+        "functional/no-return-void": "off",
+        "functional/no-try-statements": "off",
       },
       settings: {
         react: {

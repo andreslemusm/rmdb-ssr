@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+// eslint-disable-next-line no-restricted-imports -- Only way to install node polyfills
 import { installGlobals } from "@remix-run/node";
 import { vitePlugin as remix } from "@remix-run/dev";
 import tsconfigPaths from "vite-tsconfig-paths";
