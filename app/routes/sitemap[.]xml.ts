@@ -12,6 +12,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) =>
       "Cache-Control": cacheHeader({
         public: true,
         maxAge: "5m",
+        staleWhileRevalidate: "1month",
       }),
     },
   });
