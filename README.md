@@ -5,7 +5,7 @@
 <h1 align="center">React Movie Database</h1>
 <br>
 
-> RMDB built using [Remix](https://github.com/remix-run/remix), [React 18](https://github.com/facebook/react), [TailwindCSS](https://github.com/tailwindlabs/tailwindcss), [The Movie Database](https://www.themoviedb.org) [API](https://www.themoviedb.org/documentation/api) and [TypeScript](https://github.com/microsoft/TypeScript).
+> RMDB built using [React Router V7](https://github.com/remix-run/react-router), [React 19](https://github.com/facebook/react), [TailwindCSS](https://github.com/tailwindlabs/tailwindcss), [The Movie Database](https://www.themoviedb.org) [API](https://www.themoviedb.org/documentation/api) and [TypeScript](https://github.com/microsoft/TypeScript).
 
 **🍿 Live preview:** <https://rmdb.andreslemusm.com/>
 

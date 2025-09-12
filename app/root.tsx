@@ -1,10 +1,6 @@
-/* eslint-disable import/group-exports, import/exports-last
-  --
-  Vercel's config requires to be exported on its own, so we can't group all the exports together.
-*/
 import { Analytics } from "@vercel/analytics/react";
-import type { LinksFunction } from "@vercel/remix";
-import { SpeedInsights } from "@vercel/speed-insights/remix";
+import type { Route } from "./+types/root";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { globalLoadingBar } from "./components/global-loading-bar";
 import styles from "./tailwind.css?url";
 import { Fragment, useEffect } from "react";
@@ -15,11 +11,9 @@ import {
   Scripts,
   ScrollRestoration,
   useNavigation,
-} from "@remix-run/react";
+} from "react-router";
 
-export const config = { runtime: "edge" };
-
-const links: LinksFunction = () => [
+const links: Route.LinksFunction = () => [
   // Stylesheets
   { rel: "stylesheet", href: styles },
   // Favicons

@@ -1,5 +1,5 @@
 import { ArrowIcon } from "~/assets/icons";
-import { Link, useSearchParams } from "@remix-run/react";
+import { Link, useSearchParams } from "react-router";
 
 const Pagination = ({
   page,

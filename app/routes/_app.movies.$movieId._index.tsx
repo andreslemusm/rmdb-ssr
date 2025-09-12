@@ -1,12 +1,12 @@
 import { Modal } from "~/components/modal";
 import { Portal } from "@headlessui/react";
 import { Review } from "~/components/review";
-import type { ShouldRevalidateFunction } from "@remix-run/react";
+import type { Route } from "./+types/_app.movies.$movieId._index";
+import type { ShouldRevalidateFunction } from "react-router";
 import { cacheHeader } from "pretty-cache-header";
 import clsx from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
-import { json } from "@vercel/remix";
 import {
   BASE_IMAGE_URL,
   BackdropSizes,
@@ -23,12 +23,7 @@ import {
   TwitterXIcon,
 } from "~/assets/icons";
 import { Fragment, useState } from "react";
-import type {
-  HeadersFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@vercel/remix";
-import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
+import { Link, useLoaderData, useSearchParams } from "react-router";
 import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
@@ -51,7 +46,7 @@ const shouldRevalidate: ShouldRevalidateFunction = ({
   nextParams,
 }) => currentParams.movieId !== nextParams.movieId;
 
-const loader = async ({ params }: LoaderFunctionArgs) => {
+const loader = async ({ params }: Route.LoaderArgs) => {
   if (!params.movieId) {
     throw new Error(`No movie found`);
   }
@@ -76,147 +71,139 @@ const loader = async ({ params }: LoaderFunctionArgs) => {
     getMovieKeywords(params.movieId),
   ]);
 
-  return json(
-    {
-      movie: {
-        backdropPath: movie.backdrop_path,
-        posterPath: movie.poster_path,
-        title: movie.title,
-        homepage: movie.homepage,
-        voteAverage: movie.vote_average.toPrecision(2),
-        voteCount: formatNumberAsCompactNumber(movie.vote_count),
-        releaseDate: movie.release_date,
-        runtime: `${Math.floor(movie.runtime / 60)}h ${
-          movie.runtime - Math.floor(movie.runtime / 60) * 60
-        }m`,
-        genres: movie.genres,
-        tagline: movie.tagline,
-        overview: movie.overview,
-        status: movie.status,
-        budget:
-          movie.budget !== 0 ? formatNumberAsCurrency(movie.budget) : null,
-        revenue:
-          movie.revenue !== 0 ? formatNumberAsCurrency(movie.revenue) : null,
-        originalLanguage: formatLangCodeAsLangName(movie.original_language),
-      },
-      youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
-        ?.key,
-      credits: {
-        ...credits.crew.reduce(
-          (mainCrew, crewPerson) => {
-            if (crewPerson.job === "Director")
-              return {
-                ...mainCrew,
-                directors: [...mainCrew.directors, crewPerson.name],
-              };
-            if (crewPerson.job === "Writer") {
-              return {
-                ...mainCrew,
-                writters: [...mainCrew.writters, crewPerson.name],
-              };
-            }
-            if (crewPerson.job === "Characters") {
-              return {
-                ...mainCrew,
-                characters: [...mainCrew.writters, crewPerson.name],
-              };
-            }
-            if (crewPerson.job === "Editor") {
-              return {
-                ...mainCrew,
-                editors: [...mainCrew.writters, crewPerson.name],
-              };
-            }
+  return {
+    movie: {
+      backdropPath: movie.backdrop_path,
+      posterPath: movie.poster_path,
+      title: movie.title,
+      homepage: movie.homepage,
+      voteAverage: movie.vote_average.toPrecision(2),
+      voteCount: formatNumberAsCompactNumber(movie.vote_count),
+      releaseDate: movie.release_date,
+      runtime: `${Math.floor(movie.runtime / 60)}h ${
+        movie.runtime - Math.floor(movie.runtime / 60) * 60
+      }m`,
+      genres: movie.genres,
+      tagline: movie.tagline,
+      overview: movie.overview,
+      status: movie.status,
+      budget: movie.budget !== 0 ? formatNumberAsCurrency(movie.budget) : null,
+      revenue:
+        movie.revenue !== 0 ? formatNumberAsCurrency(movie.revenue) : null,
+      originalLanguage: formatLangCodeAsLangName(movie.original_language),
+    },
+    youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
+      ?.key,
+    credits: {
+      ...credits.crew.reduce(
+        (mainCrew, crewPerson) => {
+          if (crewPerson.job === "Director")
+            return {
+              ...mainCrew,
+              directors: [...mainCrew.directors, crewPerson.name],
+            };
+          if (crewPerson.job === "Writer") {
+            return {
+              ...mainCrew,
+              writters: [...mainCrew.writters, crewPerson.name],
+            };
+          }
+          if (crewPerson.job === "Characters") {
+            return {
+              ...mainCrew,
+              characters: [...mainCrew.writters, crewPerson.name],
+            };
+          }
+          if (crewPerson.job === "Editor") {
+            return {
+              ...mainCrew,
+              editors: [...mainCrew.writters, crewPerson.name],
+            };
+          }
 
-            return mainCrew;
-          },
-          {
-            directors: [],
-            writters: [],
-            characters: [],
-            editors: [],
-          } as Record<
-            "directors" | "writters" | "characters" | "editors",
-            Array<string>
-          >,
-        ),
-        topCast: credits.cast.slice(0, 9).map((castPerson) => ({
-          id: castPerson.id,
-          profilePath: castPerson.profile_path,
-          name: castPerson.name,
-          character: castPerson.character,
-        })),
-      },
-      reviews: {
-        featuredReview:
-          reviews.results.length > 0
-            ? {
-                author: {
-                  avatarPath: reviews.results[0].author_details.avatar_path,
-                  name: reviews.results[0].author_details.name
-                    ? reviews.results[0].author_details.name
-                    : reviews.results[0].author_details.username,
-                },
-                rating: reviews.results[0].author_details.rating,
-                content: markdownFormatter(reviews.results[0].content),
-                createdDate: new Intl.DateTimeFormat("en-US", {
-                  dateStyle: "medium",
-                }).format(new Date(reviews.results[0].created_at)),
-              }
-            : null,
-        count: reviews.total_results,
-      },
-      recommendations: recommendations.results.map((recommendation) => ({
-        id: recommendation.id,
-        backdropPath: recommendation.backdrop_path,
-        title: recommendation.title,
-        voteAverage: recommendation.vote_average.toPrecision(2),
+          return mainCrew;
+        },
+        {
+          directors: [],
+          writters: [],
+          characters: [],
+          editors: [],
+        } as Record<
+          "directors" | "writters" | "characters" | "editors",
+          Array<string>
+        >,
+      ),
+      topCast: credits.cast.slice(0, 9).map((castPerson) => ({
+        id: castPerson.id,
+        profilePath: castPerson.profile_path,
+        name: castPerson.name,
+        character: castPerson.character,
       })),
-      posters: {
-        count: images.posters.length,
-        featured: images.posters.slice(0, 9).map((poster) => ({
-          filePath: poster.file_path,
-        })),
-      },
-      backdrops: {
-        count: images.backdrops.length,
-        featured: images.backdrops.slice(0, 9).map((backdrop) => ({
-          filePath: backdrop.file_path,
-        })),
-      },
-      externalIDs: {
-        facebookID: externalIDs.facebook_id,
-        instagramID: externalIDs.instagram_id,
-        twitterID: externalIDs.twitter_id,
-      },
-      keywords: keywords.keywords,
     },
-    {
-      headers: {
-        "Cache-Control": cacheHeader({
-          public: true,
-          maxAge: "1m",
-          staleWhileRevalidate: "1month",
-        }),
-      },
+    reviews: {
+      featuredReview:
+        reviews.results.length > 0
+          ? {
+              author: {
+                avatarPath: reviews.results[0].author_details.avatar_path,
+                name: reviews.results[0].author_details.name
+                  ? reviews.results[0].author_details.name
+                  : reviews.results[0].author_details.username,
+              },
+              rating: reviews.results[0].author_details.rating,
+              content: markdownFormatter(reviews.results[0].content),
+              createdDate: new Intl.DateTimeFormat("en-US", {
+                dateStyle: "medium",
+              }).format(new Date(reviews.results[0].created_at)),
+            }
+          : null,
+      count: reviews.total_results,
     },
-  );
+    recommendations: recommendations.results.map((recommendation) => ({
+      id: recommendation.id,
+      backdropPath: recommendation.backdrop_path,
+      title: recommendation.title,
+      voteAverage: recommendation.vote_average.toPrecision(2),
+    })),
+    posters: {
+      count: images.posters.length,
+      featured: images.posters.slice(0, 9).map((poster) => ({
+        filePath: poster.file_path,
+      })),
+    },
+    backdrops: {
+      count: images.backdrops.length,
+      featured: images.backdrops.slice(0, 9).map((backdrop) => ({
+        filePath: backdrop.file_path,
+      })),
+    },
+    externalIDs: {
+      facebookID: externalIDs.facebook_id,
+      instagramID: externalIDs.instagram_id,
+      twitterID: externalIDs.twitter_id,
+    },
+    keywords: keywords.keywords,
+  };
 };
 
-const headers: HeadersFunction = ({ loaderHeaders }) => ({
-  "Cache-Control": loaderHeaders.get("Cache-Control") ?? "",
+const headers: Route.HeadersFunction = () => ({
+  "Cache-Control": cacheHeader({
+    public: true,
+    maxAge: "1m",
+    staleWhileRevalidate: "1month",
+  }),
 });
 
-const meta: MetaFunction<typeof loader> = ({ data }) =>
+const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
-    title: data
-      ? `${data.movie.title} | React Movie Database (RMDB)`
+    title: loaderData
+      ? `${loaderData.movie.title} | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
-    description: data?.movie.overview ?? "",
+    description: loaderData.movie.overview ?? "",
   });
 
-const Movie = () => {
-  const {
+const Movie = ({
+  loaderData: {
     movie,
     credits,
     recommendations,
@@ -225,8 +212,8 @@ const Movie = () => {
     keywords,
     posters,
     backdrops,
-  } = useLoaderData<typeof loader>();
-
+  },
+}: Route.ComponentProps) => {
   const [searchParams] = useSearchParams();
   const mediaType = searchParams.get("mediaType") ?? "posters";
 

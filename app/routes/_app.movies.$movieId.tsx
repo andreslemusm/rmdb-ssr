@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import clsx from "clsx";
-import { NavLink, Outlet } from "@remix-run/react";
+import { NavLink, Outlet } from "react-router";
 
 const Movie = () => (
   <Fragment>

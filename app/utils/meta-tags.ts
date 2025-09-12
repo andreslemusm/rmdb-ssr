@@ -1,4 +1,4 @@
-import type { MetaDescriptor } from "@vercel/remix";
+import type { MetaDescriptor } from "react-router";
 
 export const generateMetaTags = ({
   title,

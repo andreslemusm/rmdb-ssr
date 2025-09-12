@@ -1,14 +1,19 @@
+import type { Route } from "./+types/sitemap[.]xml";
+import type { SitemapRoute } from "@forge42/seo-tools/sitemap";
 import { cacheHeader } from "pretty-cache-header";
-import { generateSitemap } from "@nasa-gcn/remix-seo";
+import { generateSitemap } from "@forge42/seo-tools/sitemap";
 import { getDomainUrl } from "~/utils/mics.server";
-// @ts-expect-error -- This is the way to import routes from the server-build in Vite
-import { routes } from "virtual:remix/server-build";
-import type { LoaderFunctionArgs, ServerBuild } from "@vercel/remix";
+import { routes } from "virtual:react-router/server-build";
 
-export const loader = async ({ request }: LoaderFunctionArgs) =>
-  generateSitemap(request, routes as ServerBuild["routes"], {
-    siteUrl: getDomainUrl(request),
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  const sitemap = await generateSitemap({
+    domain: getDomainUrl(request),
+    routes: routes as unknown as Array<SitemapRoute>,
+  });
+
+  return new Response(sitemap, {
     headers: {
+      "Content-Type": "application/xml",
       "Cache-Control": cacheHeader({
         public: true,
         maxAge: "5m",
@@ -16,3 +21,4 @@ export const loader = async ({ request }: LoaderFunctionArgs) =>
       }),
     },
   });
+};

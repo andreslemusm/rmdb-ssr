@@ -1,18 +1,25 @@
-import type { LoaderFunctionArgs } from "@vercel/remix";
+import type { Route } from "./+types/robots[.]txt";
 import { cacheHeader } from "pretty-cache-header";
-import { generateRobotsTxt } from "@nasa-gcn/remix-seo";
+import { generateRobotsTxt } from "@forge42/seo-tools/robots";
 import { getDomainUrl } from "~/utils/mics.server";
 
-export const loader = ({ request }: LoaderFunctionArgs) =>
-  generateRobotsTxt(
-    [{ type: "sitemap", value: `${getDomainUrl(request)}/sitemap.xml` }],
+export const loader = ({ request }: Route.LoaderArgs) => {
+  const robotsTxt = generateRobotsTxt([
     {
-      headers: {
-        "Cache-Control": cacheHeader({
-          public: true,
-          maxAge: "5m",
-          staleWhileRevalidate: "1month",
-        }),
-      },
+      userAgent: "*",
+      allow: ["/"],
+      sitemap: [`${getDomainUrl(request)}/sitemap.xml`],
     },
-  );
+  ]);
+
+  return new Response(robotsTxt, {
+    headers: {
+      "Content-Type": "text/plain",
+      "Cache-Control": cacheHeader({
+        public: true,
+        maxAge: "5m",
+        staleWhileRevalidate: "1month",
+      }),
+    },
+  });
+};

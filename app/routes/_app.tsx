@@ -7,7 +7,7 @@ import {
   TwitterXIcon,
   tmdbAltShort,
 } from "~/assets/icons";
-import { Form, Link, Outlet, useSearchParams } from "@remix-run/react";
+import { Form, Link, Outlet, useSearchParams } from "react-router";
 
 const Layout = () => {
   const [searchParams] = useSearchParams();
