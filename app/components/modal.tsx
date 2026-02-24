@@ -20,7 +20,7 @@ const Modal = ({
         leave="duration-200 ease-in"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/80 backdrop-blur-xs transition-opacity"
       />
       <div className="fixed inset-0 z-10 overflow-y-auto">
         <div className="flex min-h-full items-center justify-center p-4">
@@ -33,11 +33,11 @@ const Modal = ({
             leaveFrom="translate-y-0 opacity-100 sm:scale-100"
             leaveTo="translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
           >
-            <Dialog.Panel className="relative transform overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 px-4 pb-4 pt-5 transition-all sm:my-8 sm:w-full sm:max-w-screen-lg sm:p-6">
-              <div className="absolute right-0 top-0 hidden pr-2.5 pt-2.5 sm:block">
+            <Dialog.Panel className="relative transform overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 px-4 pt-5 pb-4 transition-all sm:my-8 sm:w-full sm:max-w-(--breakpoint-lg) sm:p-6">
+              <div className="absolute top-0 right-0 hidden pt-2.5 pr-2.5 sm:block">
                 <button
                   type="button"
-                  className="rounded-lg bg-neutral-900 text-neutral-400 transition hover:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-700"
+                  className="rounded-lg bg-neutral-900 text-neutral-400 transition hover:text-neutral-200 focus:ring-2 focus:ring-neutral-700 focus:outline-hidden"
                   onClick={() => onClose(false)}
                 >
                   <XIcon

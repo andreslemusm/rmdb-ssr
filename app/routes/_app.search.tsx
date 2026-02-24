@@ -55,7 +55,7 @@ const Search = ({
   loaderData: { movies, totalPages, page, query, totalResults },
 }: Route.ComponentProps) => (
   <Fragment>
-    <h1 className="mt-10 text-center text-2xl font-bold capitalize text-neutral-100">
+    <h1 className="mt-10 text-center text-2xl font-bold text-neutral-100 capitalize">
       {query}
     </h1>
     <p className="mt-4 text-center text-base text-neutral-400">

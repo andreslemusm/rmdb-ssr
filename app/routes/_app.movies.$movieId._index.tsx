@@ -286,7 +286,7 @@ const Movie = ({
           </div>
           <TrailerModal />
         </div>
-        <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-b border-t border-neutral-800 pb-3 pt-2 sm:mt-6 sm:gap-y-2 sm:pb-4 sm:pt-3">
+        <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-t border-b border-neutral-800 pt-2 pb-3 sm:mt-6 sm:gap-y-2 sm:pt-3 sm:pb-4">
           <p className="text-sm text-neutral-400">
             {movie.releaseDate} • {movie.runtime}
           </p>
@@ -301,7 +301,7 @@ const Movie = ({
             ))}
           </div>
         </div>
-        <p className="pt-5 text-center italic text-neutral-400">
+        <p className="pt-5 text-center text-neutral-400 italic">
           {movie.tagline}
         </p>
         <p className="pt-5 text-justify text-neutral-300">{movie.overview}</p>
@@ -349,11 +349,11 @@ const Movie = ({
               height={720}
               className="h-full w-full object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/80 to-neutral-900" />
+            <div className="absolute inset-0 bg-linear-to-b from-neutral-900 via-neutral-900/80 to-neutral-900" />
           </Portal>
         ) : null}
         <div className="shrink-0">
-          <div className="aspect-2/3 h-96 overflow-hidden rounded-xl xl:h-[28rem]">
+          <div className="aspect-2/3 h-96 overflow-hidden rounded-xl xl:h-112">
             {movie.posterPath ? (
               <img
                 src={`${BASE_IMAGE_URL}${PosterSizes["2xl"]}${movie.posterPath}`}
@@ -412,7 +412,7 @@ const Movie = ({
             </div>
             <TrailerModal />
           </div>
-          <p className="pt-6 italic text-neutral-400">{movie.tagline}</p>
+          <p className="pt-6 text-neutral-400 italic">{movie.tagline}</p>
           <p className="max-w-3xl pt-4 text-neutral-200">{movie.overview}</p>
           <dl className="grid grid-cols-2 justify-center gap-4 pt-7">
             <Description
@@ -446,7 +446,7 @@ const Movie = ({
           </dl>
         </div>
       </div>
-      <div className="mt-8 grid grid-cols-4 border-t border-neutral-800 pb-10 pt-7 sm:mt-9 sm:pb-14 sm:pt-8 lg:gap-x-12">
+      <div className="mt-8 grid grid-cols-4 border-t border-neutral-800 pt-7 pb-10 sm:mt-9 sm:pt-8 sm:pb-14 lg:gap-x-12">
         <div className="col-span-4 lg:col-span-3">
           {/* Cast */}
           <section>
@@ -697,7 +697,7 @@ const Movie = ({
                     {keywords.map((keyword) => (
                       <span
                         key={keyword.id}
-                        className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs capitalize text-neutral-200"
+                        className="shrink-0 rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200 capitalize"
                       >
                         {keyword.name}
                       </span>

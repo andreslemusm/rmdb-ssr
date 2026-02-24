@@ -82,7 +82,7 @@ const Reviews = ({ loaderData: { movie, reviews } }: Route.ComponentProps) => (
         <p className="pt-1 text-sm text-neutral-400">{movie.releaseDate}</p>
       </div>
     </div>
-    <section className="mt-8 border-t border-neutral-800 pb-16 pt-7 lg:mt-9 lg:pt-8">
+    <section className="mt-8 border-t border-neutral-800 pt-7 pb-16 lg:mt-9 lg:pt-8">
       <h2 className="flex items-baseline gap-x-2 text-lg font-bold text-neutral-200">
         Reviews
         <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">

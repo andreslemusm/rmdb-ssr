@@ -18,7 +18,7 @@ const Layout = () => {
       <header className="border-b border-neutral-800 px-4 py-6 sm:px-4 sm:py-7 lg:px-8">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-x-5">
           <div className="flex items-center gap-x-8">
-            <Link to="/" className="flex-shrink-0" prefetch="intent">
+            <Link to="/" className="shrink-0" prefetch="intent">
               <span className="sr-only">Home</span>
               <BrandIcon className="block h-10 w-10" />
             </Link>
@@ -35,7 +35,7 @@ const Layout = () => {
               <input
                 defaultValue={query}
                 name="query"
-                className="block w-full rounded-xl border border-transparent bg-neutral-800 py-2 pl-10 pr-3 leading-5 text-neutral-200 placeholder-neutral-500 hover:border-neutral-700 focus:border-neutral-700 focus:outline-none focus:ring-neutral-700 sm:text-sm"
+                className="block w-full rounded-xl border border-transparent bg-neutral-800 py-2 pr-3 pl-10 leading-5 text-neutral-200 placeholder-neutral-500 hover:border-neutral-700 focus:border-neutral-700 focus:ring-3 focus:ring-neutral-700 focus:outline-hidden sm:text-sm"
                 placeholder="Search your favorite movie..."
                 type="search"
               />
@@ -79,7 +79,7 @@ const Layout = () => {
             ))}
           </nav>
           <div className="mt-8 md:order-1 md:mt-0">
-            <p className="text-center text-xs font-normal leading-5 text-neutral-400">
+            <p className="text-center text-xs leading-5 font-normal text-neutral-400">
               &copy; {new Date().getFullYear()} Andres Lemus.{" "}
               <a
                 href="/"

@@ -280,7 +280,7 @@ const Credits = ({
         <p className="pt-1 text-sm text-neutral-400">{movie.releaseDate}</p>
       </div>
     </div>
-    <div className="mt-8 grid gap-x-10 gap-y-12 border-t border-neutral-800 pb-16 pt-7 sm:grid-cols-2 lg:mt-9 lg:pt-8">
+    <div className="mt-8 grid gap-x-10 gap-y-12 border-t border-neutral-800 pt-7 pb-16 sm:grid-cols-2 lg:mt-9 lg:pt-8">
       <CreditSection title="Cast" people={cast} />
       <div className="space-y-12">
         <CreditSection title="Art" people={art} />
