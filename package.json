@@ -37,8 +37,8 @@
     "@total-typescript/ts-reset": "0.6.1",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "@typescript-eslint/eslint-plugin": "7.18.0",
-    "@typescript-eslint/parser": "7.18.0",
+    "@typescript-eslint/eslint-plugin": "8.56.1",
+    "@typescript-eslint/parser": "8.56.1",
     "autoprefixer": "10.4.24",
     "commitizen": "4.3.1",
     "eslint": "8.57.1",
@@ -49,16 +49,16 @@
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-react": "7.37.5",
-    "eslint-plugin-react-hooks": "4.6.2",
-    "eslint-plugin-testing-library": "6.5.0",
+    "eslint-plugin-react-hooks": "7.0.1",
+    "eslint-plugin-testing-library": "7.16.0",
     "eslint-plugin-unicorn": "52.0.0",
     "prettier": "3.8.1",
     "prettier-plugin-tailwindcss": "0.7.2",
-    "rollup-plugin-visualizer": "6.0.3",
+    "rollup-plugin-visualizer": "7.0.0",
     "tailwindcss": "3.4.17",
     "typescript": "5.9.3",
     "vite": "7.3.1",
-    "vite-tsconfig-paths": "5.1.4"
+    "vite-tsconfig-paths": "6.1.1"
   },
   "engines": {
     "node": "22.X"

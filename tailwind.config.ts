@@ -1,14 +1,14 @@
+/* eslint-disable sort-imports -- Plugin imports must load in correct order for Tailwind */
 import type { Config } from "tailwindcss";
+import forms from "@tailwindcss/forms";
+import headlessui from "@headlessui/tailwindcss";
+import typography from "@tailwindcss/typography";
 import colors from "tailwindcss/colors";
 import { fontFamily, fontWeight } from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./app/**/*.{ts,tsx,js,jsx}"],
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("@headlessui/tailwindcss"),
-    require("@tailwindcss/typography"),
-  ],
+  plugins: [forms, headlessui, typography],
   theme: {
     fontSize: {
       xs: ["0.8125rem", { lineHeight: "1.5rem" }],

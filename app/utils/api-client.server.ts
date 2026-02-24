@@ -34,7 +34,7 @@ const fetchFn = async <TReturnType = void>(request: Request) => {
       );
     }
 
-    return Promise.reject(apiError);
+    return Promise.reject(new Error(JSON.stringify(apiError)));
   }
 
   return response.json() as Promise<TReturnType>;
