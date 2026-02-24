@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { johnDoe } from "~/assets/images";
 import { BASE_IMAGE_URL, ProfileSizes } from "~/utils/tmdb";
 import { ChevronIcon, StarIcon } from "~/assets/icons";

@@ -4,7 +4,7 @@ import { Review } from "~/components/review";
 import type { Route } from "./+types/_app.movies.$movieId._index";
 import type { ShouldRevalidateFunction } from "react-router";
 import { cacheHeader } from "pretty-cache-header";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { johnDoe } from "~/assets/images";
 import {

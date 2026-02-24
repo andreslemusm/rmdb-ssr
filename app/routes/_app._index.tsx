@@ -4,7 +4,7 @@ import { Pagination } from "~/components/pagination";
 import type { Route } from "./+types/_app._index";
 import { StarIcon } from "~/assets/icons";
 import { cacheHeader } from "pretty-cache-header";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { generateMetaTags } from "~/utils/meta-tags";
 import { getMovies } from "~/services/movies.server";
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";

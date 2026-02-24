@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { NavLink, Outlet } from "react-router";
 
 const Movie = () => (
