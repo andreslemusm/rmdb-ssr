@@ -45,12 +45,7 @@ const Modal = ({
                   className="rounded-lg bg-neutral-900 text-neutral-400 transition hover:text-neutral-200 focus:ring-2 focus:ring-neutral-700 focus:outline-hidden"
                   onClick={() => onClose(false)}
                 >
-                  <XIcon
-                    className="h-6 w-6"
-                    aria-hidden="true"
-                    role="img"
-                    aria-label="Close"
-                  />
+                  <XIcon className="h-6 w-6" role="img" aria-label="Close" />
                 </button>
               </div>
               {children}
