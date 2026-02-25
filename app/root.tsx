@@ -35,12 +35,12 @@ const links: Route.LinksFunction = () => [
 ];
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
-  <html lang="en" className="h-full antialiased">
+  <html lang="en">
     <head>
       <Meta />
       <Links />
     </head>
-    <body className="flex h-full flex-col bg-neutral-900">
+    <body>
       {children}
       <ScrollRestoration />
       <Scripts />

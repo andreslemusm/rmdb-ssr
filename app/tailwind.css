@@ -141,6 +141,14 @@
   [role="button"]:not(:disabled) {
     @apply cursor-pointer text-base;
   }
+
+  html {
+    @apply h-full antialiased scheme-dark;
+  }
+
+  body {
+    @apply flex h-full flex-col bg-neutral-900 text-neutral-200;
+  }
 }
 
 @layer components {

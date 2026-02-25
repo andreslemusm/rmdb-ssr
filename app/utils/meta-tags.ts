@@ -47,6 +47,6 @@ export const generateMetaTags = ({
       content: title,
     },
     { name: "application-name", content: title },
-    { name: "msapplication-TileColor", content: "#2d89ef" },
-    { name: "theme-color", content: "#ffffff" },
+    { name: "msapplication-TileColor", content: "#171717" },
+    { name: "theme-color", content: "#171717" },
   ] satisfies Array<MetaDescriptor>;
