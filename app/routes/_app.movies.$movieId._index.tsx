@@ -95,43 +95,45 @@ const loader = async ({ params }: Route.LoaderArgs) => {
     youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
       ?.key,
     credits: {
-      ...credits.crew.reduce(
-        (mainCrew, crewPerson) => {
-          if (crewPerson.job === "Director")
+      ...credits.crew.reduce<
+        Record<
+          "directors" | "writers" | "characters" | "editors",
+          Array<string>
+        >
+      >(
+        (crew, personFromCrew) => {
+          if (personFromCrew.job === "Director")
             return {
-              ...mainCrew,
-              directors: [...mainCrew.directors, crewPerson.name],
+              ...crew,
+              directors: [...crew.directors, personFromCrew.name],
             };
-          if (crewPerson.job === "Writer") {
+          if (personFromCrew.job === "Writer") {
             return {
-              ...mainCrew,
-              writters: [...mainCrew.writters, crewPerson.name],
+              ...crew,
+              writers: [...crew.writers, personFromCrew.name],
             };
           }
-          if (crewPerson.job === "Characters") {
+          if (personFromCrew.job === "Characters") {
             return {
-              ...mainCrew,
-              characters: [...mainCrew.writters, crewPerson.name],
+              ...crew,
+              characters: [...crew.characters, personFromCrew.name],
             };
           }
-          if (crewPerson.job === "Editor") {
+          if (personFromCrew.job === "Editor") {
             return {
-              ...mainCrew,
-              editors: [...mainCrew.writters, crewPerson.name],
+              ...crew,
+              editors: [...crew.editors, personFromCrew.name],
             };
           }
 
-          return mainCrew;
+          return crew;
         },
         {
           directors: [],
-          writters: [],
+          writers: [],
           characters: [],
           editors: [],
-        } as Record<
-          "directors" | "writters" | "characters" | "editors",
-          Array<string>
-        >,
+        },
       ),
       topCast: credits.cast.slice(0, 9).map((castPerson) => ({
         id: castPerson.id,
@@ -317,7 +319,7 @@ const Movie = ({
           <Description
             term="Writers"
             detail={
-              credits.writters.length > 0 ? credits.writters.join(", ") : null
+              credits.writers.length > 0 ? credits.writers.join(", ") : null
             }
           />
           <Description
@@ -428,7 +430,7 @@ const Movie = ({
             <Description
               term="Writers"
               detail={
-                credits.writters.length > 0 ? credits.writters.join(", ") : null
+                credits.writers.length > 0 ? credits.writers.join(", ") : null
               }
             />
             <Description
