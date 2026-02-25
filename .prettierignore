@@ -12,3 +12,5 @@ node_modules
 /api/index.js.map
 
 package-lock.json
+
+.agents
