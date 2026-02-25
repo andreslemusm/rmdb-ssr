@@ -64,8 +64,8 @@
     "node": "22.X"
   },
   "volta": {
-    "node": "22.19.0",
-    "npm": "11.6.0"
+    "node": "24.14.0",
+    "npm": "11.10.1"
   },
   "config": {
     "commitizen": {

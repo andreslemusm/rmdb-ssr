@@ -23,7 +23,11 @@ const Layout = () => {
               <BrandIcon className="block h-10 w-10" />
             </Link>
           </div>
-          <Form action="/search" className="w-full max-w-xs sm:max-w-md">
+          <Form
+            method="get"
+            action="/search"
+            className="w-full max-w-xs sm:max-w-md"
+          >
             <label htmlFor="search" className="relative block">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <SearchIcon

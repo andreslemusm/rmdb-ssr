@@ -23,7 +23,7 @@ import {
   TwitterXIcon,
 } from "~/assets/icons";
 import { Fragment, useState } from "react";
-import { Link, useLoaderData, useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
@@ -212,6 +212,7 @@ const Movie = ({
     keywords,
     posters,
     backdrops,
+    youtubeTrailerID,
   },
 }: Route.ComponentProps) => {
   const [searchParams] = useSearchParams();
@@ -284,7 +285,7 @@ const Movie = ({
               </span>
             </p>
           </div>
-          <TrailerModal />
+          <YoutubeTrailerModal youtubeTrailerID={youtubeTrailerID} />
         </div>
         <div className="mt-5 grid grid-rows-2 place-items-center gap-y-1 border-t border-b border-neutral-800 pt-2 pb-3 sm:mt-6 sm:gap-y-2 sm:pt-3 sm:pb-4">
           <p className="text-sm text-neutral-400">
@@ -313,7 +314,7 @@ const Movie = ({
             }
           />
           <Description
-            term="Writters"
+            term="Writers"
             detail={
               credits.writters.length > 0 ? credits.writters.join(", ") : null
             }
@@ -410,7 +411,7 @@ const Movie = ({
                 </span>
               </p>
             </div>
-            <TrailerModal />
+            <YoutubeTrailerModal youtubeTrailerID={youtubeTrailerID} />
           </div>
           <p className="pt-6 text-neutral-400 italic">{movie.tagline}</p>
           <p className="max-w-3xl pt-4 text-neutral-200">{movie.overview}</p>
@@ -424,7 +425,7 @@ const Movie = ({
               }
             />
             <Description
-              term="Writters"
+              term="Writers"
               detail={
                 credits.writters.length > 0 ? credits.writters.join(", ") : null
               }
@@ -715,8 +716,11 @@ const Movie = ({
   );
 };
 
-const TrailerModal = () => {
-  const { youtubeTrailerID } = useLoaderData<typeof loader>();
+const YoutubeTrailerModal = ({
+  youtubeTrailerID,
+}: {
+  youtubeTrailerID: string | undefined;
+}) => {
   const [open, setOpen] = useState(false);
 
   return youtubeTrailerID ? (
