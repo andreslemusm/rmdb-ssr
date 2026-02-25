@@ -61,7 +61,7 @@
     "vite-tsconfig-paths": "6.1.1"
   },
   "engines": {
-    "node": "22.X"
+    "node": "24.X"
   },
   "volta": {
     "node": "24.14.0",
