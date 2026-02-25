@@ -265,15 +265,20 @@ const Movie = ({
           <h1 className="text-center text-xl font-bold text-neutral-100 md:text-2xl">
             {movie.title}
           </h1>
-          <a
-            href={movie.homepage}
-            target="_blank"
-            className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100 sm:mt-1.5"
-            rel="noreferrer"
-          >
-            <span className="sr-only">Visit website</span>
-            <LinkIcon aria-hidden className="h-3.5 w-3.5" />
-          </a>
+          {movie.homepage ? (
+            <a
+              href={movie.homepage}
+              target="_blank"
+              className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100 sm:mt-1.5"
+              rel="noreferrer"
+            >
+              <LinkIcon
+                className="h-3.5 w-3.5"
+                role="img"
+                aria-label="Visit website"
+              />
+            </a>
+          ) : null}
         </div>
         <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center pt-5 sm:pt-6">
           <div className="flex items-center gap-x-1.5">
@@ -388,15 +393,21 @@ const Movie = ({
             <h1 className="text-center text-3xl font-bold text-neutral-100">
               {movie.title}
             </h1>
-            <a
-              href={movie.homepage}
-              target="_blank"
-              className="mt-1.5 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
-              rel="noreferrer"
-            >
-              <span className="sr-only">Visit website</span>
-              <LinkIcon aria-hidden className="h-3.5 w-3.5" />
-            </a>
+            {movie.homepage ? (
+              <a
+                href={movie.homepage}
+                target="_blank"
+                className="mt-1.5 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
+                rel="noreferrer"
+              >
+                <LinkIcon
+                  aria-hidden
+                  className="h-3.5 w-3.5"
+                  role="img"
+                  aria-label="Visit website"
+                />
+              </a>
+            ) : null}
           </div>
           <p className="pt-1 text-sm text-neutral-400">
             {movie.releaseDate} • {movie.runtime}

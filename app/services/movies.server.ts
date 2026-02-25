@@ -46,7 +46,7 @@ const getMovie = (movieId: string) =>
     } | null;
     budget: number;
     genres: Array<{ id: number; name: string }>;
-    homepage: string;
+    homepage: string | null;
     id: number;
     imdb_id: string | null;
     original_language: string;
