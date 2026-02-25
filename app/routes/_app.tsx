@@ -40,7 +40,7 @@ const Layout = () => {
                 defaultValue={query}
                 name="query"
                 className="block w-full rounded-xl border border-transparent bg-neutral-800 py-2 pr-3 pl-10 leading-5 text-neutral-200 placeholder-neutral-500 hover:border-neutral-700 focus:border-neutral-700 focus:ring-3 focus:ring-neutral-700 focus:outline-hidden sm:text-sm"
-                placeholder="Search your favorite movie..."
+                placeholder="Search your favorite movie…"
                 type="search"
               />
             </label>
