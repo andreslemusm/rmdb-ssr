@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import {
   BrandIcon,
   GithubIcon,
@@ -8,8 +7,10 @@ import {
   tmdbAltShort,
 } from "~/assets/icons";
 import { Form, Link, Outlet, useSearchParams } from "react-router";
+import { Fragment, useId } from "react";
 
 const Layout = () => {
+  const seachInputId = useId();
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") ?? "";
 
@@ -26,22 +27,25 @@ const Layout = () => {
           <Form
             method="get"
             action="/search"
-            className="w-full max-w-xs sm:max-w-md"
+            className="group w-full max-w-xs sm:max-w-md"
+            role="search"
           >
-            <label className="relative block">
+            <label htmlFor={seachInputId} className="relative block">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <SearchIcon
-                  className="h-5 w-5 text-neutral-400"
-                  role="img"
-                  aria-label="Search"
+                  className="h-5 w-5 text-neutral-500 transition-colors ease-out group-focus-within:text-neutral-300 group-hover:text-neutral-400"
+                  aria-hidden
                 />
               </div>
               <input
+                id={seachInputId}
                 defaultValue={query}
+                aria-label="Search movies"
                 name="query"
-                className="block w-full rounded-xl border border-transparent bg-neutral-800 py-2 pr-3 pl-10 leading-5 text-neutral-200 placeholder-neutral-500 hover:border-neutral-700 focus:border-neutral-700 focus:ring-3 focus:ring-neutral-700 focus:outline-hidden sm:text-sm"
+                className="block w-full touch-manipulation rounded-xl border-none bg-neutral-800 py-3 pr-3 pl-10 leading-5 text-neutral-200 placeholder-neutral-500 transition-all duration-300 ease-out focus-visible:ring-2 focus-visible:ring-neutral-700 focus-visible:outline-hidden sm:text-sm"
                 placeholder="Search your favorite movie…"
                 type="search"
+                autoComplete="off"
               />
             </label>
           </Form>
