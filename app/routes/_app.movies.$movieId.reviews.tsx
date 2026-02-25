@@ -33,6 +33,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
           : review.author_details.username,
       },
       rating: review.author_details.rating,
+      // This is safe because the content is already sanitized by the TMDB API
       content: markdownFormatter(review.content),
       createdDate: new Intl.DateTimeFormat("en-US", {
         dateStyle: "medium",

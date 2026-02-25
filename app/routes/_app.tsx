@@ -31,8 +31,8 @@ const Layout = () => {
             <label htmlFor="search" className="relative block">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <SearchIcon
-                  role="img"
                   className="h-5 w-5 text-neutral-400"
+                  role="img"
                   aria-label="Search"
                 />
               </div>
@@ -77,8 +77,11 @@ const Layout = () => {
                 href={item.href}
                 className="text-neutral-500 transition-colors hover:text-neutral-400"
               >
-                <span className="sr-only">{item.name}</span>
-                <item.icon className="h-5 w-5" aria-hidden="true" />
+                <item.icon
+                  className="h-5 w-5"
+                  role="img"
+                  aria-label={item.name}
+                />
               </a>
             ))}
           </nav>
