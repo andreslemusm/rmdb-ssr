@@ -401,7 +401,6 @@ const Movie = ({
                 rel="noreferrer"
               >
                 <LinkIcon
-                  aria-hidden
                   className="h-3.5 w-3.5"
                   role="img"
                   aria-label="Visit website"
@@ -636,7 +635,10 @@ const Movie = ({
                         {recommendation.title}
                       </p>
                       <p className="text flex items-center gap-x-1">
-                        <StarIcon className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
+                        <StarIcon
+                          aria-hidden
+                          className="h-4 w-4 fill-yellow-500 stroke-yellow-500"
+                        />
                         {recommendation.voteAverage}
                       </p>
                     </div>
@@ -684,8 +686,11 @@ const Movie = ({
                   rel="noreferrer"
                   className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
                 >
-                  <span className="sr-only">Visit {label} homepage</span>
-                  <Icon className="h-4 w-4" />
+                  <Icon
+                    className="h-4 w-4"
+                    role="img"
+                    aria-label={`Visit ${label} homepage`}
+                  />
                 </a>
               ) : null,
             )}

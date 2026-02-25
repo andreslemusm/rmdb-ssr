@@ -12,13 +12,13 @@ const Pagination = ({
     <PaginationLink disabled={page <= 1} page={page - 1}>
       <ArrowIcon
         className="mt-0.5 mr-2 -ml-0.5 h-4 w-4 rotate-180"
-        aria-hidden="true"
+        aria-hidden
       />
       Previous
     </PaginationLink>
     <PaginationLink disabled={page >= totalPages} page={page + 1}>
       Next
-      <ArrowIcon className="mt-0.5 -mr-0.5 ml-2 h-4 w-4" aria-hidden="true" />
+      <ArrowIcon className="mt-0.5 -mr-0.5 ml-2 h-4 w-4" aria-hidden />
     </PaginationLink>
   </nav>
 );

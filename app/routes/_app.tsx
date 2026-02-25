@@ -28,7 +28,7 @@ const Layout = () => {
             action="/search"
             className="w-full max-w-xs sm:max-w-md"
           >
-            <label htmlFor="search" className="relative block">
+            <label className="relative block">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <SearchIcon
                   className="h-5 w-5 text-neutral-400"
