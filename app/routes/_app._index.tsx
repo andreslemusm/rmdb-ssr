@@ -79,7 +79,7 @@ const Home = ({
             value === listType
               ? "bg-neutral-800 text-neutral-200"
               : "text-neutral-400 hover:text-neutral-200",
-            "shrink-0 rounded-lg px-3 py-2 text-sm font-bold transition",
+            "shrink-0 rounded-lg px-3 py-2 text-sm font-bold transition-colors ease-out",
           )}
           prefetch="intent"
         >
@@ -91,7 +91,7 @@ const Home = ({
       {movies.map((movie) => (
         <li
           key={movie.id}
-          className="block rounded-lg p-2 transition duration-500 hover:bg-neutral-800"
+          className="block rounded-lg p-2 transition-colors duration-500 ease-out hover:bg-neutral-800"
         >
           <Link to={`/movies/${movie.id}`} prefetch="intent">
             <div className="aspect-2/3 overflow-hidden rounded-lg">

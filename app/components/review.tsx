@@ -76,7 +76,7 @@ const Content = ({ content }: { content: string }) => {
       <button
         type="button"
         onClick={toggle}
-        className="flex items-center gap-x-0.5 text-sm text-cyan-500 transition hover:text-cyan-400"
+        className="flex items-center gap-x-0.5 text-sm text-cyan-500 transition-colors ease-out hover:text-cyan-400"
         aria-expanded={isOpen}
         aria-controls={contentId}
       >

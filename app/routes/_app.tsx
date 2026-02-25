@@ -33,7 +33,7 @@ const Layout = () => {
             <label htmlFor={seachInputId} className="relative block">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <SearchIcon
-                  className="h-5 w-5 text-neutral-500 transition-colors ease-out group-focus-within:text-neutral-300 group-hover:text-neutral-400"
+                  className="h-5 w-5 text-neutral-500 transition-colors ease-out group-focus-within:text-neutral-400"
                   aria-hidden
                 />
               </div>
@@ -46,6 +46,7 @@ const Layout = () => {
                 placeholder="Search your favorite movie…"
                 type="search"
                 autoComplete="off"
+                required
               />
             </label>
           </Form>

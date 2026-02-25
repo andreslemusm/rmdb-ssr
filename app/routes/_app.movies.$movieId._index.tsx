@@ -269,7 +269,7 @@ const Movie = ({
             <a
               href={movie.homepage}
               target="_blank"
-              className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100 sm:mt-1.5"
+              className="mt-1 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition-colors ease-out hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100 sm:mt-1.5"
               rel="noreferrer"
             >
               <LinkIcon
@@ -397,7 +397,7 @@ const Movie = ({
               <a
                 href={movie.homepage}
                 target="_blank"
-                className="mt-1.5 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
+                className="mt-1.5 inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition-colors ease-out hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
                 rel="noreferrer"
               >
                 <LinkIcon
@@ -468,7 +468,7 @@ const Movie = ({
               <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
               <Link
                 to="./credits"
-                className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
+                className="flex items-center text-sm text-cyan-500 transition-colors ease-out hover:text-cyan-400"
                 prefetch="intent"
               >
                 View Credits
@@ -515,7 +515,7 @@ const Movie = ({
               {reviews.featuredReview ? (
                 <Link
                   to="./reviews"
-                  className="flex items-center text-sm text-cyan-500 transition hover:text-cyan-400"
+                  className="flex items-center text-sm text-cyan-500 transition-colors ease-out hover:text-cyan-400"
                   prefetch="intent"
                 >
                   View Reviews
@@ -549,7 +549,7 @@ const Movie = ({
                       imgType === mediaType
                         ? "bg-neutral-800 text-neutral-200"
                         : "text-neutral-400 hover:text-neutral-200",
-                      "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition",
+                      "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-bold capitalize transition-colors ease-out",
                     )}
                     preventScrollReset
                   >
@@ -609,7 +609,7 @@ const Movie = ({
                   <li key={recommendation.id} className="w-72 shrink-0">
                     <Link
                       to={`/movies/${recommendation.id}`}
-                      className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition duration-500 hover:brightness-50"
+                      className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition-[filter] duration-300 ease-out hover:brightness-50"
                       prefetch="intent"
                     >
                       {recommendation.backdropPath ? (
@@ -684,7 +684,7 @@ const Movie = ({
                   href={href}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
+                  className="inline-block rounded-lg border border-neutral-700 bg-neutral-800 p-1 text-neutral-300 transition-colors ease-out hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100"
                 >
                   <Icon
                     className="h-4 w-4"
@@ -757,7 +757,7 @@ const YoutubeTrailerModal = ({
       </Modal>
       <button
         type="button"
-        className="flex items-center gap-x-1.5 text-sm text-neutral-200 transition hover:text-cyan-500 lg:text-base"
+        className="flex items-center gap-x-1.5 text-sm text-neutral-200 transition-colors ease-out hover:text-cyan-500 lg:text-base"
         onClick={() => setOpen(true)}
       >
         <PlayIcon className="h-4 w-4" aria-hidden />
