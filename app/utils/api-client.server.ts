@@ -26,7 +26,7 @@ const fetchFn = async <TReturnType = void>(request: Request) => {
     }
 
     if (process.env.NODE_ENV === "development") {
-      // eslint-disable-next-line no-console -- Improve debugging in development
+      // Improve debugging in development
       console.error(
         `URL:\n${response.url}\n Error:\n${JSON.stringify(apiError)}\n`,
       )
