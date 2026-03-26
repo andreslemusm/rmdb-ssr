@@ -1,25 +1,23 @@
-import snarkdown from "snarkdown";
+import snarkdown from "snarkdown"
 
-const numberFormatter = new Intl.NumberFormat("en", { notation: "compact" });
+const numberFormatter = new Intl.NumberFormat("en", { notation: "compact" })
 const formatNumberAsCompactNumber = (value: number) =>
-  numberFormatter.format(value);
+  numberFormatter.format(value)
 
 const moneyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
-});
-const formatNumberAsCurrency = (value: number) => moneyFormatter.format(value);
+})
+const formatNumberAsCurrency = (value: number) => moneyFormatter.format(value)
 
-const languageFormatter = new Intl.DisplayNames("en", {
-  type: "language",
-});
-const formatLangCodeAsLangName = (code: string) => languageFormatter.of(code);
+const languageFormatter = new Intl.DisplayNames("en", { type: "language" })
+const formatLangCodeAsLangName = (code: string) => languageFormatter.of(code)
 
-const markdownFormatter = (markdown: string) => snarkdown(markdown);
+const markdownFormatter = (markdown: string) => snarkdown(markdown)
 
 export {
   formatNumberAsCurrency,
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
   markdownFormatter,
-};
+}

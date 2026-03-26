@@ -1,4 +1,4 @@
-const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/";
+const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/"
 
 const enum BackdropSizes {
   xs = "w300",
@@ -34,4 +34,4 @@ const enum ProfileSizes {
   lg = "original",
 }
 
-export { BASE_IMAGE_URL, BackdropSizes, LogoSizes, PosterSizes, ProfileSizes };
+export { BASE_IMAGE_URL, BackdropSizes, LogoSizes, PosterSizes, ProfileSizes }

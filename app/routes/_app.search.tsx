@@ -1,19 +1,21 @@
-import { Fragment } from "react";
-import { Link } from "react-router";
-import { Pagination } from "~/components/pagination";
-import type { Route } from "./+types/_app.search";
-import { cacheHeader } from "pretty-cache-header";
-import { formatNumberAsCompactNumber } from "~/utils/formatters.server";
-import { generateMetaTags } from "~/utils/meta-tags";
-import { getSearchMovies } from "~/services/search.server";
-import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
+import { cacheHeader } from "pretty-cache-header"
+import { Fragment } from "react"
+import { Link } from "react-router"
+
+import { Pagination } from "~/components/pagination"
+import { getSearchMovies } from "~/services/search.server"
+import { formatNumberAsCompactNumber } from "~/utils/formatters.server"
+import { generateMetaTags } from "~/utils/meta-tags"
+import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
+
+import type { Route } from "./+types/_app.search"
 
 const loader = async ({ request }: Route.LoaderArgs) => {
-  const url = new URL(request.url);
-  const page = Number(url.searchParams.get("page") ?? 1);
-  const query = url.searchParams.get("query") ?? "";
+  const url = new URL(request.url)
+  const page = Number(url.searchParams.get("page") ?? 1)
+  const query = url.searchParams.get("query") ?? ""
 
-  const moviesResponse = await getSearchMovies({ query, page });
+  const moviesResponse = await getSearchMovies({ query, page })
 
   return {
     query,
@@ -23,16 +25,16 @@ const loader = async ({ request }: Route.LoaderArgs) => {
       posterPath: movie.poster_path,
       title: movie.title,
       releaseDate: movie.release_date
-        ? new Intl.DateTimeFormat("en-US", {
-            dateStyle: "medium",
-          }).format(new Date(movie.release_date))
+        ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(
+            new Date(movie.release_date),
+          )
         : null,
       overview: movie.overview,
     })),
     totalPages: moviesResponse.total_pages,
     totalResults: formatNumberAsCompactNumber(moviesResponse.total_results),
-  };
-};
+  }
+}
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
@@ -40,7 +42,7 @@ const headers: Route.HeadersFunction = () => ({
     maxAge: "1m",
     staleWhileRevalidate: "1month",
   }),
-});
+})
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
@@ -49,7 +51,7 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
       : "Search | React Movie Database (RMDB)",
     description:
       "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
-  });
+  })
 
 const Search = ({
   loaderData: { movies, totalPages, page, query, totalResults },
@@ -106,7 +108,7 @@ const Search = ({
     </ul>
     <Pagination page={page} totalPages={totalPages} />
   </Fragment>
-);
+)
 
-export { meta, loader, headers };
-export default Search;
+export { meta, loader, headers }
+export default Search

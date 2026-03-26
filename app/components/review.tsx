@@ -1,8 +1,9 @@
-import { clsx } from "clsx";
-import { johnDoe } from "~/assets/images";
-import { BASE_IMAGE_URL, ProfileSizes } from "~/utils/tmdb";
-import { ChevronIcon, StarIcon } from "~/assets/icons";
-import { useId, useState } from "react";
+import { clsx } from "clsx"
+import { useId, useState } from "react"
+
+import { ChevronIcon, StarIcon } from "~/assets/icons"
+import { johnDoe } from "~/assets/images"
+import { BASE_IMAGE_URL, ProfileSizes } from "~/utils/tmdb"
 
 const Review = ({
   author,
@@ -10,13 +11,10 @@ const Review = ({
   content,
   rating,
 }: {
-  author: {
-    avatarPath: string | null;
-    name: string;
-  };
-  createdDate: string;
-  rating: number | null;
-  content: string;
+  author: { avatarPath: string | null; name: string }
+  createdDate: string
+  rating: number | null
+  content: string
 }) => (
   <article className="rounded-xl border border-neutral-700 bg-neutral-800 p-5">
     <div className="flex items-center gap-x-3">
@@ -53,13 +51,13 @@ const Review = ({
     </div>
     <Content content={content} />
   </article>
-);
+)
 
 const Content = ({ content }: { content: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+  const [isOpen, setIsOpen] = useState(false)
+  const toggle = () => setIsOpen(!isOpen)
 
-  const contentId = useId();
+  const contentId = useId()
 
   return (
     <div className="pt-4">
@@ -67,11 +65,9 @@ const Content = ({ content }: { content: string }) => {
         id={contentId}
         className={clsx(
           !isOpen && "line-clamp-4 md:line-clamp-5 lg:line-clamp-6",
-          "prose prose-sm prose-invert max-w-full",
+          "prose prose-sm max-w-full prose-invert",
         )}
-        dangerouslySetInnerHTML={{
-          __html: content,
-        }}
+        dangerouslySetInnerHTML={{ __html: content }}
       />
       <button
         type="button"
@@ -90,7 +86,7 @@ const Content = ({ content }: { content: string }) => {
         />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export { Review };
+export { Review }

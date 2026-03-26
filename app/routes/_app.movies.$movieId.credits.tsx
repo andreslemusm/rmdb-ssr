@@ -1,20 +1,22 @@
-import { Fragment } from "react";
-import type { Route } from "./+types/_app.movies.$movieId.credits";
-import { cacheHeader } from "pretty-cache-header";
-import { generateMetaTags } from "~/utils/meta-tags";
-import { johnDoe } from "~/assets/images";
-import { BASE_IMAGE_URL, PosterSizes, ProfileSizes } from "~/utils/tmdb";
-import { getMovie, getMovieCredits } from "~/services/movies.server";
+import { cacheHeader } from "pretty-cache-header"
+import { Fragment } from "react"
+
+import { johnDoe } from "~/assets/images"
+import { getMovie, getMovieCredits } from "~/services/movies.server"
+import { generateMetaTags } from "~/utils/meta-tags"
+import { BASE_IMAGE_URL, PosterSizes, ProfileSizes } from "~/utils/tmdb"
+
+import type { Route } from "./+types/_app.movies.$movieId.credits"
 
 const loader = async ({ params }: Route.LoaderArgs) => {
   if (!params.movieId) {
-    throw new Error(`No movie found`);
+    throw new Error(`No movie found`)
   }
 
   const [movie, credits] = await Promise.all([
     getMovie(params.movieId),
     getMovieCredits(params.movieId),
-  ]);
+  ])
 
   return {
     movie: {
@@ -43,7 +45,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Camera") {
           return {
@@ -57,7 +59,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Costume & Make-Up") {
           return {
@@ -71,7 +73,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Crew") {
           return {
@@ -85,7 +87,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Directing") {
           return {
@@ -99,7 +101,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Editing") {
           return {
@@ -113,7 +115,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Lighting") {
           return {
@@ -127,7 +129,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Production") {
           return {
@@ -141,7 +143,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Sound") {
           return {
@@ -155,7 +157,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Visual Effects") {
           return {
@@ -169,7 +171,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
         if (crewPerson.department === "Writing") {
           return {
@@ -183,10 +185,10 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                 profilePath: crewPerson.profile_path,
               },
             ],
-          };
+          }
         }
 
-        return mainCrew;
+        return mainCrew
       },
       {
         art: [],
@@ -213,15 +215,15 @@ const loader = async ({ params }: Route.LoaderArgs) => {
         | "visualEffects"
         | "writing",
         Array<{
-          id: number;
-          profilePath: string | null;
-          name: string;
-          characterOrJob: string;
+          id: number
+          profilePath: string | null
+          name: string
+          characterOrJob: string
         }>
       >,
     ),
-  };
-};
+  }
+}
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
@@ -229,7 +231,7 @@ const headers: Route.HeadersFunction = () => ({
     maxAge: "1m",
     staleWhileRevalidate: "1month",
   }),
-});
+})
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
@@ -237,7 +239,7 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
       ? `${loaderData.movie.title} - Credits | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
     description: loaderData?.movie.overview ?? "",
-  });
+  })
 
 const Credits = ({
   loaderData: {
@@ -297,19 +299,19 @@ const Credits = ({
       </div>
     </div>
   </Fragment>
-);
+)
 
 const CreditSection = ({
   title,
   people,
 }: {
-  title: string;
+  title: string
   people: Array<{
-    id: number;
-    profilePath: string | null;
-    name: string;
-    characterOrJob: string;
-  }>;
+    id: number
+    profilePath: string | null
+    name: string
+    characterOrJob: string
+  }>
 }) =>
   people.length > 0 ? (
     <section>
@@ -344,7 +346,7 @@ const CreditSection = ({
         ))}
       </ul>
     </section>
-  ) : null;
+  ) : null
 
-export { meta, loader, headers };
-export default Credits;
+export { meta, loader, headers }
+export default Credits

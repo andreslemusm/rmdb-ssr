@@ -15,4 +15,4 @@ export const ArrowIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
       strokeWidth="2"
     />
   </svg>
-);
+)

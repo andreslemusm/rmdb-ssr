@@ -1,9 +1,6 @@
-import { Analytics } from "@vercel/analytics/react";
-import type { Route } from "./+types/root";
-import { SpeedInsights } from "@vercel/speed-insights/react";
-import { globalLoadingBar } from "./components/global-loading-bar";
-import styles from "./tailwind.css?url";
-import { Fragment, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Fragment, useEffect } from "react"
 import {
   Links,
   Meta,
@@ -11,7 +8,12 @@ import {
   Scripts,
   ScrollRestoration,
   useNavigation,
-} from "react-router";
+} from "react-router"
+
+import type { Route } from "./+types/root"
+import { globalLoadingBar } from "./components/global-loading-bar"
+
+import styles from "./tailwind.css?url"
 
 const links: Route.LinksFunction = () => [
   // Stylesheets
@@ -32,7 +34,7 @@ const links: Route.LinksFunction = () => [
   },
   { rel: "manifest", href: "/site.webmanifest" },
   { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#5bbad5" },
-];
+]
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en">
@@ -46,20 +48,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
       <Scripts />
     </body>
   </html>
-);
+)
 
 const App = () => {
   // Show progress bar on navigation.
-  const navigation = useNavigation();
+  const navigation = useNavigation()
   useEffect(() => {
     // Only show progress bar on normal load.
     if (navigation.state === "loading" && navigation.formData == null) {
-      globalLoadingBar.start();
+      globalLoadingBar.start()
     }
     if (navigation.state === "idle") {
-      globalLoadingBar.done();
+      globalLoadingBar.done()
     }
-  }, [navigation.formData, navigation.state]);
+  }, [navigation.formData, navigation.state])
 
   return (
     <Fragment>
@@ -67,8 +69,8 @@ const App = () => {
       <SpeedInsights />
       <Analytics />
     </Fragment>
-  );
-};
+  )
+}
 
-export { Layout, links };
-export default App;
+export { Layout, links }
+export default App

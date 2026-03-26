@@ -1,12 +1,13 @@
-import { ArrowIcon } from "~/assets/icons";
-import { Link, useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router"
+
+import { ArrowIcon } from "~/assets/icons"
 
 const Pagination = ({
   page,
   totalPages,
 }: {
-  page: number;
-  totalPages: number;
+  page: number
+  totalPages: number
 }) => (
   <nav className="flex items-center justify-center gap-x-10 px-4 py-10 sm:px-0 sm:pt-16 sm:pb-14">
     <PaginationLink disabled={page <= 1} page={page - 1}>
@@ -21,19 +22,19 @@ const Pagination = ({
       <ArrowIcon className="mt-0.5 -mr-0.5 ml-2 h-4 w-4" aria-hidden />
     </PaginationLink>
   </nav>
-);
+)
 
 const PaginationLink = ({
   page,
   disabled,
   children,
 }: {
-  page: number;
-  disabled: boolean;
-  children: React.ReactNode;
+  page: number
+  disabled: boolean
+  children: React.ReactNode
 }) => {
-  const [searchParams] = useSearchParams();
-  searchParams.set("page", page.toString());
+  const [searchParams] = useSearchParams()
+  searchParams.set("page", page.toString())
 
   return disabled ? (
     <button
@@ -51,7 +52,7 @@ const PaginationLink = ({
     >
       {children}
     </Link>
-  );
-};
+  )
+}
 
-export { Pagination };
+export { Pagination }

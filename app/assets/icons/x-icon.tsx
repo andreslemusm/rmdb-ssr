@@ -15,4 +15,4 @@ export const XIcon = (props: React.ComponentPropsWithoutRef<"svg">) => (
       strokeWidth="2"
     />
   </svg>
-);
+)

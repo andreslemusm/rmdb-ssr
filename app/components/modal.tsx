@@ -1,19 +1,20 @@
-import { Fragment } from "react";
-import { XIcon } from "~/assets/icons";
 import {
   Dialog,
   DialogPanel,
   Transition,
   TransitionChild,
-} from "@headlessui/react";
+} from "@headlessui/react"
+import { Fragment } from "react"
+
+import { XIcon } from "~/assets/icons"
 
 const Modal = ({
   children,
   onClose,
   open,
 }: React.PropsWithChildren<{
-  open: boolean;
-  onClose: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean
+  onClose: React.Dispatch<React.SetStateAction<boolean>>
 }>) => (
   <Transition show={open} as={Fragment}>
     <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -55,10 +56,10 @@ const Modal = ({
       </div>
     </Dialog>
   </Transition>
-);
+)
 
 export {
   DialogTitle as ModalTitle,
   Description as ModalDescription,
-} from "@headlessui/react";
-export { Modal };
+} from "@headlessui/react"
+export { Modal }

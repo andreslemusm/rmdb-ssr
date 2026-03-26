@@ -20,9 +20,7 @@
     "allowJs": false,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./app/*"]
-    },
+    "paths": { "~/*": ["./app/*"] },
     // Vite takes care of building everything, not tsc.
     "noEmit": true,
     // We don't need to type check the node_modules.

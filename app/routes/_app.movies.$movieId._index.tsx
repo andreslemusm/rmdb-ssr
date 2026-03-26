@@ -1,18 +1,10 @@
-import { Modal } from "~/components/modal";
-import { Portal } from "@headlessui/react";
-import { Review } from "~/components/review";
-import type { Route } from "./+types/_app.movies.$movieId._index";
-import type { ShouldRevalidateFunction } from "react-router";
-import { cacheHeader } from "pretty-cache-header";
-import { clsx } from "clsx";
-import { generateMetaTags } from "~/utils/meta-tags";
-import { johnDoe } from "~/assets/images";
-import {
-  BASE_IMAGE_URL,
-  BackdropSizes,
-  PosterSizes,
-  ProfileSizes,
-} from "~/utils/tmdb";
+import { Portal } from "@headlessui/react"
+import { clsx } from "clsx"
+import { cacheHeader } from "pretty-cache-header"
+import { Fragment, useState } from "react"
+import type { ShouldRevalidateFunction } from "react-router"
+import { Link, useSearchParams } from "react-router"
+
 import {
   ChevronIcon,
   FacebookIcon,
@@ -21,15 +13,10 @@ import {
   PlayIcon,
   StarIcon,
   TwitterXIcon,
-} from "~/assets/icons";
-import { Fragment, useState } from "react";
-import { Link, useSearchParams } from "react-router";
-import {
-  formatLangCodeAsLangName,
-  formatNumberAsCompactNumber,
-  formatNumberAsCurrency,
-  markdownFormatter,
-} from "~/utils/formatters.server";
+} from "~/assets/icons"
+import { johnDoe } from "~/assets/images"
+import { Modal } from "~/components/modal"
+import { Review } from "~/components/review"
 import {
   getMovie,
   getMovieCredits,
@@ -39,16 +26,31 @@ import {
   getMovieRecommendations,
   getMovieReviews,
   getMovieVideos,
-} from "~/services/movies.server";
+} from "~/services/movies.server"
+import {
+  formatLangCodeAsLangName,
+  formatNumberAsCompactNumber,
+  formatNumberAsCurrency,
+  markdownFormatter,
+} from "~/utils/formatters.server"
+import { generateMetaTags } from "~/utils/meta-tags"
+import {
+  BASE_IMAGE_URL,
+  BackdropSizes,
+  PosterSizes,
+  ProfileSizes,
+} from "~/utils/tmdb"
+
+import type { Route } from "./+types/_app.movies.$movieId._index"
 
 const shouldRevalidate: ShouldRevalidateFunction = ({
   currentParams,
   nextParams,
-}) => currentParams.movieId !== nextParams.movieId;
+}) => currentParams.movieId !== nextParams.movieId
 
 const loader = async ({ params }: Route.LoaderArgs) => {
   if (!params.movieId) {
-    throw new Error(`No movie found`);
+    throw new Error(`No movie found`)
   }
 
   const [
@@ -69,7 +71,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
     getMovieImages(params.movieId),
     getMovieVideos(params.movieId),
     getMovieKeywords(params.movieId),
-  ]);
+  ])
 
   return {
     movie: {
@@ -106,41 +108,32 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             return {
               ...crew,
               directors: [...crew.directors, personFromCrew.name],
-            };
+            }
           if (personFromCrew.job === "Writer") {
-            return {
-              ...crew,
-              writers: [...crew.writers, personFromCrew.name],
-            };
+            return { ...crew, writers: [...crew.writers, personFromCrew.name] }
           }
           if (personFromCrew.job === "Characters") {
             return {
               ...crew,
               characters: [...crew.characters, personFromCrew.name],
-            };
+            }
           }
           if (personFromCrew.job === "Editor") {
-            return {
-              ...crew,
-              editors: [...crew.editors, personFromCrew.name],
-            };
+            return { ...crew, editors: [...crew.editors, personFromCrew.name] }
           }
 
-          return crew;
+          return crew
         },
-        {
-          directors: [],
-          writers: [],
-          characters: [],
-          editors: [],
-        },
+        { directors: [], writers: [], characters: [], editors: [] },
       ),
-      topCast: credits.cast.slice(0, 9).map((castPerson) => ({
-        id: castPerson.id,
-        profilePath: castPerson.profile_path,
-        name: castPerson.name,
-        character: castPerson.character,
-      })),
+      topCast: credits.cast
+        .slice(0, 9)
+        .map((castPerson) => ({
+          id: castPerson.id,
+          profilePath: castPerson.profile_path,
+          name: castPerson.name,
+          character: castPerson.character,
+        })),
     },
     reviews: {
       featuredReview:
@@ -170,15 +163,15 @@ const loader = async ({ params }: Route.LoaderArgs) => {
     })),
     posters: {
       count: images.posters.length,
-      featured: images.posters.slice(0, 9).map((poster) => ({
-        filePath: poster.file_path,
-      })),
+      featured: images.posters
+        .slice(0, 9)
+        .map((poster) => ({ filePath: poster.file_path })),
     },
     backdrops: {
       count: images.backdrops.length,
-      featured: images.backdrops.slice(0, 9).map((backdrop) => ({
-        filePath: backdrop.file_path,
-      })),
+      featured: images.backdrops
+        .slice(0, 9)
+        .map((backdrop) => ({ filePath: backdrop.file_path })),
     },
     externalIDs: {
       facebookID: externalIDs.facebook_id,
@@ -186,8 +179,8 @@ const loader = async ({ params }: Route.LoaderArgs) => {
       twitterID: externalIDs.twitter_id,
     },
     keywords: keywords.keywords,
-  };
-};
+  }
+}
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
@@ -195,7 +188,7 @@ const headers: Route.HeadersFunction = () => ({
     maxAge: "1m",
     staleWhileRevalidate: "1month",
   }),
-});
+})
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
@@ -203,7 +196,7 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
       ? `${loaderData.movie.title} | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
     description: loaderData.movie.overview ?? "",
-  });
+  })
 
 const Movie = ({
   loaderData: {
@@ -218,8 +211,8 @@ const Movie = ({
     youtubeTrailerID,
   },
 }: Route.ComponentProps) => {
-  const [searchParams] = useSearchParams();
-  const mediaType = searchParams.get("mediaType") ?? "posters";
+  const [searchParams] = useSearchParams()
+  const mediaType = searchParams.get("mediaType") ?? "posters"
 
   return (
     <Fragment>
@@ -541,10 +534,7 @@ const Movie = ({
                 {["posters", "backdrops"].map((imgType) => (
                   <Link
                     key={imgType}
-                    to={{
-                      pathname: ".",
-                      search: `mediaType=${imgType}`,
-                    }}
+                    to={{ pathname: ".", search: `mediaType=${imgType}` }}
                     className={clsx(
                       imgType === mediaType
                         ? "bg-neutral-800 text-neutral-200"
@@ -732,15 +722,15 @@ const Movie = ({
         </div>
       </div>
     </Fragment>
-  );
-};
+  )
+}
 
 const YoutubeTrailerModal = ({
   youtubeTrailerID,
 }: {
-  youtubeTrailerID: string | undefined;
+  youtubeTrailerID: string | undefined
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return youtubeTrailerID ? (
     <Fragment>
@@ -764,22 +754,22 @@ const YoutubeTrailerModal = ({
         See Trailer
       </button>
     </Fragment>
-  ) : null;
-};
+  ) : null
+}
 
 const Description = ({
   term,
   detail,
 }: {
-  term: string;
-  detail: React.ReactNode;
+  term: string
+  detail: React.ReactNode
 }) =>
   detail ? (
     <div>
       <dt className="text-sm font-bold text-neutral-400">{term}</dt>
       <dd className="text-neutral-200">{detail}</dd>
     </div>
-  ) : null;
+  ) : null
 
-export { meta, shouldRevalidate, loader, headers };
-export default Movie;
+export { meta, shouldRevalidate, loader, headers }
+export default Movie

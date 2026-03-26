@@ -1,18 +1,20 @@
-import { Fragment } from "react";
-import { Link } from "react-router";
-import { Pagination } from "~/components/pagination";
-import type { Route } from "./+types/_app._index";
-import { StarIcon } from "~/assets/icons";
-import { cacheHeader } from "pretty-cache-header";
-import { clsx } from "clsx";
-import { generateMetaTags } from "~/utils/meta-tags";
-import { getMovies } from "~/services/movies.server";
-import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
+import { clsx } from "clsx"
+import { cacheHeader } from "pretty-cache-header"
+import { Fragment } from "react"
+import { Link } from "react-router"
+
+import { StarIcon } from "~/assets/icons"
+import { Pagination } from "~/components/pagination"
+import { getMovies } from "~/services/movies.server"
+import { generateMetaTags } from "~/utils/meta-tags"
+import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
+
+import type { Route } from "./+types/_app._index"
 
 const loader = async ({ request }: Route.LoaderArgs) => {
-  const url = new URL(request.url);
-  const listType = url.searchParams.get("listType") ?? "now-playing";
-  const page = Number(url.searchParams.get("page") ?? 1);
+  const url = new URL(request.url)
+  const listType = url.searchParams.get("listType") ?? "now-playing"
+  const page = Number(url.searchParams.get("page") ?? 1)
 
   if (
     listType !== "now-playing" &&
@@ -20,7 +22,7 @@ const loader = async ({ request }: Route.LoaderArgs) => {
     listType !== "top-rated" &&
     listType !== "upcoming"
   ) {
-    throw new Error(`Unhandled case of listType: ${JSON.stringify(listType)}`);
+    throw new Error(`Unhandled case of listType: ${JSON.stringify(listType)}`)
   }
 
   const moviesResponse = await getMovies({
@@ -30,7 +32,7 @@ const loader = async ({ request }: Route.LoaderArgs) => {
       | "now_playing"
       | "top_rated",
     page,
-  });
+  })
 
   return {
     listType: listType,
@@ -43,8 +45,8 @@ const loader = async ({ request }: Route.LoaderArgs) => {
       releaseDate: movie.release_date,
     })),
     page,
-  };
-};
+  }
+}
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
@@ -52,7 +54,7 @@ const headers: Route.HeadersFunction = () => ({
     maxAge: "1m",
     staleWhileRevalidate: "1month",
   }),
-});
+})
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
@@ -64,7 +66,7 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
       : "React Movie Database (RMDB)",
     description:
       "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
-  });
+  })
 
 const Home = ({
   loaderData: { movies, page, totalPages, listType },
@@ -125,26 +127,14 @@ const Home = ({
     </ul>
     <Pagination page={page} totalPages={totalPages} />
   </Fragment>
-);
+)
 
 const listTypes = [
-  {
-    label: "Now Playing",
-    value: "now-playing",
-  },
-  {
-    label: "Popular",
-    value: "popular",
-  },
-  {
-    label: "Top Rated",
-    value: "top-rated",
-  },
-  {
-    label: "Upcoming",
-    value: "upcoming",
-  },
-] as const;
+  { label: "Now Playing", value: "now-playing" },
+  { label: "Popular", value: "popular" },
+  { label: "Top Rated", value: "top-rated" },
+  { label: "Upcoming", value: "upcoming" },
+] as const
 
-export { loader, headers, meta };
-export default Home;
+export { loader, headers, meta }
+export default Home

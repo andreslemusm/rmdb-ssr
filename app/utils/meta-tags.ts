@@ -1,11 +1,11 @@
-import type { MetaDescriptor } from "react-router";
+import type { MetaDescriptor } from "react-router"
 
 export const generateMetaTags = ({
   title,
   description,
 }: {
-  title: string;
-  description: string;
+  title: string
+  description: string
 }) =>
   [
     { charSet: "utf-8" },
@@ -13,18 +13,12 @@ export const generateMetaTags = ({
     // Primary Meta Tags
     { title },
     { name: "title", content: title },
-    {
-      name: "description",
-      content: description,
-    },
+    { name: "description", content: description },
     // Open Graph / Facebook
     { property: "og:type", content: "website" },
     { property: "og:url", content: "https://rmdb.andreslemusm.com/" },
     { property: "og:title", content: title },
-    {
-      property: "og:description",
-      content: description,
-    },
+    { property: "og:description", content: description },
     {
       property: "og:image",
       content: "https://rmdb.andreslemusm.com/preview.png",
@@ -33,20 +27,14 @@ export const generateMetaTags = ({
     { property: "twitter:card", content: "summary_large_image" },
     { property: "twitter:url", content: "https://rmdb.andreslemusm.com/" },
     { property: "twitter:title", content: title },
-    {
-      property: "twitter:description",
-      content: description,
-    },
+    { property: "twitter:description", content: description },
     {
       property: "twitter:image",
       content: "https://rmdb.andreslemusm.com/preview.png",
     },
     // Favicons
-    {
-      name: "apple-mobile-web-app-title",
-      content: title,
-    },
+    { name: "apple-mobile-web-app-title", content: title },
     { name: "application-name", content: title },
     { name: "msapplication-TileColor", content: "#171717" },
     { name: "theme-color", content: "#171717" },
-  ] satisfies Array<MetaDescriptor>;
+  ] satisfies Array<MetaDescriptor>

@@ -1,21 +1,23 @@
-import { Fragment } from "react";
-import { Review } from "~/components/review";
-import type { Route } from "./+types/_app.movies.$movieId.reviews";
-import { cacheHeader } from "pretty-cache-header";
-import { generateMetaTags } from "~/utils/meta-tags";
-import { markdownFormatter } from "~/utils/formatters.server";
-import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb";
-import { getMovie, getMovieReviews } from "~/services/movies.server";
+import { cacheHeader } from "pretty-cache-header"
+import { Fragment } from "react"
+
+import { Review } from "~/components/review"
+import { getMovie, getMovieReviews } from "~/services/movies.server"
+import { markdownFormatter } from "~/utils/formatters.server"
+import { generateMetaTags } from "~/utils/meta-tags"
+import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
+
+import type { Route } from "./+types/_app.movies.$movieId.reviews"
 
 const loader = async ({ params }: Route.LoaderArgs) => {
   if (!params.movieId) {
-    throw new Error(`No movie found`);
+    throw new Error(`No movie found`)
   }
 
   const [movie, reviews] = await Promise.all([
     getMovie(params.movieId),
     getMovieReviews(params.movieId),
-  ]);
+  ])
 
   return {
     movie: {
@@ -39,8 +41,8 @@ const loader = async ({ params }: Route.LoaderArgs) => {
         dateStyle: "medium",
       }).format(new Date(review.created_at)),
     })),
-  };
-};
+  }
+}
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
@@ -48,7 +50,7 @@ const headers: Route.HeadersFunction = () => ({
     maxAge: "1m",
     staleWhileRevalidate: "1month",
   }),
-});
+})
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
@@ -56,7 +58,7 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
       ? `${loaderData.movie.title} - Reviews | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
     description: loaderData?.movie.overview ?? "",
-  });
+  })
 
 const Reviews = ({ loaderData: { movie, reviews } }: Route.ComponentProps) => (
   <Fragment>
@@ -105,7 +107,7 @@ const Reviews = ({ loaderData: { movie, reviews } }: Route.ComponentProps) => (
       )}
     </section>
   </Fragment>
-);
+)
 
-export { meta, loader, headers };
-export default Reviews;
+export { meta, loader, headers }
+export default Reviews

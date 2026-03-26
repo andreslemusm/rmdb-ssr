@@ -2,21 +2,15 @@
 module.exports = {
   root: true,
   env: { node: true, es2023: true },
-  parserOptions: {
-    sourceType: "module",
-  },
+  parserOptions: { sourceType: "module" },
   extends: ["eslint:recommended", "prettier"],
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
-      env: {
-        "shared-node-browser": true,
-      },
+      env: { "shared-node-browser": true },
       parser: "@typescript-eslint/parser",
       parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
         tsconfigRootDir: __dirname,
         project: ["./tsconfig.json"],
       },
@@ -54,12 +48,6 @@ module.exports = {
           { blankLine: "always", prev: "*", next: "return" },
         ],
         "prefer-arrow-callback": "error",
-        "sort-imports": [
-          "error",
-          {
-            memberSyntaxSortOrder: ["single", "all", "multiple", "none"],
-          },
-        ],
         "no-restricted-imports": [
           "error",
           {
@@ -117,16 +105,11 @@ module.exports = {
         "react-hooks/exhaustive-deps": "error",
         "jsx-a11y/label-has-associated-control": [
           "error",
-          {
-            controlComponents: ["Input", "Textarea"],
-          },
+          { controlComponents: ["Input", "Textarea"] },
         ],
         "unicorn/filename-case": [
           "error",
-          {
-            case: "kebabCase",
-            ignore: [/.\$/, /._/],
-          },
+          { case: "kebabCase", ignore: [/.\$/, /._/] },
         ],
         "react/jsx-fragments": ["error", "element"],
         "react/function-component-definition": [
@@ -144,9 +127,7 @@ module.exports = {
         ],
         "testing-library/consistent-data-testid": [
           "error",
-          {
-            testIdPattern: "^test-id-([a-z]*)?$",
-          },
+          { testIdPattern: "^test-id-([a-z]*)?$" },
         ],
         "testing-library/prefer-user-event": "error",
         /**
@@ -182,11 +163,7 @@ module.exports = {
         "functional/no-return-void": "off",
         "functional/no-try-statements": "off",
       },
-      settings: {
-        react: {
-          version: "detect",
-        },
-      },
+      settings: { react: { version: "detect" } },
     },
   ],
-};
+}

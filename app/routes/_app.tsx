@@ -1,3 +1,6 @@
+import { Fragment, useId } from "react"
+import { Form, Link, Outlet, useSearchParams } from "react-router"
+
 import {
   BrandIcon,
   GithubIcon,
@@ -5,14 +8,12 @@ import {
   SearchIcon,
   TwitterXIcon,
   tmdbAltShort,
-} from "~/assets/icons";
-import { Form, Link, Outlet, useSearchParams } from "react-router";
-import { Fragment, useId } from "react";
+} from "~/assets/icons"
 
 const Layout = () => {
-  const seachInputId = useId();
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query") ?? "";
+  const seachInputId = useId()
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get("query") ?? ""
 
   return (
     <Fragment>
@@ -111,7 +112,7 @@ const Layout = () => {
         </div>
       </footer>
     </Fragment>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

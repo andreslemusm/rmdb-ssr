@@ -1,0 +1,28 @@
+{
+  //  OxC Linter & Formatter
+  "oxc.enable": true,
+  "editor.codeActionsOnSave": { "source.fixAll.oxc": "always" },
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+  "oxc.fmt.configPath": "./oxfmt.config.ts",
+  //  Tailwind CSS
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.lint.cssConflict": "error",
+  "tailwindCSS.lint.recommendedVariantOrder": "error",
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "leave",
+    "leaveFrom",
+    "leaveTo",
+    "enter",
+    "enterFrom",
+    "enterTo"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "files.associations": { "*.css": "tailwindcss" }
+}

@@ -1,14 +1,14 @@
 {
   "name": "rmdb-ssr",
-  "sideEffects": false,
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
     "start": "react-router-serve ./build/server/index.js",
     "build": "react-router build",
     "dev": "react-router dev",
-    "lint": "tsc && prettier -c . && eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "prettier . -w && eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "tsc && oxfmt --check . && eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "oxfmt --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "commit": "cz"
   },
   "dependencies": {
@@ -52,13 +52,17 @@
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-testing-library": "7.16.0",
     "eslint-plugin-unicorn": "52.0.0",
-    "prettier": "3.8.1",
-    "prettier-plugin-tailwindcss": "0.7.2",
+    "oxfmt": "0.42.0",
     "rollup-plugin-visualizer": "7.0.0",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vite": "7.3.1",
     "vite-tsconfig-paths": "6.1.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "engines": {
     "node": "24.X"
@@ -66,10 +70,5 @@
   "volta": {
     "node": "24.14.0",
     "npm": "11.10.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

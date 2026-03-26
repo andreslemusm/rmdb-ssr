@@ -1,6 +1,6 @@
-import { Fragment } from "react";
-import { clsx } from "clsx";
-import { NavLink, Outlet } from "react-router";
+import { clsx } from "clsx"
+import { Fragment } from "react"
+import { NavLink, Outlet } from "react-router"
 
 const Movie = () => (
   <Fragment>
@@ -29,6 +29,6 @@ const Movie = () => (
     </nav>
     <Outlet />
   </Fragment>
-);
+)
 
-export default Movie;
+export default Movie

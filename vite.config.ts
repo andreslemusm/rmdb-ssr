@@ -1,13 +1,11 @@
-import { defineConfig } from "vite";
-import { reactRouter } from "@react-router/dev/vite";
-import tailwindcss from "@tailwindcss/vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { visualizer } from "rollup-plugin-visualizer";
+import { reactRouter } from "@react-router/dev/vite"
+import tailwindcss from "@tailwindcss/vite"
+import { visualizer } from "rollup-plugin-visualizer"
+import { defineConfig } from "vite"
+import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
-  server: {
-    port: 3000,
-  },
+  server: { port: 3000 },
   plugins: [
     reactRouter(),
     tailwindcss(),
@@ -15,4 +13,4 @@ export default defineConfig({
     // `emitFile` is necessary since RR builds more than one bundle!
     visualizer({ emitFile: true }),
   ],
-});
+})

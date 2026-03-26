@@ -1,4 +1,4 @@
-import { createTrickling } from "trickling";
+import { createTrickling } from "trickling"
 
 export const globalLoadingBar = createTrickling({
   easing: "linear",
@@ -9,4 +9,4 @@ export const globalLoadingBar = createTrickling({
   progressBarHeight: "0.3125rem",
   // Neutral 50
   color: "#FAFAFA",
-});
+})
