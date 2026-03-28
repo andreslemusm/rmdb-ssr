@@ -12,5 +12,3 @@ node_modules
 /api/index.js.map
 
 .react-router/
-
-package-lock.json
