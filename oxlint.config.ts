@@ -11,14 +11,15 @@ export default defineConfig({
   },
   options: { reportUnusedDisableDirectives: "error", typeAware: true },
   plugins: [
-    "unicorn",
-    "typescript",
-    "oxc",
-    "react",
+    "eslint",
     "import",
     "jsx-a11y",
-    "promise",
     "node",
+    "oxc",
+    "promise",
+    "react",
+    "typescript",
+    "unicorn",
   ],
   settings: {
     react: { linkComponents: [{ name: "Link", attributes: ["href"] }] },
@@ -103,18 +104,6 @@ export default defineConfig({
     "import/no-default-export": "off",
     "import/no-named-export": "off",
     "import/prefer-default-export": "off",
-    // We use this link wrapper component to allow checking for correct `href` prop.
-    "import/no-restricted-imports": [
-      "error",
-      [
-        {
-          name: "react-router",
-          importNames: ["Link"],
-          message:
-            "Import `Link` from `~/components/link` instead of `react-router`.",
-        },
-      ],
-    ],
     /**
      * Route module exports manage route exports like action, headers, links, loader,
      * and meta for you.
@@ -140,5 +129,21 @@ export default defineConfig({
         ],
       },
     ],
+
+    // Restrict direct imports in favor of application-level abstractions.
+    "eslint/no-restricted-imports": [
+      "error",
+      {
+        paths: [
+          {
+            name: "react-router",
+            importNames: ["Link"],
+            message:
+              "Import `Link` from `~/components/link` instead of `react-router`.",
+          },
+        ],
+      },
+    ],
   },
+  overrides: [{ files: ["tests/**"], plugins: ["vitest"] }],
 })
