@@ -6,20 +6,20 @@ import type { Route } from "./+types/robots[.]txt"
 export const loader = ({ request }: Route.LoaderArgs) => {
   const robotsTxt = generateRobotsTxt([
     {
-      userAgent: "*",
       allow: ["/"],
       sitemap: [`${getDomainUrl(request)}/sitemap.xml`],
+      userAgent: "*",
     },
   ])
 
   return new Response(robotsTxt, {
     headers: {
-      "Content-Type": "text/plain",
       "Cache-Control": cacheHeader({
-        public: true,
         maxAge: "5m",
+        public: true,
         staleWhileRevalidate: "1month",
       }),
+      "Content-Type": "text/plain",
     },
   })
 }

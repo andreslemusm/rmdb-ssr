@@ -9,32 +9,32 @@ export const generateMetaTags = ({
 }) =>
   [
     { charSet: "utf-8" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { content: "width=device-width, initial-scale=1", name: "viewport" },
     // Primary Meta Tags
     { title },
-    { name: "title", content: title },
-    { name: "description", content: description },
+    { content: title, name: "title" },
+    { content: description, name: "description" },
     // Open Graph / Facebook
-    { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://rmdb.andreslemusm.com/" },
-    { property: "og:title", content: title },
-    { property: "og:description", content: description },
+    { content: "website", property: "og:type" },
+    { content: "https://rmdb.andreslemusm.com/", property: "og:url" },
+    { content: title, property: "og:title" },
+    { content: description, property: "og:description" },
     {
-      property: "og:image",
       content: "https://rmdb.andreslemusm.com/preview.png",
+      property: "og:image",
     },
     // Twitter
-    { property: "twitter:card", content: "summary_large_image" },
-    { property: "twitter:url", content: "https://rmdb.andreslemusm.com/" },
-    { property: "twitter:title", content: title },
-    { property: "twitter:description", content: description },
+    { content: "summary_large_image", property: "twitter:card" },
+    { content: "https://rmdb.andreslemusm.com/", property: "twitter:url" },
+    { content: title, property: "twitter:title" },
+    { content: description, property: "twitter:description" },
     {
-      property: "twitter:image",
       content: "https://rmdb.andreslemusm.com/preview.png",
+      property: "twitter:image",
     },
     // Favicons
-    { name: "apple-mobile-web-app-title", content: title },
-    { name: "application-name", content: title },
-    { name: "msapplication-TileColor", content: "#171717" },
-    { name: "theme-color", content: "#171717" },
+    { content: title, name: "apple-mobile-web-app-title" },
+    { content: title, name: "application-name" },
+    { content: "#171717", name: "msapplication-TileColor" },
+    { content: "#171717", name: "theme-color" },
   ] satisfies Array<MetaDescriptor>

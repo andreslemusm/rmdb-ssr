@@ -63,19 +63,19 @@ const Layout = () => {
           <nav className="flex justify-center space-x-6 md:order-2">
             {[
               {
-                name: "X",
                 href: "https://twitter.com/andreslemusm1",
                 icon: TwitterXIcon,
+                name: "X",
               },
               {
-                name: "GitHub",
                 href: "https://github.com/andreslemusm",
                 icon: GithubIcon,
+                name: "GitHub",
               },
               {
-                name: "LinkedIn",
                 href: "https://linkedin.com/in/andreslemusm",
                 icon: LinkedinIcon,
+                name: "LinkedIn",
               },
             ].map((item) => (
               <a

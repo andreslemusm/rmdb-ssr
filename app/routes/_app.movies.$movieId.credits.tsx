@@ -19,18 +19,18 @@ const loader = async ({ params }: Route.LoaderArgs) => {
   ])
 
   return {
+    cast: credits.cast.map((castPerson) => ({
+      characterOrJob: castPerson.character,
+      id: castPerson.id,
+      name: castPerson.name,
+      profilePath: castPerson.profile_path,
+    })),
     movie: {
-      title: movie.title,
+      overview: movie.overview,
       posterPath: movie.poster_path,
       releaseDate: movie.release_date,
-      overview: movie.overview,
+      title: movie.title,
     },
-    cast: credits.cast.map((castPerson) => ({
-      id: castPerson.id,
-      profilePath: castPerson.profile_path,
-      name: castPerson.name,
-      characterOrJob: castPerson.character,
-    })),
     ...credits.crew.reduce<
       Record<
         | "art"
@@ -59,9 +59,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             art: [
               ...mainCrew.art,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -73,9 +73,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             camera: [
               ...mainCrew.camera,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -87,9 +87,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             costumeAndMakeUp: [
               ...mainCrew.costumeAndMakeUp,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -101,9 +101,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             crew: [
               ...mainCrew.crew,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -115,9 +115,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             directing: [
               ...mainCrew.directing,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -129,9 +129,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             editing: [
               ...mainCrew.editing,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -143,9 +143,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             lighting: [
               ...mainCrew.lighting,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -157,9 +157,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             production: [
               ...mainCrew.production,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -171,9 +171,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             sound: [
               ...mainCrew.sound,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -185,9 +185,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             visualEffects: [
               ...mainCrew.visualEffects,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -199,9 +199,9 @@ const loader = async ({ params }: Route.LoaderArgs) => {
             writing: [
               ...mainCrew.writing,
               {
+                characterOrJob: crewPerson.job,
                 id: crewPerson.id,
                 name: crewPerson.name,
-                characterOrJob: crewPerson.job,
                 profilePath: crewPerson.profile_path,
               },
             ],
@@ -229,18 +229,18 @@ const loader = async ({ params }: Route.LoaderArgs) => {
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
-    public: true,
     maxAge: "1m",
+    public: true,
     staleWhileRevalidate: "1month",
   }),
 })
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
+    description: loaderData?.movie.overview ?? "",
     title: loaderData
       ? `${loaderData.movie.title} - Credits | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
-    description: loaderData?.movie.overview ?? "",
   })
 
 const CreditSection = ({

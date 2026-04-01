@@ -74,28 +74,12 @@ const loader = async ({ params }: Route.LoaderArgs) => {
   ])
 
   return {
-    movie: {
-      backdropPath: movie.backdrop_path,
-      posterPath: movie.poster_path,
-      title: movie.title,
-      homepage: movie.homepage,
-      voteAverage: movie.vote_average.toPrecision(2),
-      voteCount: formatNumberAsCompactNumber(movie.vote_count),
-      releaseDate: movie.release_date,
-      runtime: `${Math.floor(movie.runtime / 60)}h ${
-        movie.runtime - Math.floor(movie.runtime / 60) * 60
-      }m`,
-      genres: movie.genres,
-      tagline: movie.tagline,
-      overview: movie.overview,
-      status: movie.status,
-      budget: movie.budget !== 0 ? formatNumberAsCurrency(movie.budget) : null,
-      revenue:
-        movie.revenue !== 0 ? formatNumberAsCurrency(movie.revenue) : null,
-      originalLanguage: formatLangCodeAsLangName(movie.original_language),
+    backdrops: {
+      count: images.backdrops.length,
+      featured: images.backdrops
+        .slice(0, 9)
+        .map((backdrop) => ({ filePath: backdrop.file_path })),
     },
-    youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
-      ?.key,
     credits: {
       ...credits.crew.reduce<
         Record<
@@ -125,18 +109,57 @@ const loader = async ({ params }: Route.LoaderArgs) => {
 
           return crew
         },
-        { directors: [], writers: [], characters: [], editors: [] },
+        { characters: [], directors: [], editors: [], writers: [] },
       ),
       topCast: credits.cast
         .slice(0, 9)
         .map((castPerson) => ({
-          id: castPerson.id,
-          profilePath: castPerson.profile_path,
-          name: castPerson.name,
           character: castPerson.character,
+          id: castPerson.id,
+          name: castPerson.name,
+          profilePath: castPerson.profile_path,
         })),
     },
+    externalIDs: {
+      facebookID: externalIDs.facebook_id,
+      instagramID: externalIDs.instagram_id,
+      twitterID: externalIDs.twitter_id,
+    },
+    keywords: keywords.keywords,
+    movie: {
+      backdropPath: movie.backdrop_path,
+      budget: movie.budget !== 0 ? formatNumberAsCurrency(movie.budget) : null,
+      genres: movie.genres,
+      homepage: movie.homepage,
+      originalLanguage: formatLangCodeAsLangName(movie.original_language),
+      overview: movie.overview,
+      posterPath: movie.poster_path,
+      releaseDate: movie.release_date,
+      revenue:
+        movie.revenue !== 0 ? formatNumberAsCurrency(movie.revenue) : null,
+      runtime: `${Math.floor(movie.runtime / 60)}h ${
+        movie.runtime - Math.floor(movie.runtime / 60) * 60
+      }m`,
+      status: movie.status,
+      tagline: movie.tagline,
+      title: movie.title,
+      voteAverage: movie.vote_average.toPrecision(2),
+      voteCount: formatNumberAsCompactNumber(movie.vote_count),
+    },
+    posters: {
+      count: images.posters.length,
+      featured: images.posters
+        .slice(0, 9)
+        .map((poster) => ({ filePath: poster.file_path })),
+    },
+    recommendations: recommendations.results.map((recommendation) => ({
+      backdropPath: recommendation.backdrop_path,
+      id: recommendation.id,
+      title: recommendation.title,
+      voteAverage: recommendation.vote_average.toPrecision(2),
+    })),
     reviews: {
+      count: reviews.total_results,
       featuredReview:
         reviews.results.length > 0
           ? {
@@ -146,57 +169,34 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                   ? reviews.results[0].author_details.name
                   : reviews.results[0].author_details.username,
               },
-              rating: reviews.results[0].author_details.rating,
               // This is safe because the content is already sanitized by the TMDB API
               content: markdownFormatter(reviews.results[0].content),
               createdDate: new Intl.DateTimeFormat("en-US", {
                 dateStyle: "medium",
               }).format(new Date(reviews.results[0].created_at)),
+              rating: reviews.results[0].author_details.rating,
             }
           : null,
-      count: reviews.total_results,
     },
-    recommendations: recommendations.results.map((recommendation) => ({
-      id: recommendation.id,
-      backdropPath: recommendation.backdrop_path,
-      title: recommendation.title,
-      voteAverage: recommendation.vote_average.toPrecision(2),
-    })),
-    posters: {
-      count: images.posters.length,
-      featured: images.posters
-        .slice(0, 9)
-        .map((poster) => ({ filePath: poster.file_path })),
-    },
-    backdrops: {
-      count: images.backdrops.length,
-      featured: images.backdrops
-        .slice(0, 9)
-        .map((backdrop) => ({ filePath: backdrop.file_path })),
-    },
-    externalIDs: {
-      facebookID: externalIDs.facebook_id,
-      instagramID: externalIDs.instagram_id,
-      twitterID: externalIDs.twitter_id,
-    },
-    keywords: keywords.keywords,
+    youtubeTrailerID: videos.results.find((video) => video.type === "Trailer")
+      ?.key,
   }
 }
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
-    public: true,
     maxAge: "1m",
+    public: true,
     staleWhileRevalidate: "1month",
   }),
 })
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
+    description: loaderData.movie.overview ?? "",
     title: loaderData
       ? `${loaderData.movie.title} | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
-    description: loaderData.movie.overview ?? "",
   })
 
 const YoutubeTrailerModal = ({
@@ -393,7 +393,7 @@ const Movie = ({
         {movie.backdropPath ? (
           <Portal
             as="div"
-            style={{ marginTop: "6.189rem", height: "35rem" }}
+            style={{ height: "35rem", marginTop: "6.189rem" }}
             className="absolute inset-x-0 top-0 -z-10 hidden overflow-hidden lg:block"
           >
             <img

@@ -5,7 +5,6 @@ import { defineConfig } from "vite"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
-  server: { port: 3000 },
   plugins: [
     reactRouter(),
     tailwindcss(),
@@ -13,4 +12,5 @@ export default defineConfig({
     // `emitFile` is necessary since RR builds more than one bundle!
     visualizer({ emitFile: true }),
   ],
+  server: { port: 3000 },
 })

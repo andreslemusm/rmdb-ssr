@@ -15,23 +15,23 @@ import styles from "./tailwind.css?url"
 
 const links: Route.LinksFunction = () => [
   // Stylesheets
-  { rel: "stylesheet", href: styles },
+  { href: styles, rel: "stylesheet" },
   // Favicons
-  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+  { href: "/apple-touch-icon.png", rel: "apple-touch-icon", sizes: "180x180" },
   {
-    rel: "icon",
-    type: "image/png",
-    sizes: "32x32",
     href: "/favicon-32x32.png",
+    rel: "icon",
+    sizes: "32x32",
+    type: "image/png",
   },
   {
-    rel: "icon",
-    type: "image/png",
-    sizes: "16x16",
     href: "/favicon-16x16.png",
+    rel: "icon",
+    sizes: "16x16",
+    type: "image/png",
   },
-  { rel: "manifest", href: "/site.webmanifest" },
-  { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#5bbad5" },
+  { href: "/site.webmanifest", rel: "manifest" },
+  { color: "#5bbad5", href: "/safari-pinned-tab.svg", rel: "mask-icon" },
 ]
 
 const Layout = ({ children }: { children: React.ReactNode }) => (

@@ -31,6 +31,7 @@ const loader = async ({ request }: Route.LoaderArgs) => {
   }
 
   const moviesResponse = await getMovies({
+    page,
     // Note: remove after migration to TanStack Start
     // oxlint-disable-next-line typescript/no-unsafe-type-assertion
     subCollection: listType.replaceAll("-", "_") as
@@ -38,41 +39,40 @@ const loader = async ({ request }: Route.LoaderArgs) => {
       | "upcoming"
       | "now_playing"
       | "top_rated",
-    page,
   })
 
   return {
     listType,
-    totalPages: moviesResponse.total_pages,
     movies: moviesResponse.results.map((movie) => ({
       id: movie.id,
       posterPath: movie.poster_path,
+      releaseDate: movie.release_date,
       title: movie.title,
       voteAverage: movie.vote_average,
-      releaseDate: movie.release_date,
     })),
     page,
+    totalPages: moviesResponse.total_pages,
   }
 }
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
-    public: true,
     maxAge: "1m",
+    public: true,
     staleWhileRevalidate: "1month",
   }),
 })
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
+    description:
+      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
     title: loaderData
       ? `${
           MOVIE_CATEGORIES.find(({ value }) => value === loaderData.listType)
             ?.label ?? "Now Playing"
         } | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
-    description:
-      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
   })
 
 const Home = ({

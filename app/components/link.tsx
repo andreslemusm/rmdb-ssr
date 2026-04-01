@@ -1,5 +1,5 @@
 import { forwardRef } from "react"
-// oxlint-disable-next-line no-restricted-imports -- Here's our abstraction implementation.
+// oxlint-disable-next-line no-restricted-imports -- Here's our Link implementation.
 import { Link as RRLink, type LinkProps as RRLinkProps } from "react-router"
 
 const Link = forwardRef<

@@ -1,11 +1,13 @@
 import { defineConfig } from "oxfmt"
 
 export default defineConfig({
-  // Tracked but should not be formatted (not in .gitignore).
   ignorePatterns: [".agents"],
+  objectWrap: "collapse",
+  printWidth: 80,
+  semi: false,
+  sortImports: { newlinesBetween: false },
+  sortPackageJson: { sortScripts: true },
   sortTailwindcss: {
-    stylesheet: "app/tailwind.css",
-    functions: ["clsx", "cn", "cva"],
     attributes: [
       "leave",
       "leaveFrom",
@@ -14,11 +16,7 @@ export default defineConfig({
       "enterFrom",
       "enterTo",
     ],
+    functions: ["clsx", "cn", "cva"],
+    stylesheet: "app/tailwind.css",
   },
-  sortPackageJson: { sortScripts: true },
-  // https://www.epicweb.dev/your-code-style-does-matter-actually
-  printWidth: 80,
-  objectWrap: "collapse",
-  semi: false,
-  sortImports: { newlinesBetween: false },
 })

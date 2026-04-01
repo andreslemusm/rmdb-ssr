@@ -3,13 +3,14 @@ import { defineConfig } from "oxlint"
 export default defineConfig({
   categories: {
     correctness: "error",
-    suspicious: "error",
     pedantic: "error",
     perf: "error",
-    style: "error",
     restriction: "error",
+    style: "error",
+    suspicious: "error",
   },
   options: { reportUnusedDisableDirectives: "error", typeAware: true },
+  overrides: [{ files: ["tests/**"], plugins: ["vitest"] }],
   plugins: [
     "eslint",
     "import",
@@ -21,22 +22,18 @@ export default defineConfig({
     "typescript",
     "unicorn",
   ],
-  settings: {
-    react: { linkComponents: [{ name: "Link", attributes: ["href"] }] },
-    "jsx-a11y": { components: { Link: "a" } },
-  },
+  // oxlint-disable-next-line sort-keys -- Grouping rules by context.
   rules: {
     // Note: Review rules later when we have a better understanding of the codebase.
     "no-magic-numbers": "off",
     "unicorn/prefer-logical-operator-over-ternary": "off",
-    // Note: enable in its own commit
-    "sort-keys": "off",
     // Note: Add after moving to env.t3.gg and valibot
     "node/no-process-env": "off",
     "typescript/strict-boolean-expressions": "off",
     // Note: Review if it worth enabling these rules.
     "no-undefined": "off",
 
+    "sort-keys": ["error", "asc", { natural: true }],
     "react/jsx-fragments": ["error", "element"],
     "react/jsx-filename-extension": [
       "error",
@@ -136,14 +133,17 @@ export default defineConfig({
       {
         paths: [
           {
-            name: "react-router",
             importNames: ["Link"],
             message:
               "Import `Link` from `~/components/link` instead of `react-router`.",
+            name: "react-router",
           },
         ],
       },
     ],
   },
-  overrides: [{ files: ["tests/**"], plugins: ["vitest"] }],
+  settings: {
+    "jsx-a11y": { components: { Link: "a" } },
+    react: { linkComponents: [{ attributes: ["href"], name: "Link" }] },
+  },
 })

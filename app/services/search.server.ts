@@ -37,7 +37,7 @@ const getSearchMovies = ({
     total_results: number
   }>({
     endpoint: "search/movie",
-    searchParams: { query, language, include_adult, region, page, year },
+    searchParams: { include_adult, language, page, query, region, year },
   })
 
 export { getSearchMovies }

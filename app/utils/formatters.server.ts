@@ -5,8 +5,8 @@ const formatNumberAsCompactNumber = (value: number) =>
   numberFormatter.format(value)
 
 const moneyFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
   currency: "USD",
+  style: "currency",
 })
 const formatNumberAsCurrency = (value: number) => moneyFormatter.format(value)
 

@@ -19,43 +19,43 @@ const loader = async ({ params }: Route.LoaderArgs) => {
 
   return {
     movie: {
-      title: movie.title,
+      overview: movie.overview,
       posterPath: movie.poster_path,
       releaseDate: movie.release_date,
-      overview: movie.overview,
+      title: movie.title,
     },
     reviews: reviews.results.map((review) => ({
-      id: review.id,
       author: {
         avatarPath: review.author_details.avatar_path,
         name: review.author_details.name
           ? review.author_details.name
           : review.author_details.username,
       },
-      rating: review.author_details.rating,
       // This is safe because the content is already sanitized by the TMDB API
       content: markdownFormatter(review.content),
       createdDate: new Intl.DateTimeFormat("en-US", {
         dateStyle: "medium",
       }).format(new Date(review.created_at)),
+      id: review.id,
+      rating: review.author_details.rating,
     })),
   }
 }
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
-    public: true,
     maxAge: "1m",
+    public: true,
     staleWhileRevalidate: "1month",
   }),
 })
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
+    description: loaderData?.movie.overview ?? "",
     title: loaderData
       ? `${loaderData.movie.title} - Reviews | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
-    description: loaderData?.movie.overview ?? "",
   })
 
 const Reviews = ({ loaderData: { movie, reviews } }: Route.ComponentProps) => (

@@ -13,22 +13,22 @@ const loader = async ({ request }: Route.LoaderArgs) => {
   const page = Number(url.searchParams.get("page") ?? 1)
   const query = url.searchParams.get("query") ?? ""
 
-  const moviesResponse = await getSearchMovies({ query, page })
+  const moviesResponse = await getSearchMovies({ page, query })
 
   return {
-    query,
-    page,
     movies: moviesResponse.results.map((movie) => ({
       id: movie.id,
+      overview: movie.overview,
       posterPath: movie.poster_path,
-      title: movie.title,
       releaseDate: movie.release_date
         ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(
             new Date(movie.release_date),
           )
         : null,
-      overview: movie.overview,
+      title: movie.title,
     })),
+    page,
+    query,
     totalPages: moviesResponse.total_pages,
     totalResults: formatNumberAsCompactNumber(moviesResponse.total_results),
   }
@@ -36,19 +36,19 @@ const loader = async ({ request }: Route.LoaderArgs) => {
 
 const headers: Route.HeadersFunction = () => ({
   "Cache-Control": cacheHeader({
-    public: true,
     maxAge: "1m",
+    public: true,
     staleWhileRevalidate: "1month",
   }),
 })
 
 const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
+    description:
+      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
     title: loaderData
       ? `Search: ${loaderData.query} | React Movie Database (RMDB)`
       : "Search | React Movie Database (RMDB)",
-    description:
-      "React Movie Database (RMDB) is a popular, user editable database for movies. Powered by TMDB",
   })
 
 const Search = ({

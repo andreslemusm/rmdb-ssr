@@ -14,12 +14,12 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 
   return new Response(sitemap, {
     headers: {
-      "Content-Type": "application/xml",
       "Cache-Control": cacheHeader({
-        public: true,
         maxAge: "5m",
+        public: true,
         staleWhileRevalidate: "1month",
       }),
+      "Content-Type": "application/xml",
     },
   })
 }

@@ -5,8 +5,8 @@ import { johnDoe } from "~/assets/images"
 import { BASE_IMAGE_URL, ProfileSizes } from "~/utils/tmdb"
 
 const Content = ({ content }: { content: string }) => {
+  const markup = { __html: content }
   const [isOpen, setIsOpen] = useState(false)
-
   const contentId = useId()
 
   return (
@@ -18,7 +18,7 @@ const Content = ({ content }: { content: string }) => {
           "prose prose-sm max-w-full prose-invert",
         )}
         // oxlint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={markup}
       />
       <button
         type="button"
