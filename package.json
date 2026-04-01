@@ -4,14 +4,14 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "start": "react-router-serve ./build/server/index.js",
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "audit:types": "tsc",
+    "audit": "npm run audit:format && npm run audit:types && npm run audit:lint",
     "audit:format": "oxfmt --check .",
     "audit:lint": "oxlint .",
-    "audit": "npm run audit:format && npm run audit:types && npm run audit:lint",
-    "commit": "cz"
+    "audit:types": "tsc",
+    "build": "react-router build",
+    "commit": "cz",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js"
   },
   "dependencies": {
     "@forge42/seo-tools": "1.4.5",

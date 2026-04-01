@@ -1,14 +1,12 @@
 import { clsx } from "clsx"
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment } from "react"
-
 import { StarIcon } from "~/assets/icons"
 import { Link } from "~/components/link"
 import { Pagination } from "~/components/pagination"
 import { getMovies } from "~/services/movies.server"
 import { generateMetaTags } from "~/utils/meta-tags"
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
-
 import type { Route } from "./+types/_app._index"
 
 const MOVIE_CATEGORIES = [

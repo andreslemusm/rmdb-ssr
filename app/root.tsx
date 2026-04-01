@@ -9,10 +9,8 @@ import {
   ScrollRestoration,
   useNavigation,
 } from "react-router"
-
 import type { Route } from "./+types/root"
 import { globalLoadingBar } from "./components/global-loading-bar"
-
 import styles from "./tailwind.css?url"
 
 const links: Route.LinksFunction = () => [

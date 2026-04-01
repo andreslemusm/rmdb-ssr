@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router"
-
 import { ArrowIcon } from "~/assets/icons"
 import { Link } from "~/components/link"
 

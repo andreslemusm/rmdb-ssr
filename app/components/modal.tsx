@@ -5,7 +5,6 @@ import {
   TransitionChild,
 } from "@headlessui/react"
 import { Fragment } from "react"
-
 import { XIcon } from "~/assets/icons"
 
 const Modal = ({

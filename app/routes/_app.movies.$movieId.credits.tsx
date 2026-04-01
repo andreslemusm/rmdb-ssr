@@ -2,12 +2,10 @@
 // oxlint-disable oxc/no-accumulating-spread
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment } from "react"
-
 import { johnDoe } from "~/assets/images"
 import { getMovie, getMovieCredits } from "~/services/movies.server"
 import { generateMetaTags } from "~/utils/meta-tags"
 import { BASE_IMAGE_URL, PosterSizes, ProfileSizes } from "~/utils/tmdb"
-
 import type { Route } from "./+types/_app.movies.$movieId.credits"
 
 const loader = async ({ params }: Route.LoaderArgs) => {

@@ -1,6 +1,5 @@
 import { clsx } from "clsx"
 import { useId, useState } from "react"
-
 import { ChevronIcon, StarIcon } from "~/assets/icons"
 import { johnDoe } from "~/assets/images"
 import { BASE_IMAGE_URL, ProfileSizes } from "~/utils/tmdb"

@@ -5,7 +5,6 @@ import { clsx } from "clsx"
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment, useState } from "react"
 import { useSearchParams, type ShouldRevalidateFunction } from "react-router"
-
 import {
   ChevronIcon,
   FacebookIcon,
@@ -42,7 +41,6 @@ import {
   PosterSizes,
   ProfileSizes,
 } from "~/utils/tmdb"
-
 import type { Route } from "./+types/_app.movies.$movieId._index"
 
 const shouldRevalidate: ShouldRevalidateFunction = ({

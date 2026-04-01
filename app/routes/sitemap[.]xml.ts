@@ -1,8 +1,6 @@
 import { generateSitemap } from "@forge42/seo-tools/sitemap"
 import { cacheHeader } from "pretty-cache-header"
-
 import { getDomainUrl } from "~/utils/mics.server"
-
 import type { Route } from "./+types/sitemap[.]xml"
 
 export const loader = async ({ request }: Route.LoaderArgs) => {

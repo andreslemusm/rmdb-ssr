@@ -15,9 +15,10 @@ export default defineConfig({
       "enterTo",
     ],
   },
+  sortPackageJson: { sortScripts: true },
   // https://www.epicweb.dev/your-code-style-does-matter-actually
   printWidth: 80,
   objectWrap: "collapse",
   semi: false,
-  sortImports: {},
+  sortImports: { newlinesBetween: false },
 })

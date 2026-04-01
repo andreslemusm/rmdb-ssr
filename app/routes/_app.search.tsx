@@ -1,13 +1,11 @@
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment } from "react"
-
 import { Link } from "~/components/link"
 import { Pagination } from "~/components/pagination"
 import { getSearchMovies } from "~/services/search.server"
 import { formatNumberAsCompactNumber } from "~/utils/formatters.server"
 import { generateMetaTags } from "~/utils/meta-tags"
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
-
 import type { Route } from "./+types/_app.search"
 
 const loader = async ({ request }: Route.LoaderArgs) => {
