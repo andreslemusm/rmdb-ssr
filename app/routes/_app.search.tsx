@@ -1,7 +1,7 @@
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment } from "react"
-import { Link } from "react-router"
 
+import { Link } from "~/components/link"
 import { Pagination } from "~/components/pagination"
 import { getSearchMovies } from "~/services/search.server"
 import { formatNumberAsCompactNumber } from "~/utils/formatters.server"
@@ -69,7 +69,7 @@ const Search = ({
           key={movie.id}
           className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 transition-colors ease-out hover:border-neutral-700 hover:bg-neutral-800"
         >
-          <Link to={`/movies/${movie.id}`} className="flex" prefetch="intent">
+          <Link href={`/movies/${movie.id}`} className="flex" prefetch="intent">
             {movie.posterPath ? (
               <img
                 src={`${BASE_IMAGE_URL}${PosterSizes.sm}${movie.posterPath}`}

@@ -3,3 +3,7 @@ declare namespace NodeJS {
     readonly TDMB_API_KEY: string
   }
 }
+
+// Note: Remove after moving to env.t3.gg
+// oxlint-disable-next-line unicorn/require-module-specifiers
+export {}

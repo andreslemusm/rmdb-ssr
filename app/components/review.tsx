@@ -5,7 +5,45 @@ import { ChevronIcon, StarIcon } from "~/assets/icons"
 import { johnDoe } from "~/assets/images"
 import { BASE_IMAGE_URL, ProfileSizes } from "~/utils/tmdb"
 
-const Review = ({
+const Content = ({ content }: { content: string }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const contentId = useId()
+
+  return (
+    <div className="pt-4">
+      <div
+        id={contentId}
+        className={clsx(
+          !isOpen && "line-clamp-4 md:line-clamp-5 lg:line-clamp-6",
+          "prose prose-sm max-w-full prose-invert",
+        )}
+        // oxlint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+      <button
+        type="button"
+        onClick={() => {
+          setIsOpen((prev) => !prev)
+        }}
+        className="flex items-center gap-x-0.5 text-sm text-cyan-500 transition-colors ease-out hover:text-cyan-400"
+        aria-expanded={isOpen}
+        aria-controls={contentId}
+      >
+        See {isOpen ? "less" : "more"}
+        <ChevronIcon
+          aria-hidden
+          className={clsx(
+            isOpen ? "-rotate-90" : "rotate-90",
+            "mt-0.5 h-4 w-4",
+          )}
+        />
+      </button>
+    </div>
+  )
+}
+
+export const Review = ({
   author,
   createdDate,
   content,
@@ -52,41 +90,3 @@ const Review = ({
     <Content content={content} />
   </article>
 )
-
-const Content = ({ content }: { content: string }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const toggle = () => setIsOpen(!isOpen)
-
-  const contentId = useId()
-
-  return (
-    <div className="pt-4">
-      <div
-        id={contentId}
-        className={clsx(
-          !isOpen && "line-clamp-4 md:line-clamp-5 lg:line-clamp-6",
-          "prose prose-sm max-w-full prose-invert",
-        )}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-      <button
-        type="button"
-        onClick={toggle}
-        className="flex items-center gap-x-0.5 text-sm text-cyan-500 transition-colors ease-out hover:text-cyan-400"
-        aria-expanded={isOpen}
-        aria-controls={contentId}
-      >
-        See {isOpen ? "less" : "more"}
-        <ChevronIcon
-          aria-hidden
-          className={clsx(
-            isOpen ? "-rotate-90" : "rotate-90",
-            "mt-0.5 h-4 w-4",
-          )}
-        />
-      </button>
-    </div>
-  )
-}
-
-export { Review }

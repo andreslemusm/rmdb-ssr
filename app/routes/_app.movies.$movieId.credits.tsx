@@ -1,3 +1,5 @@
+// oxlint-disable unicorn/no-array-reduce
+// oxlint-disable oxc/no-accumulating-spread
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment } from "react"
 
@@ -31,7 +33,27 @@ const loader = async ({ params }: Route.LoaderArgs) => {
       name: castPerson.name,
       characterOrJob: castPerson.character,
     })),
-    ...credits.crew.reduce(
+    ...credits.crew.reduce<
+      Record<
+        | "art"
+        | "camera"
+        | "costumeAndMakeUp"
+        | "crew"
+        | "directing"
+        | "editing"
+        | "lighting"
+        | "production"
+        | "sound"
+        | "visualEffects"
+        | "writing",
+        Array<{
+          id: number
+          profilePath: string | null
+          name: string
+          characterOrJob: string
+        }>
+      >
+    >(
       (mainCrew, crewPerson) => {
         if (crewPerson.department === "Art") {
           return {
@@ -202,25 +224,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
         sound: [],
         visualEffects: [],
         writing: [],
-      } as Record<
-        | "art"
-        | "camera"
-        | "costumeAndMakeUp"
-        | "crew"
-        | "directing"
-        | "editing"
-        | "lighting"
-        | "production"
-        | "sound"
-        | "visualEffects"
-        | "writing",
-        Array<{
-          id: number
-          profilePath: string | null
-          name: string
-          characterOrJob: string
-        }>
-      >,
+      },
     ),
   }
 }
@@ -240,6 +244,53 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
       : "React Movie Database (RMDB)",
     description: loaderData?.movie.overview ?? "",
   })
+
+const CreditSection = ({
+  title,
+  people,
+}: {
+  title: string
+  people: Array<{
+    id: number
+    profilePath: string | null
+    name: string
+    characterOrJob: string
+  }>
+}) =>
+  people.length > 0 ? (
+    <section>
+      <h2 className="flex items-baseline gap-x-2 text-lg font-bold text-neutral-200">
+        {title}
+        <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
+          {people.length}
+        </span>
+      </h2>
+      <ul className="flex flex-col gap-y-10 pt-8">
+        {people.map((castPerson) => (
+          <li
+            key={`${castPerson.id}-${castPerson.characterOrJob}`}
+            className="flex items-center gap-x-5"
+          >
+            <img
+              className="h-16 w-16 shrink-0 rounded-full bg-neutral-800 object-cover object-top"
+              src={
+                castPerson.profilePath
+                  ? `${BASE_IMAGE_URL}${ProfileSizes.md}${castPerson.profilePath}`
+                  : johnDoe
+              }
+              alt={castPerson.name}
+              width={421}
+              height={632}
+            />
+            <div>
+              <h3 className="text-neutral-200">{castPerson.name}</h3>
+              <p className="text-neutral-400">{castPerson.characterOrJob}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : null
 
 const Credits = ({
   loaderData: {
@@ -300,53 +351,6 @@ const Credits = ({
     </div>
   </Fragment>
 )
-
-const CreditSection = ({
-  title,
-  people,
-}: {
-  title: string
-  people: Array<{
-    id: number
-    profilePath: string | null
-    name: string
-    characterOrJob: string
-  }>
-}) =>
-  people.length > 0 ? (
-    <section>
-      <h2 className="flex items-baseline gap-x-2 text-lg font-bold text-neutral-200">
-        {title}
-        <span className="rounded-lg bg-neutral-800 px-2 text-xs text-neutral-200">
-          {people.length}
-        </span>
-      </h2>
-      <ul className="flex flex-col gap-y-10 pt-8">
-        {people.map((castPerson) => (
-          <li
-            key={`${castPerson.id}-${castPerson.characterOrJob}`}
-            className="flex items-center gap-x-5"
-          >
-            <img
-              className="h-16 w-16 shrink-0 rounded-full bg-neutral-800 object-cover object-top"
-              src={
-                castPerson.profilePath
-                  ? `${BASE_IMAGE_URL}${ProfileSizes.md}${castPerson.profilePath}`
-                  : johnDoe
-              }
-              alt={castPerson.name}
-              width={421}
-              height={632}
-            />
-            <div>
-              <h3 className="text-neutral-200">{castPerson.name}</h3>
-              <p className="text-neutral-400">{castPerson.characterOrJob}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  ) : null
 
 export { meta, loader, headers }
 export default Credits

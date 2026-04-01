@@ -55,7 +55,7 @@ const App = () => {
   const navigation = useNavigation()
   useEffect(() => {
     // Only show progress bar on normal load.
-    if (navigation.state === "loading" && navigation.formData == null) {
+    if (navigation.state === "loading" && navigation.formData === undefined) {
       globalLoadingBar.start()
     }
     if (navigation.state === "idle") {

@@ -1,5 +1,5 @@
 import { Fragment, useId } from "react"
-import { Form, Link, Outlet, useSearchParams } from "react-router"
+import { Form, Outlet, useSearchParams } from "react-router"
 
 import {
   BrandIcon,
@@ -9,6 +9,7 @@ import {
   TwitterXIcon,
   tmdbAltShort,
 } from "~/assets/icons"
+import { Link } from "~/components/link"
 
 const Layout = () => {
   const seachInputId = useId()
@@ -20,7 +21,7 @@ const Layout = () => {
       <header className="border-b border-neutral-800 px-4 py-6 sm:px-4 sm:py-7 lg:px-8">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-x-5">
           <div className="flex items-center gap-x-8">
-            <Link to="/" className="shrink-0" prefetch="intent">
+            <Link href="/" className="shrink-0" prefetch="intent">
               <span className="sr-only">Home</span>
               <BrandIcon className="block h-10 w-10" />
             </Link>

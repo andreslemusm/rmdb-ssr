@@ -1,15 +1,22 @@
 import { clsx } from "clsx"
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment } from "react"
-import { Link } from "react-router"
 
 import { StarIcon } from "~/assets/icons"
+import { Link } from "~/components/link"
 import { Pagination } from "~/components/pagination"
 import { getMovies } from "~/services/movies.server"
 import { generateMetaTags } from "~/utils/meta-tags"
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
 
 import type { Route } from "./+types/_app._index"
+
+const MOVIE_CATEGORIES = [
+  { label: "Now Playing", value: "now-playing" },
+  { label: "Popular", value: "popular" },
+  { label: "Top Rated", value: "top-rated" },
+  { label: "Upcoming", value: "upcoming" },
+] as const
 
 const loader = async ({ request }: Route.LoaderArgs) => {
   const url = new URL(request.url)
@@ -26,7 +33,9 @@ const loader = async ({ request }: Route.LoaderArgs) => {
   }
 
   const moviesResponse = await getMovies({
-    subCollection: listType.replace(/-/g, "_") as
+    // Note: remove after migration to TanStack Start
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    subCollection: listType.replaceAll("-", "_") as
       | "popular"
       | "upcoming"
       | "now_playing"
@@ -35,7 +44,7 @@ const loader = async ({ request }: Route.LoaderArgs) => {
   })
 
   return {
-    listType: listType,
+    listType,
     totalPages: moviesResponse.total_pages,
     movies: moviesResponse.results.map((movie) => ({
       id: movie.id,
@@ -60,8 +69,8 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
   generateMetaTags({
     title: loaderData
       ? `${
-          listTypes.find(({ value }) => value === loaderData.listType)?.label ??
-          "Now Playing"
+          MOVIE_CATEGORIES.find(({ value }) => value === loaderData.listType)
+            ?.label ?? "Now Playing"
         } | React Movie Database (RMDB)`
       : "React Movie Database (RMDB)",
     description:
@@ -73,9 +82,9 @@ const Home = ({
 }: Route.ComponentProps) => (
   <Fragment>
     <div className="flex items-center gap-x-1 overflow-x-auto pt-4 sm:pt-7 lg:pt-9">
-      {listTypes.map(({ label, value }) => (
+      {MOVIE_CATEGORIES.map(({ label, value }) => (
         <Link
-          to={{ pathname: ".", search: `?listType=${value}` }}
+          href={{ pathname: ".", search: `?listType=${value}` }}
           key={value}
           className={clsx(
             value === listType
@@ -95,7 +104,7 @@ const Home = ({
           key={movie.id}
           className="block rounded-lg p-2 transition-colors duration-500 ease-out hover:bg-neutral-800"
         >
-          <Link to={`/movies/${movie.id}`} prefetch="intent">
+          <Link href={`/movies/${movie.id}`} prefetch="intent">
             <div className="aspect-2/3 overflow-hidden rounded-lg">
               {movie.posterPath ? (
                 <img
@@ -128,13 +137,6 @@ const Home = ({
     <Pagination page={page} totalPages={totalPages} />
   </Fragment>
 )
-
-const listTypes = [
-  { label: "Now Playing", value: "now-playing" },
-  { label: "Popular", value: "popular" },
-  { label: "Top Rated", value: "top-rated" },
-  { label: "Upcoming", value: "upcoming" },
-] as const
 
 export { loader, headers, meta }
 export default Home

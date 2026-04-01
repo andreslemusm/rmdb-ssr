@@ -7,8 +7,10 @@
     "start": "react-router-serve ./build/server/index.js",
     "build": "react-router build",
     "dev": "react-router dev",
-    "lint": "tsc && oxfmt --check .",
-    "lint:fix": "oxfmt --write .",
+    "audit:types": "tsc",
+    "audit:format": "oxfmt --check .",
+    "audit:lint": "oxlint .",
+    "audit": "npm run audit:format && npm run audit:types && npm run audit:lint",
     "commit": "cz"
   },
   "dependencies": {
@@ -40,6 +42,8 @@
     "@types/react-dom": "19.2.3",
     "commitizen": "4.3.1",
     "oxfmt": "0.42.0",
+    "oxlint": "1.57.0",
+    "oxlint-tsgolint": "0.18.1",
     "rollup-plugin-visualizer": "7.0.1",
     "tailwindcss": "4.2.2",
     "typescript": "5.9.3",

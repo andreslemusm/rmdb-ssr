@@ -1,9 +1,10 @@
+// oxlint-disable unicorn/no-array-reduce
+// oxlint-disable oxc/no-accumulating-spread
 import { Portal } from "@headlessui/react"
 import { clsx } from "clsx"
 import { cacheHeader } from "pretty-cache-header"
 import { Fragment, useState } from "react"
-import type { ShouldRevalidateFunction } from "react-router"
-import { Link, useSearchParams } from "react-router"
+import { useSearchParams, type ShouldRevalidateFunction } from "react-router"
 
 import {
   ChevronIcon,
@@ -15,6 +16,7 @@ import {
   TwitterXIcon,
 } from "~/assets/icons"
 import { johnDoe } from "~/assets/images"
+import { Link } from "~/components/link"
 import { Modal } from "~/components/modal"
 import { Review } from "~/components/review"
 import {
@@ -104,11 +106,12 @@ const loader = async ({ params }: Route.LoaderArgs) => {
         >
       >(
         (crew, personFromCrew) => {
-          if (personFromCrew.job === "Director")
+          if (personFromCrew.job === "Director") {
             return {
               ...crew,
               directors: [...crew.directors, personFromCrew.name],
             }
+          }
           if (personFromCrew.job === "Writer") {
             return { ...crew, writers: [...crew.writers, personFromCrew.name] }
           }
@@ -197,6 +200,57 @@ const meta: Route.MetaFunction = ({ loaderData }) =>
       : "React Movie Database (RMDB)",
     description: loaderData.movie.overview ?? "",
   })
+
+const YoutubeTrailerModal = ({
+  youtubeTrailerID,
+}: {
+  youtubeTrailerID: string | undefined
+}) => {
+  const [open, setOpen] = useState(false)
+
+  return youtubeTrailerID ? (
+    <Fragment>
+      <Modal open={open} onClose={setOpen}>
+        <div className="aspect-video">
+          <iframe
+            src={`https://www.youtube.com/embed/${youtubeTrailerID}`}
+            title="YouTube video player"
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            // oxlint-disable-next-line react/iframe-missing-sandbox -- Required by the YouTube embed
+            sandbox="allow-same-origin allow-scripts"
+          />
+        </div>
+      </Modal>
+      <button
+        type="button"
+        className="flex items-center gap-x-1.5 text-sm text-neutral-200 transition-colors ease-out hover:text-cyan-500 lg:text-base"
+        onClick={() => {
+          setOpen(true)
+        }}
+      >
+        <PlayIcon className="h-4 w-4" aria-hidden />
+        See Trailer
+      </button>
+    </Fragment>
+  ) : null
+}
+
+const Description = ({
+  term,
+  detail,
+}: {
+  term: string
+  detail: React.ReactNode
+}) =>
+  detail ? (
+    <div>
+      <dt className="text-sm font-bold text-neutral-400">{term}</dt>
+      <dd className="text-neutral-200">{detail}</dd>
+    </div>
+  ) : null
 
 const Movie = ({
   loaderData: {
@@ -460,7 +514,7 @@ const Movie = ({
             <header className="flex items-center justify-between">
               <h2 className="font-bold text-neutral-200">Top Billed Cast</h2>
               <Link
-                to="./credits"
+                href="./credits"
                 className="flex items-center text-sm text-cyan-500 transition-colors ease-out hover:text-cyan-400"
                 prefetch="intent"
               >
@@ -507,7 +561,7 @@ const Movie = ({
               </h2>
               {reviews.featuredReview ? (
                 <Link
-                  to="./reviews"
+                  href="./reviews"
                   className="flex items-center text-sm text-cyan-500 transition-colors ease-out hover:text-cyan-400"
                   prefetch="intent"
                 >
@@ -534,7 +588,7 @@ const Movie = ({
                 {["posters", "backdrops"].map((imgType) => (
                   <Link
                     key={imgType}
-                    to={{ pathname: ".", search: `mediaType=${imgType}` }}
+                    href={{ pathname: ".", search: `mediaType=${imgType}` }}
                     className={clsx(
                       imgType === mediaType
                         ? "bg-neutral-800 text-neutral-200"
@@ -598,7 +652,7 @@ const Movie = ({
                 {recommendations.map((recommendation) => (
                   <li key={recommendation.id} className="w-72 shrink-0">
                     <Link
-                      to={`/movies/${recommendation.id}`}
+                      href={`/movies/${recommendation.id}`}
                       className="block aspect-video overflow-hidden rounded-lg bg-neutral-700 transition-[filter] duration-300 ease-out hover:brightness-50"
                       prefetch="intent"
                     >
@@ -691,14 +745,8 @@ const Movie = ({
               term="Original Language"
               detail={movie.originalLanguage}
             />
-            <Description
-              term="Budget"
-              detail={movie.budget ? movie.budget : "--"}
-            />
-            <Description
-              term="Revenue"
-              detail={movie.revenue ? movie.revenue : "--"}
-            />
+            <Description term="Budget" detail={movie.budget ?? "--"} />
+            <Description term="Revenue" detail={movie.revenue ?? "--"} />
             <Description
               term="Keywords"
               detail={
@@ -724,52 +772,6 @@ const Movie = ({
     </Fragment>
   )
 }
-
-const YoutubeTrailerModal = ({
-  youtubeTrailerID,
-}: {
-  youtubeTrailerID: string | undefined
-}) => {
-  const [open, setOpen] = useState(false)
-
-  return youtubeTrailerID ? (
-    <Fragment>
-      <Modal open={open} onClose={setOpen}>
-        <div className="aspect-video">
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${youtubeTrailerID}?controls=0`}
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            className="h-full w-full"
-            allowFullScreen
-          />
-        </div>
-      </Modal>
-      <button
-        type="button"
-        className="flex items-center gap-x-1.5 text-sm text-neutral-200 transition-colors ease-out hover:text-cyan-500 lg:text-base"
-        onClick={() => setOpen(true)}
-      >
-        <PlayIcon className="h-4 w-4" aria-hidden />
-        See Trailer
-      </button>
-    </Fragment>
-  ) : null
-}
-
-const Description = ({
-  term,
-  detail,
-}: {
-  term: string
-  detail: React.ReactNode
-}) =>
-  detail ? (
-    <div>
-      <dt className="text-sm font-bold text-neutral-400">{term}</dt>
-      <dd className="text-neutral-200">{detail}</dd>
-    </div>
-  ) : null
 
 export { meta, shouldRevalidate, loader, headers }
 export default Movie
