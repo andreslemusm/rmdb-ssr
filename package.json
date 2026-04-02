@@ -4,7 +4,7 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "audit": "npm run audit:format && npm run audit:types && npm run audit:lint && npm run audit:deadcode",
+    "audit": "concurrently -n format,types,lint,deadcode -c auto \"npm run audit:format\" \"npm run audit:types\" \"npm run audit:lint\" \"npm run audit:deadcode\"",
     "audit:deadcode": "knip",
     "audit:format": "oxfmt --check .",
     "audit:lint": "oxlint .",
@@ -43,6 +43,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "commitizen": "4.3.1",
+    "concurrently": "9.2.1",
     "knip": "6.2.0",
     "oxfmt": "0.43.0",
     "oxlint": "1.58.0",
