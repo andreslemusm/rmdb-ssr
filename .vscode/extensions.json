@@ -1,1 +1,7 @@
-{ "recommendations": ["oxc.oxc-vscode", "bradlc.vscode-tailwindcss"] }
+{
+  "recommendations": [
+    "oxc.oxc-vscode",
+    "bradlc.vscode-tailwindcss",
+    "webpro.vscode-knip"
+  ]
+}
