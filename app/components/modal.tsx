@@ -7,7 +7,7 @@ import {
 import { Fragment } from "react"
 import { XIcon } from "~/assets/icons"
 
-const Modal = ({
+export const Modal = ({
   children,
   onClose,
   open,
@@ -58,9 +58,3 @@ const Modal = ({
     </Dialog>
   </Transition>
 )
-
-export {
-  DialogTitle as ModalTitle,
-  Description as ModalDescription,
-} from "@headlessui/react"
-export { Modal }

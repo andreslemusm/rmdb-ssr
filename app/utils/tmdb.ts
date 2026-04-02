@@ -7,16 +7,6 @@ const enum BackdropSizes {
   lg = "original",
 }
 
-const enum LogoSizes {
-  xs = "w45",
-  sm = "w92",
-  md = "w154",
-  lg = "w185",
-  xl = "w300",
-  "2xl" = "w500",
-  "3xl" = "original",
-}
-
 const enum PosterSizes {
   xs = "w92",
   sm = "w154",
@@ -34,4 +24,4 @@ const enum ProfileSizes {
   lg = "original",
 }
 
-export { BASE_IMAGE_URL, BackdropSizes, LogoSizes, PosterSizes, ProfileSizes }
+export { BASE_IMAGE_URL, BackdropSizes, PosterSizes, ProfileSizes }
