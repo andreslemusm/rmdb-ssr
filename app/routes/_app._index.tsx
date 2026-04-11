@@ -16,8 +16,7 @@ const MOVIE_CATEGORIES = [
   { label: "Upcoming", value: "upcoming" },
 ] as const
 
-const loader = async ({ request }: Route.LoaderArgs) => {
-  const url = new URL(request.url)
+const loader = async ({ unstable_url: url }: Route.LoaderArgs) => {
   const listType = url.searchParams.get("listType") ?? "now-playing"
   const page = Number(url.searchParams.get("page") ?? 1)
 
