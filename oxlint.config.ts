@@ -70,6 +70,7 @@ export default defineConfig({
      * specially with early returns.
      */
     "no-negated-condition": "off",
+    "unicorn/no-negated-condition": "off",
     /**
      * These features are universally available in both our Node.js and browser
      * environments.
@@ -93,6 +94,13 @@ export default defineConfig({
     "sort-imports": "off",
     // We use `null` for intentionally missing values.
     "unicorn/no-null": "off",
+    /**
+     * New oxlint rules — disabled until we decide they are worth adopting.
+     */
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "react/forbid-component-props": "off",
+    "react/jsx-no-literals": "off",
+    "typescript/prefer-readonly-parameter-types": "off",
 
     // Rules specific to React Router framework mode below:
 
