@@ -1,6 +1,8 @@
-declare namespace NodeJS {
-  export interface ProcessEnv {
-    readonly TDMB_API_KEY: string
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      readonly TMDB_API_KEY: string
+    }
   }
 }
 

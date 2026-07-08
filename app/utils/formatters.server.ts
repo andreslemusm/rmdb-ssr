@@ -13,11 +13,11 @@ const formatNumberAsCurrency = (value: number) => moneyFormatter.format(value)
 const languageFormatter = new Intl.DisplayNames("en", { type: "language" })
 const formatLangCodeAsLangName = (code: string) => languageFormatter.of(code)
 
-const markdownFormatter = (markdown: string) => snarkdown(markdown)
+const formatMarkdown = (markdown: string) => snarkdown(markdown)
 
 export {
   formatNumberAsCurrency,
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
-  markdownFormatter,
+  formatMarkdown,
 }

@@ -32,7 +32,7 @@ import {
   formatLangCodeAsLangName,
   formatNumberAsCompactNumber,
   formatNumberAsCurrency,
-  markdownFormatter,
+  formatMarkdown,
 } from "~/utils/formatters.server"
 import { generateMetaTags } from "~/utils/meta-tags"
 import {
@@ -170,7 +170,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
                   : reviews.results[0].author_details.username,
               },
               // This is safe because the content is already sanitized by the TMDB API
-              content: markdownFormatter(reviews.results[0].content),
+              content: formatMarkdown(reviews.results[0].content),
               createdDate: new Intl.DateTimeFormat("en-US", {
                 dateStyle: "medium",
               }).format(new Date(reviews.results[0].created_at)),

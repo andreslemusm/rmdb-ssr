@@ -85,7 +85,7 @@ export const apiClient = {
   }): Promise<TReturnType> => {
     const request = new Request(
       `https://api.themoviedb.org/3/${config.endpoint}?${generateSearchParamsString(
-        { api_key: process.env.TDMB_API_KEY, ...config.searchParams },
+        { api_key: process.env.TMDB_API_KEY, ...config.searchParams },
       )}`,
       { method: "get" },
     )

@@ -2,7 +2,7 @@ import { cacheHeader } from "pretty-cache-header"
 import { Fragment } from "react"
 import { Review } from "~/components/review"
 import { getMovie, getMovieReviews } from "~/services/movies.server"
-import { markdownFormatter } from "~/utils/formatters.server"
+import { formatMarkdown } from "~/utils/formatters.server"
 import { generateMetaTags } from "~/utils/meta-tags"
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
 import type { Route } from "./+types/_app.movies.$movieId.reviews"
@@ -32,7 +32,7 @@ const loader = async ({ params }: Route.LoaderArgs) => {
           : review.author_details.username,
       },
       // This is safe because the content is already sanitized by the TMDB API
-      content: markdownFormatter(review.content),
+      content: formatMarkdown(review.content),
       createdDate: new Intl.DateTimeFormat("en-US", {
         dateStyle: "medium",
       }).format(new Date(review.created_at)),
