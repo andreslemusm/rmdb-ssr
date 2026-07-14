@@ -8,7 +8,7 @@ import { generateMetaTags } from "~/utils/meta-tags"
 import { BASE_IMAGE_URL, PosterSizes } from "~/utils/tmdb"
 import type { Route } from "./+types/_app.search"
 
-const loader = async ({ unstable_url: url }: Route.LoaderArgs) => {
+const loader = async ({ url }: Route.LoaderArgs) => {
   const page = Number(url.searchParams.get("page") ?? 1)
   const query = url.searchParams.get("query") ?? ""
 
